@@ -6,10 +6,6 @@ RSpec.describe AnswersController, type: :controller do
   describe 'GET #new' do
     before { get :new, params: { question_id: question } }
 
-    it 'find nedeed question for creating new answer' do
-      expect(assigns(:question)).to eq question
-    end
-
     it 'assigns a new Answer to @answer' do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
@@ -21,13 +17,9 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid attributes' do
-      it 'find nedeed question for creating answer' do
-        post :create, params: { question_id: question, answer: attributes_for(:answer) }
-        expect(assigns(:question)).to eq question
-      end
-
       it 'saves new answer to database' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer) } }.to change(Answer, :count).by(1)
+        params = { question_id: question, answer: attributes_for(:answer) }
+        expect { post :create, params: params }.to change(question.answers, :count).by(1)
       end
 
       it 'redirects to question view' do
@@ -38,11 +30,12 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save answer' do
-        expect { post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid_answer) } }.to_not change(Answer, :count)
+        params = { question_id: question, answer: attributes_for(:answer, :invalid) }
+        expect { post :create, params: params }.to_not change(question.answers, :count)
       end
 
       it 're-renders new view' do
-        post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid_answer) }
+        post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
         expect(response).to render_template :new
       end
     end
