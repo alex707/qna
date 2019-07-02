@@ -24,14 +24,14 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to question view' do
         post :create, params: { question_id: question, answer: attributes_for(:answer) }
-        expect(response).to redirect_to assigns(:question)
+        expect(response).to redirect_to question
       end
     end
 
     context 'with invalid attributes' do
       it 'does not save answer' do
         params = { question_id: question, answer: attributes_for(:answer, :invalid) }
-        expect { post :create, params: params }.to_not change(question.answers, :count)
+        expect { post :create, params: params }.to_not change(Answer, :count)
       end
 
       it 're-renders new view' do
