@@ -5,9 +5,10 @@ feature 'User can view list of answers for question', %q{
   As an user
   I'd like to be able to view all answers for question
 } do
-  scenario 'User can view answers for question' do
-    question = create(:question_with_answers)
+  given(:user) { create(:user) }
+  given(:question) { create(:question_with_answers, user: user) }
 
+  scenario 'User can view answers for question' do
     visit question_path(question)
 
     expect(page).to have_css('.answer', count: 3)

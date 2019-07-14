@@ -7,7 +7,7 @@ feature 'User can write answer for question on question page', %q{
 } do
   describe 'Authenticated user' do
     given(:user) { create(:user) }
-    given(:question) { create(:question) }
+    given(:question) { create(:question, user: user) }
 
     scenario 'User can write answer' do
       sign_in(user)
@@ -31,7 +31,7 @@ feature 'User can write answer for question on question page', %q{
   end
 
   describe 'Unauthenticated user' do
-    given(:question) { create(:question) }
+    given(:question) { create(:question, user: create(:user)) }
 
     scenario 'User tries to write answer' do
       visit question_path(question)

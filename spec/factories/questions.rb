@@ -5,11 +5,11 @@ FactoryBot.define do
 
     factory :question_with_answers do
       transient do
-        answers_count { 2 }
+        answers_count { 3 }
       end
 
       after(:create) do |question, evaluator|
-        create_list(:answer, evaluator.answers_count, question: question)
+        create_list(:answer, evaluator.answers_count, question: question, user: question.user)
       end
     end
   end

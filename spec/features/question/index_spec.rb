@@ -5,7 +5,7 @@ feature 'User can view list of questions', %q{
   As an authenticated user
   I'd like to be able to list of questions
 } do
-  given!(:question) { create_list(:question, 3) }
+  given!(:question) { create_list(:question, 3, user: create(:user)) }
 
   describe 'Authenticated user' do
     given(:user) { create(:user) }

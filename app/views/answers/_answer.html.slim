@@ -1,4 +1,7 @@
-li.answer
-  div
-    | Body:
-    = answer.body
+- if answer.valid?
+  li.answer
+    div
+      | Body:
+      = answer.body
+    div
+      = link_to 'Delete Answer', answer_path(answer), method: :delete

@@ -5,6 +5,9 @@ ul
   - @questions.each do |question|
     li.question
       div
+        | Author:
+        = question.user.email
+      div
         | Title:
         = question.title
       div
