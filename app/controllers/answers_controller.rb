@@ -1,16 +1,19 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :load_question, only: %i[new create]
 
+  # rubocop:disable Naming/MemoizedInstanceVariableName
   def new
-    @answer = @question.answers.new
+    @answer ||= @question.answers.new
   end
+  # rubocop:enable Naming/MemoizedInstanceVariableName
 
   def create
     @answer = @question.answers.build(answer_params)
-    if @question.save
-      redirect_to @question
+    if @answer.save
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
-      render :new
+      render 'questions/show'
     end
   end
 

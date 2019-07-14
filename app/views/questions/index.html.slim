@@ -1,1 +1,12 @@
-p= link_to 'Ask question', new_question_path
+p = link_to 'Ask question', new_question_path
+
+h2 Questions
+ul
+  - @questions.each do |question|
+    li.question
+      div
+        | Title:
+        = question.title
+      div
+        | Body:
+        = question.body
