@@ -5,7 +5,7 @@ feature 'User can view list of questions', %q{
   As an authenticated user
   I'd like to be able to list of questions
 } do
-  given!(:question) { create_list(:question, 3, user: create(:user)) }
+  given!(:questions) { create_list(:question, 3, user: create(:user)) }
 
   describe 'Authenticated user' do
     given(:user) { create(:user) }
@@ -15,7 +15,10 @@ feature 'User can view list of questions', %q{
 
       visit questions_path
 
-      expect(page).to have_css('.question', count: 3)
+      questions.each do |question|
+        expect(page).to have_content(question.title)
+        expect(page).to have_content(question.body)
+      end
     end
   end
 
@@ -23,7 +26,10 @@ feature 'User can view list of questions', %q{
     scenario 'can view list of questions' do
       visit questions_path
 
-      expect(page).to have_css('.question', count: 3)
+      questions.each do |question|
+        expect(page).to have_content(question.title)
+        expect(page).to have_content(question.body)
+      end
     end
   end
 end

@@ -11,6 +11,8 @@ feature 'User can view list of answers for question', %q{
   scenario 'User can view answers for question' do
     visit question_path(question)
 
-    expect(page).to have_css('.answer', count: 3)
+    question.answers.each do |answer|
+      expect(page).to have_content(answer.body)
+    end
   end
 end

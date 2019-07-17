@@ -22,8 +22,6 @@ feature 'User can delete his own question', %q{
     sign_in(other_user)
     visit question_path(question)
 
-    click_on 'Delete'
-
-    expect(page).to have_content 'Only owner can delete his question'
+    expect(page).to_not have_link('Delete', href: question_path(question))
   end
 end

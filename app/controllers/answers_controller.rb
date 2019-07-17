@@ -2,11 +2,9 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: %i[new create]
 
-  # rubocop:disable Naming/MemoizedInstanceVariableName
   def new
-    @answer ||= @question.answers.new
+    @answer = @question.answers.new
   end
-  # rubocop:enable Naming/MemoizedInstanceVariableName
 
   def create
     @answer = @question.answers.build(answer_params)
@@ -15,19 +13,19 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question, notice: 'Your answer successfully created.'
     else
+      flash.now[:alert] = 'An error(s) occurred while saving answer'
       render 'questions/show'
     end
   end
 
   def destroy
     @answer = Answer.find(params[:id])
-    @question = @answer.question
 
     if @answer.user == current_user
       @answer.destroy
-      redirect_to question_path(@question), notice: 'Answer successfully deleted.'
+      redirect_to question_path(@answer.question), notice: 'Answer successfully deleted.'
     else
-      redirect_to question_path(@question), alert: 'Only owner can delete his answer.'
+      redirect_to question_path(@answer.question), alert: 'Only owner can delete his answer.'
     end
   end
 

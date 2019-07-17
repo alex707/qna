@@ -4,4 +4,5 @@
       | Body:
       = answer.body
     div
-      = link_to 'Delete Answer', answer_path(answer), method: :delete
+      - if current_user == answer.user
+        = link_to 'Delete Answer', answer_path(answer), method: :delete

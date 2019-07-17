@@ -9,9 +9,12 @@ feature 'User can write answer for question on question page', %q{
     given(:user) { create(:user) }
     given(:question) { create(:question, user: user) }
 
-    scenario 'User can write answer' do
+    background do
       sign_in(user)
       visit question_path(question)
+    end
+
+    scenario 'User can write answer' do
       fill_in 'Body', with: 'Test answer'
 
       click_on 'Write'
@@ -21,9 +24,6 @@ feature 'User can write answer for question on question page', %q{
     end
 
     scenario 'User tries to write invalid answer' do
-      sign_in(user)
-      visit question_path(question)
-
       click_on 'Write'
 
       expect(page).to have_content("Body can't be blank")

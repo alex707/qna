@@ -5,9 +5,9 @@ feature 'User can sign up', %q{
   As an unregistrated user
   I'd like to be able to sign_up
 } do
-  scenario 'Unregistred user tries sign up' do
-    visit new_user_registration_path
+  background { visit new_user_registration_path }
 
+  scenario 'Unregistred user tries sign up with correct fields' do
     fill_in 'Email', with: 'test@test.tt'
     fill_in 'Password', with: '12345678'
     fill_in 'Password confirmation', with: '12345678'
@@ -15,5 +15,24 @@ feature 'User can sign up', %q{
     click_on 'Sign up'
 
     expect(page).to have_content 'You have signed up successfully'
+  end
+
+  describe 'Unregistred user tries sign up' do
+    scenario 'with uncorrect password confirmation field' do
+      fill_in 'Email', with: 'test@test.tt'
+      fill_in 'Password', with: '12345678'
+      fill_in 'Password confirmation', with: '123'
+
+      click_on 'Sign up'
+
+      expect(page).to have_content "Password confirmation doesn't match Password"
+    end
+
+    scenario 'with uncorrect all fields' do
+      click_on 'Sign up'
+
+      expect(page).to have_content "Email can't be blank"
+      expect(page).to have_content "Password can't be blank"
+    end
   end
 end

@@ -22,8 +22,12 @@ feature 'User can delete his own answer', %q{
     sign_in(other_user)
     visit question_path(question)
 
-    click_on 'Delete Answer', match: :first
+    expect(page).to_not have_link('Delete Answer')
+  end
 
-    expect(page).to have_content 'Only owner can delete his answer'
+  scenario 'An Unauthenticated User can not delete answer' do
+    visit question_path(question)
+
+    expect(page).to_not have_link('Delete Answer')
   end
 end
