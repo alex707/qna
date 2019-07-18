@@ -24,4 +24,10 @@ feature 'User can delete his own question', %q{
 
     expect(page).to_not have_link('Delete', href: question_path(question))
   end
+
+  scenario 'An Unauthenticated user can not delete the question' do
+    visit question_path(question)
+
+    expect(page).to_not have_link('Delete', href: question_path(question))
+  end
 end

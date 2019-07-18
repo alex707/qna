@@ -1,6 +1,6 @@
 h1 = @question.title
 p = @question.body
-- if current_user == @question.user
+- if current_user.author? @question
   = link_to 'Delete', @question, method: :delete
 
 = render 'shared/errors', resource: @answer

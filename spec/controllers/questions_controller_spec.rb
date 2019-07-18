@@ -91,6 +91,14 @@ RSpec.describe QuestionsController, type: :controller do
       context 'for an authenticated user' do
         before { login(user) }
 
+        it 'body and title for asked question saves to @question' do
+          attrs = attributes_for(:question)
+          post :create, params: { question: attrs }
+
+          expect(assigns(:question).title).to eq attrs[:title]
+          expect(assigns(:question).body).to eq attrs[:body]
+        end
+
         it 'author assigns to @question.user' do
           post :create, params: { question: attributes_for(:question) }
 
@@ -124,7 +132,8 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'For an unauthenticated user' do
       it 'tries to save new question in database' do
-        post :create, params: { question: attributes_for(:question, :invalid) }
+        params = { question: attributes_for(:question, :invalid) }
+        expect { post :create, params: params }.to change(Question, :count).by(0)
 
         expect(response).to redirect_to new_user_session_path
       end
@@ -176,6 +185,8 @@ RSpec.describe QuestionsController, type: :controller do
       it 'tries to assign the requested question to @question' do
         patch :update, params: { id: question, question: { title: 'new t', body: 'new b' } }
 
+        expect(question.title).to_not eq 'new t'
+        expect(question.body).to_not eq 'new b'
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -210,7 +221,8 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'for an unauthenticated user' do
       it 'tries to delete the question' do
-        delete :destroy, params: { id: question }
+        question.reload
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(0)
 
         expect(response).to redirect_to new_user_session_path
       end

@@ -23,7 +23,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'as an unauthenticated user' do
       it 'assigns a new answer to @answer' do
-        get :new, params: { question_id: question }
+        expect { get :new, params: { question_id: question } }.to change(question.answers, :count).by(0)
 
         expect(response).to redirect_to new_user_session_path
       end
@@ -65,7 +65,7 @@ RSpec.describe AnswersController, type: :controller do
       context 'with invalid attributes' do
         it 'does not save answer' do
           params = { question_id: question, answer: attributes_for(:answer, :invalid) }
-          
+
           expect { post :create, params: params }.to_not change(Answer, :count)
         end
 
@@ -80,7 +80,8 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'for an unatuhenticated user' do
       it 'tries to create answer' do
-        post :create, params: { question_id: question, answer: attributes_for(:answer) }
+        params = { question_id: question, answer: attributes_for(:answer) }
+        expect { post :create, params: params }.to change(question.answers, :count).by(0)
 
         expect(response).to redirect_to new_user_session_path
       end
@@ -112,8 +113,7 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'for unauthenticated user' do
       it 'tries to delete answer' do
-        delete :destroy, params: { id: question.answers.first }
-
+        expect { delete :destroy, params: { id: question.answers.first } }.to change(question.answers, :count).by(0)
         expect(response).to redirect_to new_user_session_path
       end
     end
