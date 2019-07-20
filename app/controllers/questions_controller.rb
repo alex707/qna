@@ -37,7 +37,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    unless current_user.author? @question.user
+    unless current_user&.author? @question
       redirect_to question_path(@question), alert: 'Only owner can delete his question.'
       return
     end
