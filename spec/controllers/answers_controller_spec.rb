@@ -92,8 +92,10 @@ RSpec.describe AnswersController, type: :controller do
     context 'for authenticated user' do
       it 'deletes the answer' do
         login(user)
+        answer_id = question.answers.first.id
 
         expect { delete :destroy, params: { id: question.answers.first } }.to change(question.answers, :count).by(-1)
+        expect(Answer.exists?(id: answer_id)).to eq false
       end
 
       it 'tries to delete answer of other user' do

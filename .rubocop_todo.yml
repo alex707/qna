@@ -43,6 +43,9 @@ Layout/SpaceInsideArrayLiteralBrackets:
 # Configuration parameters: CountComments, ExcludedMethods.
 # ExcludedMethods: refine
 Metrics/BlockLength:
+  Exclude:
+    - 'spec/controllers/answers_controller_spec.rb'
+    - 'spec/controllers/questions_controller_spec.rb'
   Max: 88
 
 # Offense count: 1

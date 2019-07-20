@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# rubocop:disable Metrics/BlockLength
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
@@ -91,16 +90,11 @@ RSpec.describe QuestionsController, type: :controller do
       context 'for an authenticated user' do
         before { login(user) }
 
-        it 'body and title for asked question saves to @question' do
+        it 'author assigns to @question.user' do
           attrs = attributes_for(:question)
           post :create, params: { question: attrs }
 
-          expect(assigns(:question).title).to eq attrs[:title]
-          expect(assigns(:question).body).to eq attrs[:body]
-        end
-
-        it 'author assigns to @question.user' do
-          post :create, params: { question: attributes_for(:question) }
+          expect(Question.exists?(attrs)).to eq true
 
           expect(assigns(:question).user).to eq user
         end
@@ -200,8 +194,12 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'deletes the question' do
         login(user)
+        # attrs = attributes_for(:question).merge({ id: question.id })
+        attrs = { id: question.id }
 
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+
+        expect(Question.exists?(attrs)).to eq false
       end
 
       it 'tries to delete the question of other user' do
@@ -229,4 +227,3 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 end
-# rubocop:enable Metrics/BlockLength
