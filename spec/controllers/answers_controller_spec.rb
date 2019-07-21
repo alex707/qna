@@ -35,23 +35,21 @@ RSpec.describe AnswersController, type: :controller do
       before { sign_in(user) }
 
       context 'with valid attributes' do
-        it 'assigns the user to @answer.user' do
-          params = { question_id: question, answer: attributes_for(:answer) }
-          post :create, params: params
-
-          expect(assigns(:answer).user).to eq user
-        end
-
         it 'assigns author to @answer.user' do
-          params = { question_id: question, answer: attributes_for(:answer) }
-          post :create, params: params
+          post :create, params: { question_id: question, answer: attributes_for(:answer) }
 
           expect(assigns(:answer).user).to eq user
         end
 
         it 'saves new answer to database' do
-          params = { question_id: question, answer: attributes_for(:answer) }
-          expect { post :create, params: params }.to change(question.answers, :count).by(1)
+          answer_params = { question_id: question, answer: attributes_for(:answer) }
+          expect {
+            post :create, params: answer_params
+          }.to change(question.answers, :count).by(1)
+
+          answer_params.merge answer_params.delete(:answer)
+          created_answer = question.answers.find_by answer_params
+          expect(created_answer).to be_present
         end
 
         it 'redirects to question view' do
@@ -64,14 +62,15 @@ RSpec.describe AnswersController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not save answer' do
-          params = { question_id: question, answer: attributes_for(:answer, :invalid) }
+          question.reload
 
-          expect { post :create, params: params }.to_not change(Answer, :count)
+          expect {
+            post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
+          }.not_to change(Answer, :count)
         end
 
         it 're-renders show' do
-          params = { question_id: question, answer: attributes_for(:answer, :invalid) }
-          post :create, params: params
+          post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid) }
 
           expect(response).to render_template 'questions/show'
         end
@@ -80,8 +79,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'for an unatuhenticated user' do
       it 'tries to create answer' do
-        params = { question_id: question, answer: attributes_for(:answer) }
-        expect { post :create, params: params }.to change(question.answers, :count).by(0)
+        expect {
+          post :create, params: { question_id: question, answer: attributes_for(:answer) }
+        }.to change(question.answers, :count).by(0)
 
         expect(response).to redirect_to new_user_session_path
       end

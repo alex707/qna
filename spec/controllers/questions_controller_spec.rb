@@ -126,8 +126,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'For an unauthenticated user' do
       it 'tries to save new question in database' do
-        params = { question: attributes_for(:question, :invalid) }
-        expect { post :create, params: params }.to change(Question, :count).by(0)
+        expect {
+          post :create, params: { question: attributes_for(:question, :invalid) }
+        }.to change(Question, :count).by(0)
 
         expect(response).to redirect_to new_user_session_path
       end
@@ -194,7 +195,6 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'deletes the question' do
         login(user)
-        # attrs = attributes_for(:question).merge({ id: question.id })
         attrs = { id: question.id }
 
         expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)

@@ -13,19 +13,19 @@ RSpec.describe User, type: :model do
     let(:question) { create(:question_with_answers, user: user) }
 
     it 'user is author of current question' do
-      expect(user.author?(question)).to eq true
+      expect(user).to be_author(question)
     end
 
     it 'user is not author of current question' do
-      expect(other_user.author?(question)).to eq false
+      expect(other_user).to_not be_author(question)
     end
 
     it 'user is author of current answer' do
-      expect(user.author?(question.answers.first)).to eq true
+      expect(user).to be_author(question.answers.first)
     end
 
     it 'user is author of current answer' do
-      expect(other_user.author?(question.answers.first)).to eq false
+      expect(other_user).to_not be_author(question.answers.first)
     end
   end
 end
