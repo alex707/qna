@@ -1,0 +1,15 @@
+p = link_to 'Ask question', new_question_path
+
+h2 Questions
+ul
+  - @questions.each do |question|
+    li.question
+      div
+        | Author:
+        = question.user.email
+      div
+        | Title:
+        = question.title
+      div
+        | Body:
+        = question.body

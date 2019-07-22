@@ -1,0 +1,8 @@
+- if answer.valid?
+  li.answer
+    div
+      | Body:
+      = answer.body
+    div
+      - if current_user&.author? answer
+        = link_to 'Delete Answer', answer_path(answer), method: :delete

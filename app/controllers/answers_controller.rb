@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!
   before_action :load_question, only: %i[new create]
 
   def new
@@ -7,10 +8,24 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.build(answer_params)
-    if @question.save
-      redirect_to @question
+    @answer.user = current_user
+
+    if @answer.save
+      redirect_to @question, notice: 'Your answer successfully created.'
     else
-      render :new
+      flash.now[:alert] = 'An error(s) occurred while saving answer'
+      render 'questions/show'
+    end
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])
+
+    if current_user&.author? @answer
+      @answer.destroy
+      redirect_to question_path(@answer.question), notice: 'Answer successfully deleted.'
+    else
+      redirect_to question_path(@answer.question), alert: 'Only owner can delete his answer.'
     end
   end
 

@@ -19,6 +19,7 @@ Bundler/OrderedGems:
 Layout/EmptyLines:
   Exclude:
     - 'spec/controllers/questions_controller_spec.rb'
+    - 'db/migrate/*'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -42,6 +43,9 @@ Layout/SpaceInsideArrayLiteralBrackets:
 # Configuration parameters: CountComments, ExcludedMethods.
 # ExcludedMethods: refine
 Metrics/BlockLength:
+  Exclude:
+    - 'spec/controllers/answers_controller_spec.rb'
+    - 'spec/controllers/questions_controller_spec.rb'
   Max: 88
 
 # Offense count: 1
@@ -49,6 +53,11 @@ Metrics/BlockLength:
 Style/BlockComments:
   Exclude:
     - 'spec/spec_helper.rb'
+
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/controllers/answers_controller_spec.rb'
+    - 'spec/controllers/questions_controller_spec.rb'
 
 # Offense count: 12
 Style/Documentation:
@@ -64,9 +73,14 @@ Style/Documentation:
     - 'app/models/answer.rb'
     - 'app/models/application_record.rb'
     - 'app/models/question.rb'
+    - 'app/models/user.rb'
     - 'config/application.rb'
     - 'db/migrate/20190619192350_create_questions.rb'
     - 'db/migrate/20190620054043_create_answers.rb'
+    - 'db/migrate/20190706074504_create_users.rb'
+    - 'db/migrate/20190706075850_add_devise_to_users.rb'
+    - 'db/migrate/20190714163940_add_user_to_questions.rb'
+    - 'db/migrate/20190714185234_add_user_to_answers.rb'
 
 # Offense count: 3
 # Cop supports --auto-correct.
@@ -110,6 +124,10 @@ Style/RedundantBegin:
   Exclude:
     - 'bin/yarn'
 
+Style/PercentLiteralDelimiters:
+  Exclude:
+    - 'spec/features/**/*'
+
 # Offense count: 2
 # Cop supports --auto-correct.
 Style/StderrPuts:
@@ -126,6 +144,7 @@ Style/StringLiterals:
     - 'config/environments/production.rb'
     - 'config/puma.rb'
     - 'db/schema.rb'
+    - 'db/migrate/*'
     - 'spec/factories/answers.rb'
     - 'spec/factories/questions.rb'
     - 'spec/rails_helper.rb'
@@ -139,9 +158,19 @@ Style/SymbolArray:
     - 'Gemfile'
     - 'config/routes.rb'
 
+Style/SymbolProc:
+  Exclude:
+    - 'db/migrate/20190706074504_create_users.rb'
+
+Style/UnneededPercentQ:
+  Exclude:
+    - 'spec/features/**/*'
+
 # Offense count: 43
 # Cop supports --auto-correct.
 # Configuration parameters: AutoCorrect, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
+  Exclude:
+    - 'config/initializers/devise.rb'
   Max: 146

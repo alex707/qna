@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-# rubocop:disable Metrics/BlockLength
 RSpec.describe QuestionsController, type: :controller do
-  let(:question) { create(:question) }
+  let(:user) { create(:user) }
+  let(:question) { create(:question, user: user) }
 
   describe 'GET #index' do
-    let(:questions) { create_list(:question, 3) }
+    let(:questions) { create_list(:question, 3, user: user) }
 
     before { get :index }
 
@@ -17,6 +17,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(response).to render_template(:index)
     end
   end
+
 
   describe 'GET #show' do
     before { get :show, params: { id: question } }
@@ -31,103 +32,198 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before { get :new }
+    context 'for an authenticated user' do
+      before { login(user) }
 
-    it 'assigns a new Question to @question' do
-      expect(assigns(:question)).to be_a_new(Question)
+      it 'user assigns a new Question to @question' do
+        get :new
+
+        expect(assigns(:question)).to be_a_new(Question)
+      end
+
+      it 'renders new view' do
+        get :new
+
+        expect(response).to render_template(:new)
+      end
     end
 
-    it 'renders new view' do
-      expect(response).to render_template(:new)
+    context 'for An Unauthenticated user' do
+      it 'tries to assigns a new Question to @question' do
+        get :new
+
+        expect(response).to redirect_to new_user_session_path
+      end
     end
   end
+
 
   describe 'GET #edit' do
-    before { get :edit, params: { id: question } }
+    context 'For an authenticated user' do
+      before { login(user) }
 
-    it 'assigns the requested question to @question' do
-      expect(assigns(:question)).to eq question
+      it 'assigns the requested question to @question' do
+        get :edit, params: { id: question }
+
+        expect(assigns(:question)).to eq question
+      end
+
+      it 'renders edit view' do
+        get :edit, params: { id: question }
+
+        expect(response).to render_template(:edit)
+      end
     end
 
-    it 'renders edit view' do
-      expect(response).to render_template(:edit)
+    context 'for an unauthenticated user' do
+      it 'tries to assign a new question to @question' do
+        get :edit, params: { id: question }
+
+        expect(response).to redirect_to new_user_session_path
+      end
     end
   end
+
 
   describe 'POST #create' do
     context 'with valid attributes' do
-      it 'saves new question in database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+      context 'for an authenticated user' do
+        before { login(user) }
+
+        it 'author assigns to @question.user' do
+          attrs = attributes_for(:question)
+          post :create, params: { question: attrs }
+
+          expect(Question.exists?(attrs)).to eq true
+
+          expect(assigns(:question).user).to eq user
+        end
+
+        it 'new question saves in database' do
+          expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        end
+
+        it 'redirects to show view' do
+          post :create, params: { question: attributes_for(:question), user: user }
+
+          expect(response).to redirect_to assigns(:question)
+        end
       end
 
-      it 'redirects to show view' do
-        post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(:question)
+      context 'with invalid attributes' do
+        before { login(user) }
+
+        it 'does not save question' do
+          expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
+        end
+
+        it 're-renders new view' do
+          post :create, params: { question: attributes_for(:question, :invalid) }
+          expect(response).to render_template :new
+        end
       end
     end
 
-    context 'with invalid attributes' do
-      it 'does not save question' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.to_not change(Question, :count)
-      end
+    context 'For an unauthenticated user' do
+      it 'tries to save new question in database' do
+        expect {
+          post :create, params: { question: attributes_for(:question, :invalid) }
+        }.to change(Question, :count).by(0)
 
-      it 're-renders new view' do
-        post :create, params: { question: attributes_for(:question, :invalid) }
-        expect(response).to render_template :new
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
 
 
   describe 'PATCH #update' do
-    context 'with valid attributes' do
-      it 'assigns the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(assigns(:question)).to eq question
+    context 'for an authenticated user' do
+      before { login(user) }
+
+      context 'with valid attributes' do
+        it 'assigns the requested question to @question' do
+          patch :update, params: { id: question, question: attributes_for(:question) }
+          expect(assigns(:question)).to eq question
+        end
+
+        it 'changes question attributes' do
+          patch :update, params: { id: question, question: { title: 'new t', body: 'new b' } }
+          question.reload
+
+          expect(question.title).to eq 'new t'
+          expect(question.body).to eq 'new b'
+        end
+
+        it 'redirects to updated question' do
+          patch :update, params: { id: question, question: attributes_for(:question) }
+          expect(response).to redirect_to question
+        end
       end
 
-      it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new t', body: 'new b' } }
-        question.reload
+      context 'with invalid attributes' do
+        it 'does not change question' do
+          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
+          question.reload
 
-        expect(question.title).to eq 'new t'
-        expect(question.body).to eq 'new b'
-      end
+          expect(question.title).to eq 'MyString'
+          expect(question.body).to eq 'MyText'
+        end
 
-      it 'redirects to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-        expect(response).to redirect_to question
+        it 're-renders edit view' do
+          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
+          expect(response).to render_template :edit
+        end
       end
     end
 
-    context 'with invalid attributes' do
-      it 'does not change question' do
-        patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
-        question.reload
+    context 'for an unathenticated user' do
+      it 'tries to assign the requested question to @question' do
+        patch :update, params: { id: question, question: { title: 'new t', body: 'new b' } }
 
-        expect(question.title).to eq 'MyString'
-        expect(question.body).to eq 'MyText'
-      end
-
-      it 're-renders edit view' do
-        patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
-        expect(response).to render_template :edit
+        expect(question.title).to_not eq 'new t'
+        expect(question.body).to_not eq 'new b'
+        expect(response).to redirect_to new_user_session_path
       end
     end
   end
+
 
   describe 'DELETE #destroy' do
-    let!(:question) { create(:question) }
+    context 'for an authenticated user' do
+      let(:other_user) { create(:user) }
+      let!(:question) { create(:question, user: user) }
 
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      it 'deletes the question' do
+        login(user)
+        attrs = { id: question.id }
+
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+
+        expect(Question.exists?(attrs)).to eq false
+      end
+
+      it 'tries to delete the question of other user' do
+        login(other_user)
+
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(0)
+      end
+
+      it 'redirects to index' do
+        login(user)
+
+        delete :destroy, params: { id: question }
+
+        expect(response).to redirect_to questions_path
+      end
     end
 
-    it 'redirects to index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to question_path
+    context 'for an unauthenticated user' do
+      it 'tries to delete the question' do
+        question.reload
+        expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(0)
+
+        expect(response).to redirect_to new_user_session_path
+      end
     end
   end
-
 end
-# rubocop:enable Metrics/BlockLength
