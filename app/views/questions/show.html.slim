@@ -3,12 +3,14 @@ p = @question.body
 - if current_user&.author? @question
   = link_to 'Delete', @question, method: :delete
 
-= render 'shared/errors', resource: @answer
-= form_with model: [@question, @answer], local: true do |f|
+.answer-errors
+  = render 'shared/errors', resource: @answer
+= form_with model: [@question, @answer], class: 'new-answer' do |f|
   = f.label :body
   = f.text_area :body
   = f.submit 'Write'
 
 h2 Answers
-ul
-  = render @question.answers
+.answers
+  ul
+    = render @question.answers

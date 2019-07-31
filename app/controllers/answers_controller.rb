@@ -11,11 +11,17 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     if @answer.save
-      redirect_to @question, notice: 'Your answer successfully created.'
+      flash.now[:notice] = 'Your answer successfully created.'
     else
       flash.now[:alert] = 'An error(s) occurred while saving answer'
-      render 'questions/show'
+      # render 'questions/show'
     end
+  end
+
+  def update
+    @answer = Answer.find(params[:id])
+    @answer.update(answer_params)
+    @question = @answer.question
   end
 
   def destroy

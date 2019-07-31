@@ -14,16 +14,19 @@ feature 'User can write answer for question on question page', %q{
       visit question_path(question)
     end
 
-    scenario 'User can write answer' do
+    scenario 'User can write answer', js: true do
       fill_in 'Body', with: 'Test answer'
 
       click_on 'Write'
 
+      expect(current_path).to eq question_path(question)
       expect(page).to have_content('Your answer successfully created.')
-      expect(page).to have_content('Test answer')
+      within '.answers' do
+        expect(page).to have_content('Test answer')
+      end
     end
 
-    scenario 'User tries to write invalid answer' do
+    scenario 'User tries to write invalid answer', js: true do
       click_on 'Write'
 
       expect(page).to have_content("Body can't be blank")
