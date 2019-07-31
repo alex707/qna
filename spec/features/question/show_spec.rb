@@ -36,13 +36,10 @@ feature 'User can write answer for question on question page', %q{
   describe 'Unauthenticated user' do
     given(:question) { create(:question, user: create(:user)) }
 
-    scenario 'User tries to write answer' do
+    scenario 'User tries to write answer', js: true do
       visit question_path(question)
-      fill_in 'Body', with: 'Test answer'
 
-      click_on 'Write'
-
-      expect(page).to have_content('You need to sign in or sign up before continuing')
+      expect(page).to_not have_link('Write')
     end
   end
 end

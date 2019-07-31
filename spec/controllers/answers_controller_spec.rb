@@ -80,10 +80,11 @@ RSpec.describe AnswersController, type: :controller do
     context 'for an unatuhenticated user' do
       it 'tries to create answer' do
         expect {
-          post :create, params: { question_id: question, answer: attributes_for(:answer) }
+          post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
         }.to change(question.answers, :count).by(0)
 
-        expect(response).to redirect_to new_user_session_path
+        expect(response).to have_http_status 401
+        expect(response.body).to have_content('You need to sign in or sign up before continuing')
       end
     end
   end
