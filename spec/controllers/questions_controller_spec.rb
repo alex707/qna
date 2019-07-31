@@ -142,47 +142,46 @@ RSpec.describe QuestionsController, type: :controller do
 
       context 'with valid attributes' do
         it 'assigns the requested question to @question' do
-          patch :update, params: { id: question, question: attributes_for(:question) }
+          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
           expect(assigns(:question)).to eq question
         end
 
         it 'changes question attributes' do
-          patch :update, params: { id: question, question: { title: 'new t', body: 'new b' } }
+          patch :update, params: { id: question, question: { title: 'new t', body: 'new b' } }, format: :js
           question.reload
 
           expect(question.title).to eq 'new t'
           expect(question.body).to eq 'new b'
         end
 
-        it 'redirects to updated question' do
-          patch :update, params: { id: question, question: attributes_for(:question) }
-          expect(response).to redirect_to question
+        it 'render template update' do
+          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+          expect(response).to render_template :update
         end
       end
 
       context 'with invalid attributes' do
         it 'does not change question' do
-          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
+          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
           question.reload
 
           expect(question.title).to eq 'MyString'
           expect(question.body).to eq 'MyText'
         end
 
-        it 're-renders edit view' do
-          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }
-          expect(response).to render_template :edit
+        it 'renders template update' do
+          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+          expect(response).to render_template :update
         end
       end
     end
 
     context 'for an unathenticated user' do
       it 'tries to assign the requested question to @question' do
-        patch :update, params: { id: question, question: { title: 'new t', body: 'new b' } }
+        patch :update, params: { id: question, question: { title: 'new t', body: 'new b' } }, format: :js
 
         expect(question.title).to_not eq 'new t'
         expect(question.body).to_not eq 'new b'
-        expect(response).to redirect_to new_user_session_path
       end
     end
   end

@@ -1,7 +1,8 @@
-h1 = @question.title
-p = @question.body
-- if current_user&.author? @question
-  = link_to 'Delete', @question, method: :delete
+.question-errors
+  = render 'shared/errors', resource: @question
+
+.question
+  = render @question
 
 .answer-errors
   = render 'shared/errors', resource: @answer
@@ -11,7 +12,7 @@ p = @question.body
     = f.text_area :body
     = f.submit 'Write'
 
-h2 Answers
 .answers
+  h2 Answers
   ul
     = render @question.answers
