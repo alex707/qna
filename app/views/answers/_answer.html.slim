@@ -3,7 +3,7 @@
     div
       | Body:
       = answer.body
-      - if current_user
+      - if current_user&.author?(answer)
         = link_to 'Edit', '#', class: 'edit-answer-link',
           data: { answer_id: answer.id }
         = form_with model: answer, class: 'hidden',

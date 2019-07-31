@@ -14,14 +14,18 @@ class AnswersController < ApplicationController
       flash.now[:notice] = 'Your answer successfully created.'
     else
       flash.now[:alert] = 'An error(s) occurred while saving answer'
-      # render 'questions/show'
     end
   end
 
   def update
     @answer = Answer.find(params[:id])
-    @answer.update(answer_params)
     @question = @answer.question
+    if current_user.author?(@answer)
+      @answer.update(answer_params)
+      flash.now[:notice] = 'Your answer successfully updated.'
+    else
+      flash.now[:alert] = 'Only owner can update his answer.'
+    end
   end
 
   def destroy
