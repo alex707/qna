@@ -23,7 +23,9 @@ RSpec.describe AnswersController, type: :controller do
 
     context 'as an unauthenticated user' do
       it 'assigns a new answer to @answer' do
-        expect { get :new, params: { question_id: question } }.to change(question.answers, :count).by(0)
+        expect {
+          get :new, params: { question_id: question }
+        }.to change(question.answers, :count).by(0)
 
         expect(response).to redirect_to new_user_session_path
       end
@@ -143,29 +145,37 @@ RSpec.describe AnswersController, type: :controller do
         login(user)
         answer_id = question.answers.first.id
 
-        expect { delete :destroy, params: { id: question.answers.first } }.to change(question.answers, :count).by(-1)
+        expect {
+          delete :destroy, params: { id: question.answers.first }, format: :js
+        }.to change(question.answers, :count).by(-1)
+
         expect(Answer.exists?(id: answer_id)).to eq false
       end
 
       it 'tries to delete answer of other user' do
         login(create(:user))
 
-        expect { delete :destroy, params: { id: question.answers.first } }.to change(question.answers, :count).by(0)
+        expect {
+          delete :destroy, params: { id: question.answers.first }, format: :js
+        }.to change(question.answers, :count).by(0)
       end
 
       it 'redirects to question' do
         login(user)
 
-        delete :destroy, params: { id: question.answers.first }
+        delete :destroy, params: { id: question.answers.first }, format: :js
 
-        expect(response).to redirect_to(question_path(question))
+        expect(response).to render_template :destroy
       end
     end
 
     context 'for unauthenticated user' do
       it 'tries to delete answer' do
-        expect { delete :destroy, params: { id: question.answers.first } }.to change(question.answers, :count).by(0)
-        expect(response).to redirect_to new_user_session_path
+        expect {
+          delete :destroy, params: { id: question.answers.first }, format: :js
+        }.to change(question.answers, :count).by(0)
+
+        expect(response).to have_http_status 401
       end
     end
   end

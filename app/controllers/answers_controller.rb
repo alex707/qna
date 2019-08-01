@@ -20,6 +20,7 @@ class AnswersController < ApplicationController
   def update
     @answer = Answer.find(params[:id])
     @question = @answer.question
+
     if current_user.author?(@answer)
       @answer.update(answer_params)
       flash.now[:notice] = 'Your answer successfully updated.'
@@ -30,12 +31,13 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer = Answer.find(params[:id])
+    @question = @answer.question
 
-    if current_user&.author? @answer
+    if current_user&.author?(@answer)
       @answer.destroy
-      redirect_to question_path(@answer.question), notice: 'Answer successfully deleted.'
+      flash.now[:notice] = 'Answer successfully deleted.'
     else
-      redirect_to question_path(@answer.question), alert: 'Only owner can delete his answer.'
+      flash.now[:alert] = 'Only owner can delete his answer.'
     end
   end
 

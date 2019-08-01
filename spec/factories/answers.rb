@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :answer do
-    body { "MyText" }
+    sequence :body do |n|
+      "MyText#{n.to_s.rjust(20, '0')}"
+    end
 
     trait :invalid do
       body { nil }
