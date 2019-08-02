@@ -4,6 +4,27 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question_with_answers, user: user) }
 
+  describe 'POST #accept' do
+    context 'as an authenticated user' do
+      context 'as an author' do
+        it 'accept the answer as the best' do
+          answer = question.answers.last
+          post :accept, params: { id: answer }, format: :js
+
+          expect(answer).to be_accepted
+        end
+      end
+
+      # context 'as not author' do
+      #   it 'tries accept the answer as the best'
+      # end
+    end
+
+    # context 'as unauthenticated user' do
+    #   it 'tries accept the answer as the best'
+    # end
+  end
+
   describe 'GET #new' do
     context 'as an authenticated user' do
       before { sign_in(user) }
@@ -160,7 +181,7 @@ RSpec.describe AnswersController, type: :controller do
         }.to change(question.answers, :count).by(0)
       end
 
-      it 'redirects to question' do
+      it 'renders template destroy' do
         login(user)
 
         delete :destroy, params: { id: question.answers.first }, format: :js

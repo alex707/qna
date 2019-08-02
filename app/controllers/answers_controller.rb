@@ -1,6 +1,11 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: %i[new create]
+  before_action :load_answer, only: %i[accept update destroy]
+
+  def accept
+    @answer.accept
+  end
 
   def new
     @answer = @question.answers.new
@@ -18,7 +23,6 @@ class AnswersController < ApplicationController
   end
 
   def update
-    @answer = Answer.find(params[:id])
     @question = @answer.question
 
     if current_user.author?(@answer)
@@ -30,7 +34,6 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer = Answer.find(params[:id])
     @question = @answer.question
 
     if current_user&.author?(@answer)
@@ -49,5 +52,9 @@ class AnswersController < ApplicationController
 
   def load_question
     @question = Question.find(params[:question_id])
+  end
+
+  def load_answer
+    @answer = Answer.find(params[:id])
   end
 end

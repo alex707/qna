@@ -21,6 +21,7 @@ feature 'User can write answer for question on question page', %q{
 
       expect(current_path).to eq question_path(question)
       expect(page).to have_content('Your answer successfully created.')
+
       within '.answers' do
         expect(page).to have_content('Test answer')
       end

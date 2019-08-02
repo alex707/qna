@@ -2,6 +2,6 @@ $('.answer-errors').html("<%= render 'shared/errors', resource: @answer %>");
 $('.notice').html("<%= flash[:notice] %>");
 
 <% if @answer.persisted? %>
-  $('.answers ul').append("<%= j render @answer %>");
+  $('.answers').append("<%= j render @answer %>");
   $('.new-answer #answer_body').val('');
 <% end %>

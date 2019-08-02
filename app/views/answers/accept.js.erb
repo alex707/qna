@@ -1,0 +1,5 @@
+$('.answer').filter(function(){
+    return $(this).data('answerId') === <%= @answer.id %>
+}).remove();
+
+$('.accepted-answer').html("<%= j render @answer %>");

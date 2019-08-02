@@ -6,13 +6,16 @@
 
 .answer-errors
   = render 'shared/errors', resource: @answer
-- if current_user
-  = form_with model: [@question, @answer], class: 'new-answer' do |f|
-    = f.label :body
-    = f.text_area :body
-    = f.submit 'Write'
+
+.new-answer
+  - if current_user
+    = form_with model: [@question, @answer], class: 'new-answer' do |f|
+      = f.label :body
+      = f.text_area :body
+      = f.submit 'Write'
+
+.accepted-answer
+  = render @question.answers.select(&:accepted?)
 
 .answers
-  h2 Answers
-  ul
-    = render @question.answers
+  = render @question.answers.reject(&:accepted?)

@@ -1,18 +1,20 @@
 - if answer.valid?
-  li.answer
-    div
-      | Body:
-      = answer.body
-      - if current_user&.author?(answer)
-        = link_to 'Edit', '#', class: 'edit-answer-link',
-          data: { answer_id: answer.id }
-        = form_with model: answer, class: 'hidden',
-          html: { id: "edit-answer-#{answer.id}" } do |f|
-          = f.label :body, 'Your answer'
-          = f.text_area :body
-          = f.submit 'Save'
-        end
+  .answer data-answer-id="#{answer.id}"
+    | Body:
+    = answer.body
+    - if current_user&.author?(answer)
+      = link_to 'Edit', '#', class: 'edit-answer-link',
+        data: { answer_id: answer.id }
+      = form_with model: answer, class: 'hidden',
+        html: { id: "edit-answer-#{answer.id}" } do |f|
+        = f.label :body, 'Your answer'
+        = f.text_area :body
+        = f.submit 'Save'
+      end
     div
       - if current_user&.author? answer
         = link_to 'Delete Answer', answer_path(answer), method: :delete,
           remote: true
+        - unless answer.accepted?
+          = link_to 'Accept answer', accept_answer_path(answer), method: :post,
+            remote: true
