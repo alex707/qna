@@ -24,6 +24,25 @@ feature 'User can accept answer as the best', %q{
           expect(page).to_not have_content(question.answers.first.body)
         end
       end
+
+      scenario 'accept another answer as the best', js: true do
+        sign_in(user)
+        visit question_path(question)
+
+        old_answer = question.answers.select(&:accepted?).first
+        reaccepted_answer = question.answers.reject(&:accepted?).first
+
+        within '.answers' do
+          click_on('Accept answer', match: :first)
+
+          expect(page).to have_content(old_answer.body)
+          expect(page).to_not have_content(reaccepted_answer.body)
+        end
+
+        within '.accepted-answer' do
+          expect(page).to have_content(reaccepted_answer.body)
+        end
+      end
     end
 
     describe 'as not an author of question' do

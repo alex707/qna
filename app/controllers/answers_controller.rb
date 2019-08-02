@@ -4,7 +4,12 @@ class AnswersController < ApplicationController
   before_action :load_answer, only: %i[accept update destroy]
 
   def accept
-    @answer.accept
+    if current_user.author?(@answer.question)
+      @answer.accept
+      flash.now[:notice] = 'Answer accepted.'
+    else
+      flash.now[:alert] = 'Only question owner can accept the answer.'
+    end
   end
 
   def new

@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question_with_answers, user: user) }
+  let(:new_answer) { create(:answer, question: question, user: user) }
 
   describe 'POST #accept' do
     context 'as an authenticated user' do
@@ -13,16 +14,34 @@ RSpec.describe AnswersController, type: :controller do
 
           expect(answer).to be_accepted
         end
+
+        it 'accept another answer as the best' do
+          post :accept, params: { id: new_answer }, format: :js
+
+          expect(new_answer).to be_accepted
+        end
       end
 
-      # context 'as not author' do
-      #   it 'tries accept the answer as the best'
-      # end
+      context 'as not author' do
+        it 'tries accept the answer as the best' do
+          answer = question.answers.first
+          post :accept, params: { id: answer }, format: :js
+
+          expect(answer).to_not be_accepted
+        end
+      end
     end
 
-    # context 'as unauthenticated user' do
-    #   it 'tries accept the answer as the best'
-    # end
+    context 'as unauthenticated user' do
+      it 'tries accept the answer as the best' do
+        answer = question.answers.first
+        post :accept, params: { id: answer }, format: :js
+
+        expect(answer).to_not be_accepted
+        expect(response).to have_http_status 401
+        expect(response.body).to have_content('You need to sign in or sign up before continuing')
+      end
+    end
   end
 
   describe 'GET #new' do
