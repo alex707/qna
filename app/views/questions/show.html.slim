@@ -14,8 +14,8 @@
       = f.text_area :body
       = f.submit 'Write'
 
-.accepted-answer
-  = render @question.answers.select(&:accepted?)
+.favourite-answer
+  = render @question.answers.select(&:favourite?)
 
 .answers
-  = render @question.answers.reject(&:accepted?)
+  = render @question.answers.reject(&:favourite?)

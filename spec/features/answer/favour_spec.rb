@@ -10,13 +10,14 @@ feature 'User can accept answer as the best', %q{
 
   describe 'As an authenticated user' do
     describe 'as an author of the question' do
-      scenario 'accept answer as the best', js: true do
-        sign_in(user)
+      background { sign_in(user) }
+
+      scenario 'make answer favourite', js: true do
         visit question_path(question)
 
-        click_on('Accept answer', match: :first)
+        click_on('Favourite answer', match: :first)
 
-        within '.accepted-answer' do
+        within '.favourite-answer' do
           expect(page).to have_content(question.answers.first.body)
         end
 
@@ -25,39 +26,42 @@ feature 'User can accept answer as the best', %q{
         end
       end
 
-      scenario 'accept another answer as the best', js: true do
-        sign_in(user)
+      scenario 'favour another answer as the best', js: true do
+        answers = question.answers.unfavourite
+        new_answer = answers.second
+        old_answer = answers.first
+
+        old_answer.favour
+        old_answer.reload
+
         visit question_path(question)
 
-        old_answer = question.answers.select(&:accepted?).first
-        reaccepted_answer = question.answers.reject(&:accepted?).first
-
         within '.answers' do
-          click_on('Accept answer', match: :first)
+          click_on('Favourite answer', match: :first)
 
           expect(page).to have_content(old_answer.body)
-          expect(page).to_not have_content(reaccepted_answer.body)
+          expect(page).to_not have_content(new_answer.body)
         end
 
-        within '.accepted-answer' do
-          expect(page).to have_content(reaccepted_answer.body)
+        within '.favourite-answer' do
+          expect(page).to have_content(new_answer.body)
         end
       end
     end
 
     describe 'as not an author of question' do
-      scenario 'tries accept answer as the best' do
+      scenario 'tries to make favourite answer' do
         sign_in(create(:user))
         visit question_path(question)
 
-        expect(page).to_not have_link('Accept answer')
+        expect(page).to_not have_link('Favourite answer')
       end
     end
   end
 
-  scenario 'Unauthenticated user tries to accept answer' do
+  scenario 'Unauthenticated user tries to to make favourite answer' do
     visit question_path(question)
 
-    expect(page).to_not have_link('Accept answer')
+    expect(page).to_not have_link('Favourite answer')
   end
 end

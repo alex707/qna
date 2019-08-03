@@ -4,30 +4,34 @@ RSpec.describe Answer, type: :model do
   it { should belong_to(:question) }
   it { should belong_to(:user) }
 
-  it { should validate_presence_of :body }
+  it { should validate_presence_of(:body) }
 
-  describe 'checking current answer as accepted' do
+  describe 'checking current answer as favourite' do
     let(:user) { create(:user) }
     let(:question) { create(:question_with_answers, user: user) }
 
-    it 'makes answer accepted' do
+    it 'makes answer favourite' do
       answer = question.answers.first
-      answer.accept
+      answer.favour
+      answer.reload
 
-      expect(question.accepted_id).to eq answer.id
+      expect(answer.favourite).to eq true
     end
 
-    it 'answer of current question accepted' do
-      answer = question.answers.first
-      answer.accept
+    it 'other answer of current question is favourite instead of old' do
+      old_answer = question.answers.first
+      old_answer.favour
+      question.reload
+      expect(old_answer).to be_favourite
 
-      expect(answer).to be_accepted
-    end
+      new_answer = question.answers.unfavourite.first
+      new_answer.favour
+      new_answer.reload
+      question.reload
+      expect(new_answer).to be_favourite
 
-    it 'other answer of current question is not accepted' do
-      question.answers.first.accept
-
-      expect(question.answers.last).to_not be_accepted
+      old_answer.reload
+      expect(old_answer).to_not be_favourite
     end
   end
 end

@@ -1,14 +1,14 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question, only: %i[new create]
-  before_action :load_answer, only: %i[accept update destroy]
+  before_action :load_answer, only: %i[favour update destroy]
 
-  def accept
+  def favour
     if current_user.author?(@answer.question)
-      @answer.accept
-      flash.now[:notice] = 'Answer accepted.'
+      @answer.favour
+      flash.now[:notice] = 'Answer marked as favourite.'
     else
-      flash.now[:alert] = 'Only question owner can accept the answer.'
+      flash.now[:alert] = 'Only question owner can make favourite the answer.'
     end
   end
 

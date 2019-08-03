@@ -5,39 +5,49 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question_with_answers, user: user) }
   let(:new_answer) { create(:answer, question: question, user: user) }
 
-  describe 'POST #accept' do
+  describe 'POST #favour' do
     context 'as an authenticated user' do
-      context 'as an author' do
-        it 'accept the answer as the best' do
-          answer = question.answers.last
-          post :accept, params: { id: answer }, format: :js
+      before { sign_in(user) }
 
-          expect(answer).to be_accepted
+      context 'as an author' do
+        it 'make the answer as favourite' do
+          answer = question.answers.last
+          post :favour, params: { id: answer }, format: :js
+          answer.reload
+
+          expect(answer).to be_favourite
         end
 
-        it 'accept another answer as the best' do
-          post :accept, params: { id: new_answer }, format: :js
+        it 'make another the answer as favourite' do
+          answer = question.answers.last
+          answer.favour
 
-          expect(new_answer).to be_accepted
+          post :favour, params: { id: new_answer }, format: :js
+
+          new_answer.reload
+          answer.reload
+
+          expect(new_answer).to be_favourite
+          expect(answer).to_not eq be_favourite
         end
       end
 
       context 'as not author' do
-        it 'tries accept the answer as the best' do
+        it 'tries to make answer favourite' do
           answer = question.answers.first
-          post :accept, params: { id: answer }, format: :js
+          post :favour, params: { id: answer }, format: :js
 
-          expect(answer).to_not be_accepted
+          expect(answer).to_not be_favourite
         end
       end
     end
 
     context 'as unauthenticated user' do
-      it 'tries accept the answer as the best' do
+      it 'tries to make answer favourite' do
         answer = question.answers.first
-        post :accept, params: { id: answer }, format: :js
+        post :favour, params: { id: answer }, format: :js
 
-        expect(answer).to_not be_accepted
+        expect(answer).to_not be_favourite
         expect(response).to have_http_status 401
         expect(response.body).to have_content('You need to sign in or sign up before continuing')
       end

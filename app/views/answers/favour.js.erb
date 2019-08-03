@@ -1,8 +1,8 @@
-var oldAnswer = $('.accepted-answer').contents();
+var oldAnswer = $('.favourite-answer').contents();
 
 oldAnswer.appendTo('.answers');
 $('.answer').filter(function(){
     return $(this).data('answerId') === <%= @answer.id %>
 }).remove();
 
-$('.accepted-answer').html("<%= j render @answer %>");
+$('.favourite-answer').html("<%= j render @answer %>");

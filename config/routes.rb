@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers, only: %i[new create update destroy], shallow: true do
       member do
-        post :accept
+        post :favour
       end
     end
   end

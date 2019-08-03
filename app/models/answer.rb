@@ -1,17 +1,16 @@
 class Answer < ApplicationRecord
-  has_one :question, foreign_key: :accepted_id
-
   belongs_to :question
   belongs_to :user
 
   validates :body, presence: true
 
-  def accept
-    question.accepted_id = id
-    question.save
-  end
+  scope :favourite, -> { where(favourite: true) }
+  scope :unfavourite, -> { where(favourite: false) }
 
-  def accepted?
-    id == question.accepted_id
+  def favour
+    ActiveRecord::Base.transaction do
+      self.question.answers.favourite.update_all(favourite: false)
+      update!(favourite: true)
+    end
   end
 end
