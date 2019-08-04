@@ -17,7 +17,7 @@ feature 'User can pick up favourite answer', %q{
         click_on('Favourite answer', match: :first)
         question.reload
 
-        answers = question.answers.order(favourite: :desc)
+        answers = question.answers
 
         within '.answers' do
           answers.count.times do |i|
@@ -44,7 +44,7 @@ feature 'User can pick up favourite answer', %q{
         click_on('Favourite answer', match: :first)
         question.reload
 
-        answers = question.answers.order(favourite: :desc)
+        answers = question.answers
         old_answer = answers.first
         new_answer = answers.second
 
@@ -55,7 +55,7 @@ feature 'User can pick up favourite answer', %q{
         within '.answers' do
           click_on('Favourite answer', match: :first)
           question.reload
-          answers = question.answers.order(favourite: :desc)
+          answers = question.answers
 
           expect(page).to have_content(old_answer.body)
 

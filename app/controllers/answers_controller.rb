@@ -6,7 +6,7 @@ class AnswersController < ApplicationController
   def favour
     if current_user.author?(@answer.question)
       @answer.favour
-      @answers = @answer.question.answers.order(favourite: :desc)
+      @answers = @answer.question.answers
       flash.now[:notice] = 'Answer marked as favourite.'
     else
       flash.now[:alert] = 'Only question owner can make favourite the answer.'
