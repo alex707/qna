@@ -9,7 +9,7 @@ class Answer < ApplicationRecord
 
   def favour
     ActiveRecord::Base.transaction do
-      self.question.answers.favourite.update_all(favourite: false)
+      question.answers.favourite.update_all(favourite: false)
       update!(favourite: true)
     end
   end

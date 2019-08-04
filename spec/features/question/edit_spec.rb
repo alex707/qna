@@ -16,7 +16,7 @@ feature 'User can edit his question', %q{
   end
 
   describe 'Authenticated user' do
-    scenario 'edit his answer', js: true do
+    scenario 'edit his own question', js: true do
       sign_in(user)
       visit question_path(question)
 
@@ -34,7 +34,7 @@ feature 'User can edit his question', %q{
       end
     end
 
-    scenario 'edit his answer with errors', js: true do
+    scenario 'edit his own answer with errors', js: true do
       sign_in(user)
       visit question_path(question)
 
