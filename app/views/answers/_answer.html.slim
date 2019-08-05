@@ -1,25 +1,33 @@
 - if answer.valid?
+  br
   .answer data-answer-id="#{answer.id}" class=('favourite' if answer.favourite?)
     | Body:
     = answer.body
     - if answer.files.attached?
-      - answer.files.each do |file|
-        = link_to file.filename.to_s, url_for(file)
+      p
+        - answer.files.each do |file|
+          br
+          = link_to file.filename.to_s, url_for(file)
+
     - if current_user&.author?(answer)
-      = link_to 'Edit', '#', class: 'edit-answer-link',
+      p = link_to 'Edit', '#', class: 'edit-answer-link',
         data: { answer_id: answer.id }
       = form_with model: answer, class: 'hidden',
         html: { id: "edit-answer-#{answer.id}" } do |f|
-        = f.label :body, 'Your answer'
-        = f.text_area :body
-        = f.label :files
-        = f.file_field :files, multiple: true
-        = f.submit 'Save'
+        p
+          = f.label :body, 'Your answer'
+          = f.text_area :body
+        p
+          = f.label :files
+          = f.file_field :files, multiple: true
+        p = f.submit 'Save'
       end
     div
       - if current_user&.author? answer
-        = link_to 'Delete Answer', answer_path(answer), method: :delete,
-          remote: true
-        - unless answer.favourite?
-          = link_to 'Favourite answer', favour_answer_path(answer),
-            method: :post, remote: true
+        p
+          = link_to 'Delete Answer', answer_path(answer), method: :delete,
+            remote: true
+          - unless answer.favourite?
+            br
+            = link_to 'Favourite answer', favour_answer_path(answer),
+              method: :post, remote: true
