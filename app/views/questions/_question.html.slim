@@ -1,5 +1,7 @@
 h1 = @question.title
 p = @question.body
+- if @question.file.attached?
+  = link_to @question.file.filename.to_s, url_for(@question.file)
 
 - if current_user&.author? @question
   = link_to 'Edit question', '#', class: 'edit-question-link',
@@ -11,6 +13,8 @@ p = @question.body
     = f.text_field :title
     = f.label :body, 'Question body'
     = f.text_area :body
+    = f.label :file
+    = f.file_field :file
     = f.submit 'Save question'
     end
   = link_to 'Delete', @question, method: :delete
