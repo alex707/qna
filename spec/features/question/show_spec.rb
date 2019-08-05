@@ -32,6 +32,24 @@ feature 'User can write answer for question on question page', %q{
 
       expect(page).to have_content("Body can't be blank")
     end
+
+    scenario 'write the answer with attached file', js: true do
+      within 'div.new-answer' do
+        fill_in 'Body', with: 'Test answer'
+
+        attach_file 'File', [
+          "#{Rails.root}/spec/models/answer_spec.rb",
+          "#{Rails.root}/spec/models/question_spec.rb"
+        ]
+
+        click_on 'Write'
+      end
+
+      within '.answers' do
+        expect(page).to have_link 'answer_spec.rb'
+        expect(page).to have_link 'question_spec.rb'
+      end
+    end
   end
 
   describe 'Unauthenticated user' do
