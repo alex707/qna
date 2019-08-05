@@ -75,12 +75,7 @@ Style/Documentation:
     - 'app/models/question.rb'
     - 'app/models/user.rb'
     - 'config/application.rb'
-    - 'db/migrate/20190619192350_create_questions.rb'
-    - 'db/migrate/20190620054043_create_answers.rb'
-    - 'db/migrate/20190706074504_create_users.rb'
-    - 'db/migrate/20190706075850_add_devise_to_users.rb'
-    - 'db/migrate/20190714163940_add_user_to_questions.rb'
-    - 'db/migrate/20190714185234_add_user_to_answers.rb'
+    - 'db/migrate/*'
 
 # Offense count: 3
 # Cop supports --auto-correct.
