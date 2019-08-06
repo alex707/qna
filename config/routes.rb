@@ -8,5 +8,7 @@ Rails.application.routes.draw do
         post :favour
       end
     end
+
+    delete :remove_file
   end
 end

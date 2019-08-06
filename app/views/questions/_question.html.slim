@@ -1,10 +1,15 @@
 h1 = @question.title
 p = @question.body
 - if @question.files.attached?
-  p
+  ul.question-files
     - @question.files.each do |file|
-      = link_to file.filename.to_s, url_for(file)
-      br
+      li data-file-id=file.id
+        = link_to file.filename.to_s, url_for(file)
+        - if current_user&.author? @question
+          br
+          = link_to 'Remove file',
+            question_remove_file_path(@question, file_id: file.id),
+            method: :delete, remote: true
 
 - if current_user&.author? @question
   p

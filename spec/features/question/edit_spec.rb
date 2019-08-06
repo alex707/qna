@@ -9,10 +9,15 @@ feature 'User can edit his question', %q{
   given!(:question) { create(:question, user: user) }
   given(:other_user) { create(:user) }
   given(:question_with_files) do
-    question.files.attach(
+    first_file = {
       io: File.open("#{Rails.root}/spec/factories/questions.rb"),
       filename: 'questions.rb'
-    )
+    }
+    second_file = {
+      io: File.open("#{Rails.root}/spec/factories/users.rb"),
+      filename: 'users.rb'
+    }
+    question.files.attach([first_file, second_file])
     question
   end
 
@@ -73,6 +78,20 @@ feature 'User can edit his question', %q{
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
         expect(page).to have_link 'questions.rb'
+      end
+    end
+
+    scenario 'remove existing on question files', js: true do
+      sign_in(user)
+      visit question_path(question_with_files)
+
+      click_on 'Edit question'
+
+      within '.question' do
+        click_on 'Remove file', match: :first
+
+        expect(page).to_not have_link 'questions.rb'
+        expect(page).to have_link 'users.rb'
       end
     end
 

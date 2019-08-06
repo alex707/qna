@@ -47,6 +47,21 @@ class QuestionsController < ApplicationController
     redirect_to questions_path, notice: 'Question successfully deleted.'
   end
 
+  def remove_file
+    @question = Question.find(params[:question_id])
+    # @attached = ActiveStorage::Blob.find_signed(params[:signed_id])
+    # @question = Question.joins(:files_blobs).where(
+    #   active_storage_attachments: { blob_id: @attached.id }
+    # )
+    if current_user.author?(@question)
+      @attached = @question.files.find(params[:file_id])
+      @attached.purge
+      flash.now[:notice] = 'Your files successfully removed.'
+    else
+      flash.now[:alert] = 'Only owner can remove files of his question.'
+    end
+  end
+
   private
 
   def load_question
