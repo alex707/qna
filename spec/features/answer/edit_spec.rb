@@ -9,10 +9,15 @@ feature 'User can edit his answer', %q{
   given!(:question) { create(:question, user: user) }
   given!(:answer) do
     answer = create(:answer, question: question, user: user)
-    answer.files.attach(
+    first_file = {
       io: File.open("#{Rails.root}/spec/factories/answers.rb"),
       filename: 'answers.rb'
-    )
+    }
+    second_file = {
+      io: File.open("#{Rails.root}/spec/factories/users.rb"),
+      filename: 'users.rb'
+    }
+    answer.files.attach([first_file, second_file])
     answer
   end
   given(:other_user) { create(:user) }
@@ -72,6 +77,18 @@ feature 'User can edit his answer', %q{
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
         expect(page).to have_link 'answers.rb'
+      end
+    end
+
+    scenario 'remove existing on answer files', js: true do
+      sign_in(user)
+      visit question_path(question)
+
+      within '.answers' do
+        click_on 'Remove file', match: :first
+
+        expect(page).to_not have_link 'answers.rb'
+        expect(page).to have_link 'users.rb'
       end
     end
 

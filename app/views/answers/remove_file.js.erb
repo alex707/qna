@@ -1,0 +1,6 @@
+$('.answer-errors').html("<%= render 'shared/errors', resource: @answer %>")
+$('.notice').html("<%= flash[:notice] %>");
+
+<% if @attached %>
+  $("ul.answer-files").find("li[data-file-id=<%= @attached.id %>]").remove()
+<% end %>

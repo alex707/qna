@@ -49,10 +49,6 @@ class QuestionsController < ApplicationController
 
   def remove_file
     @question = Question.find(params[:question_id])
-    # @attached = ActiveStorage::Blob.find_signed(params[:signed_id])
-    # @question = Question.joins(:files_blobs).where(
-    #   active_storage_attachments: { blob_id: @attached.id }
-    # )
     if current_user.author?(@question)
       @attached = @question.files.find(params[:file_id])
       @attached.purge

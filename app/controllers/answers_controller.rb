@@ -50,6 +50,17 @@ class AnswersController < ApplicationController
     end
   end
 
+  def remove_file
+    @answer = Answer.find(params[:answer_id])
+    if current_user.author?(@answer)
+      @attached = @answer.files.find(params[:file_id])
+      @attached.purge
+      flash.now[:notice] = 'Your files successfully removed.'
+    else
+      flash.now[:alert] = 'Only owner can remove files of his answer.'
+    end
+  end
+
   private
 
   def answer_params
