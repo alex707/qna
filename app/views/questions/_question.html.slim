@@ -1,15 +1,6 @@
 h1 = @question.title
 p = @question.body
-- if @question.files.attached?
-  ul.question-files
-    - @question.files.each do |file|
-      li data-file-id=file.id
-        = link_to file.filename.to_s, url_for(file)
-        - if current_user&.author? @question
-          br
-          = link_to 'Remove file',
-            question_remove_file_path(@question, file_id: file.id),
-            method: :delete, remote: true
+= render template: 'collections/show', locals: { resource: @question }
 
 - if current_user&.author? @question
   p

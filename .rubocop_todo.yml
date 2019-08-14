@@ -66,6 +66,7 @@ Style/BlockComments:
 Style/BlockDelimiters:
   Exclude:
     - 'spec/controllers/answers_controller_spec.rb'
+    - 'spec/controllers/collections_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
 
 # Offense count: 12
@@ -74,9 +75,11 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
     - 'app/controllers/answers_controller.rb'
+    - 'app/controllers/collections_controller.rb'
     - 'app/controllers/questions_controller.rb'
     - 'app/helpers/answers_helper.rb'
     - 'app/helpers/application_helper.rb'
+    - 'app/helpers/collections_helper.rb'
     - 'app/helpers/questions_helper.rb'
     - 'app/mailers/application_mailer.rb'
     - 'app/models/answer.rb'

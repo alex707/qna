@@ -8,18 +8,7 @@ feature 'User can edit his question', %q{
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given(:other_user) { create(:user) }
-  given(:question_with_files) do
-    first_file = {
-      io: File.open("#{Rails.root}/spec/factories/questions.rb"),
-      filename: 'questions.rb'
-    }
-    second_file = {
-      io: File.open("#{Rails.root}/spec/factories/users.rb"),
-      filename: 'users.rb'
-    }
-    question.files.attach([first_file, second_file])
-    question
-  end
+  given(:question_with_files) { create(:question, :with_files, user: user) }
 
   scenario 'Unauthenticated user can not edit question' do
     visit question_path(question)

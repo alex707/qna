@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
       delete :remove_file
     end
-
-    delete :remove_file
   end
+
+  resources :collections, only: :destroy
 end

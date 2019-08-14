@@ -1,0 +1,10 @@
+$('.<%= @resource.class.to_s.downcase %>-errors').html(
+  "<%= render 'shared/errors', resource: @resource %>"
+)
+$('.notice').html("<%= flash[:notice] %>");
+
+<% if @attached %>
+  $("ul.<%= @resource.class.to_s.downcase %>-files").find(
+    "li[data-file-id=<%= @attached.id %>]"
+  ).remove()
+<% end %>
