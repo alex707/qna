@@ -7,5 +7,22 @@ FactoryBot.define do
     trait :invalid do
       body { nil }
     end
+
+    trait :with_files do
+      after :create do |answer|
+        answer.files.attach(
+          [
+            {
+              io: File.open("#{Rails.root}/spec/factories/answers.rb"),
+              filename: 'answers.rb'
+            },
+            {
+              io: File.open("#{Rails.root}/spec/factories/users.rb"),
+              filename: 'users.rb'
+            }
+          ]
+        )
+      end
+    end
   end
 end

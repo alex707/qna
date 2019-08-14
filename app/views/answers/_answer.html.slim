@@ -3,16 +3,7 @@
   .answer data-answer-id="#{answer.id}" class=('favourite' if answer.favourite?)
     | Body:
     = answer.body
-    - if answer.files.attached?
-      ul.answer-files
-        - answer.files.each do |file|
-          li data-file-id=file.id
-            = link_to file.filename.to_s, url_for(file)
-            - if current_user&.author? answer
-              br
-              = link_to 'Remove file',
-                answer_remove_file_path(answer, file_id: file.id),
-                method: :delete, remote: true
+    = render template: 'collections/show', locals: { resource: answer }
 
     - if current_user&.author?(answer)
       p = link_to 'Edit', '#', class: 'edit-answer-link',

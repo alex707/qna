@@ -15,7 +15,8 @@ class CollectionsController < ApplicationController
 
   def load_resource
     @attached = ActiveStorage::Attachment.find(params[:id])
-    @resource = Question.joins(:files_attachments).where(
+    entity = @attached.record_type == 'Question' ? Question : Answer
+    @resource = entity.joins(:files_attachments).where(
       active_storage_attachments: { id: @attached.id }
     ).first
   end

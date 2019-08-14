@@ -7,19 +7,7 @@ feature 'User can edit his answer', %q{
 } do
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
-  given!(:answer) do
-    answer = create(:answer, question: question, user: user)
-    first_file = {
-      io: File.open("#{Rails.root}/spec/factories/answers.rb"),
-      filename: 'answers.rb'
-    }
-    second_file = {
-      io: File.open("#{Rails.root}/spec/factories/users.rb"),
-      filename: 'users.rb'
-    }
-    answer.files.attach([first_file, second_file])
-    answer
-  end
+  given!(:answer) { create(:answer, :with_files, question: question, user: user) }
   given(:other_user) { create(:user) }
 
   scenario 'Unauthenticated user can not edit answer' do

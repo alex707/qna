@@ -1,6 +1,5 @@
 - if resource.files.attached?
   ul class=(resource.class.to_s.downcase + '-files')
-
     - resource.files.each do |file|
       li data-file-id=file.id
         = link_to file.filename.to_s, url_for(file)

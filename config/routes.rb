@@ -7,8 +7,6 @@ Rails.application.routes.draw do
       member do
         post :favour
       end
-
-      delete :remove_file
     end
   end
 
