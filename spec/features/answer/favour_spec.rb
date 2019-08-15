@@ -26,9 +26,7 @@ feature 'User can pick up favourite answer', %q{
               # first answer must be favourite
 
               if i.zero?
-                # within '.favourite' do
                 expect(page).to have_content answers[0].body
-                # end
               else
                 expect(page).to have_content answers[i].body
               end

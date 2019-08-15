@@ -8,6 +8,7 @@ feature 'User can edit his question', %q{
   given!(:user) { create(:user) }
   given!(:question) { create(:question, user: user) }
   given(:other_user) { create(:user) }
+  given(:question_with_files) { create(:question, :with_files, user: user) }
 
   scenario 'Unauthenticated user can not edit question' do
     visit question_path(question)
@@ -50,6 +51,37 @@ feature 'User can edit his question', %q{
       end
       expect(page).to have_content("Body can't be blank")
       expect(page).to have_content("Title can't be blank")
+    end
+
+    scenario 'add attached files to question', js: true do
+      sign_in(user)
+      visit question_path(question_with_files)
+
+      click_on 'Edit question'
+
+      within '.question' do
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
+        click_on 'Save question'
+
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+        expect(page).to have_link 'questions.rb'
+      end
+    end
+
+    scenario 'remove existing on question files', js: true do
+      sign_in(user)
+      visit question_path(question_with_files)
+
+      click_on 'Edit question'
+
+      within '.question' do
+        click_on 'Remove file', match: :first
+
+        expect(page).to_not have_link 'questions.rb'
+        expect(page).to have_link 'users.rb'
+      end
     end
 
     scenario "tries to edit other user's" do
