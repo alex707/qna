@@ -18,6 +18,7 @@ feature 'User can pick up favourite answer', %q{
         question.reload
 
         answers = question.answers
+        sleep 0.5
 
         within '.answers' do
           answers.count.times do |i|
