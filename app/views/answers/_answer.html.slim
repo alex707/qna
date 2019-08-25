@@ -3,6 +3,10 @@
   .answer data-answer-id="#{answer.id}" class=('favourite' if answer.favourite?)
     | Body:
     = answer.body
+    .links
+      ul
+        - answer.links.each do |link|
+          li = link_to link.name, link.url
     = render template: 'collections/show', locals: { resource: answer }
 
     - if current_user&.author?(answer)

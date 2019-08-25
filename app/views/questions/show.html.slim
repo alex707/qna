@@ -12,6 +12,12 @@
     = form_with model: [@question, @answer], class: 'new-answer' do |f|
       = f.label :body
       = f.text_area :body
+      p
+        = f.fields_for :links do |l|
+          = l.label :name, 'Link name'
+          = l.text_field :name
+          = l.label :url
+          = l.text_field :url
       = f.label :files
       = f.file_field :files, multiple: true
       = f.submit 'Write'

@@ -52,9 +52,13 @@ class AnswersController < ApplicationController
 
   private
 
+  # rubocop:disable Style/SymbolArray
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(
+      :body, files: [], links_attributes: [:name, :url]
+    )
   end
+  # rubocop:enable Style/SymbolArray
 
   def load_question
     @question = Question.find(params[:question_id])
