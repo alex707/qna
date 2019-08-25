@@ -86,6 +86,7 @@ Style/Documentation:
     - 'app/models/application_record.rb'
     - 'app/models/question.rb'
     - 'app/models/user.rb'
+    - 'app/models/link.rb'
     - 'config/application.rb'
     - 'db/migrate/*'
 

@@ -12,6 +12,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.links.build
   end
 
   def edit
@@ -55,7 +56,11 @@ class QuestionsController < ApplicationController
 
   helper_method :question
 
+  # rubocop:disable Style/SymbolArray
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(
+      :title, :body, files: [], links_attributes: [:name, :url]
+    )
   end
+  # rubocop:enable Style/SymbolArray
 end

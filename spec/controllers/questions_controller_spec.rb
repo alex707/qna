@@ -41,6 +41,12 @@ RSpec.describe QuestionsController, type: :controller do
         expect(assigns(:question)).to be_a_new(Question)
       end
 
+      it 'build new link for @question' do
+        get :new
+
+        expect(assigns(:question).links.first).to be_a_new(Link)
+      end
+
       it 'renders new view' do
         get :new
 

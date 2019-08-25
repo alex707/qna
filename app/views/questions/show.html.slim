@@ -16,5 +16,10 @@
       = f.file_field :files, multiple: true
       = f.submit 'Write'
 
+.links
+  ul
+    - @question.links.each do |link|
+      li = link_to link.name, link.url
+
 .answers
   = render @question.answers
