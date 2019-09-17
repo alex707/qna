@@ -8,10 +8,11 @@
   = f.label :files
   = f.file_field :files, multiple: true
   p
+  #question-links
     = f.fields_for :links do |l|
-      = l.label :name, 'Link name'
-      = l.text_field :name
-      = l.label :url
-      = l.text_field :url
+      = render 'links/link_fields', f: l
+    .links
+      = link_to_add_association 'add link for question', f, :links,
+        partial: 'links/link_fields'
 
   = f.submit 'Ask'
