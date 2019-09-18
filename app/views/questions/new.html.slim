@@ -1,18 +1,3 @@
 = render 'shared/errors', resource: @question
 
-= form_with model: @question do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.label :files
-  = f.file_field :files, multiple: true
-  p
-  #question-links
-    = f.fields_for :links do |l|
-      = render 'links/link_fields', f: l
-    .links
-      = link_to_add_association 'add link for question', f, :links,
-        partial: 'links/link_fields'
-
-  = f.submit 'Ask'
+= render 'form'

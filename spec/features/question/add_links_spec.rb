@@ -13,8 +13,8 @@ feature 'User can add links to question', %{
     sign_in(user)
     visit new_question_path
 
-    fill_in 'Title', with: 'Test question'
-    fill_in 'Body', with: 'Test text'
+    fill_in 'Title question', with: 'Test question'
+    fill_in 'Question body', with: 'Test text'
   end
 
   scenario 'User adds links when asks question', js: true do
