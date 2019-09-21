@@ -9,6 +9,7 @@ feature 'User can add links to answer', %{
   given(:question) { create(:question, user: user) }
   given(:gist_url) { 'https://gist.github.com/alex707/d6a7726c9132942cf755aa8e6fb52bfb' }
   given(:gist_url_ya) { 'https://ya.ru' }
+  given(:bad_url) { 'foo@bar@123.ru' }
 
   before do
     sign_in(user)
@@ -37,6 +38,19 @@ feature 'User can add links to answer', %{
     within '.answers' do
       expect(page).to have_link 'My gist', href: gist_url
       expect(page).to have_link 'My gist ya', href: gist_url_ya
+    end
+  end
+
+  scenario 'User tries to add link with invalid url', js: true do
+    within 'form.new-answer' do
+      fill_in 'Link name', with: 'bad_url'
+      fill_in 'Url', with: bad_url
+
+      click_on 'Write'
+    end
+
+    within '.answer-errors' do
+      expect(page).to have_content "'#{bad_url}' is bad link."
     end
   end
 end

@@ -135,6 +135,16 @@ RSpec.describe QuestionsController, type: :controller do
           post :create, params: { question: attributes_for(:question, :invalid) }
           expect(response).to render_template :new
         end
+
+        it 'does not save question with bad link' do
+          expect {
+            post :create, params: {
+              question: attributes_for(:question).merge(
+                links_attributes: { '0' => { name: 'a', url: 'a' } }
+              )
+            }
+          }.to change(Question, :count).by(0)
+        end
       end
     end
 
@@ -186,6 +196,20 @@ RSpec.describe QuestionsController, type: :controller do
         it 'renders template update' do
           patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
           expect(response).to render_template :update
+        end
+
+        it 'does not change question with bad links' do
+          expect {
+            patch :update, params: {
+              id: question,
+              question: { title: 'new t', body: 'new b' }.merge(
+                links_attributes: { '0' => { name: 'a', url: 'a' } }
+              )
+            }, format: :js
+          }.to change(Link, :count).by(0)
+
+          expect(question.title).to_not eq 'new t'
+          expect(question.body).to_not eq 'new b'
         end
       end
     end

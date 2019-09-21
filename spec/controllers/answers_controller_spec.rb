@@ -126,6 +126,20 @@ RSpec.describe AnswersController, type: :controller do
 
           expect(response).to render_template :create
         end
+
+        it 'does not save answer with bad links' do
+          answer_params = {
+            question_id: question,
+            answer: attributes_for(:answer).merge(
+              links_attributes: {
+                '0' => { name: 'b', url: 'b' }
+              }
+            )
+          }
+          expect {
+            post :create, params: answer_params, format: :js
+          }.to change(question.answers, :count).by(0)
+        end
       end
     end
 
@@ -173,6 +187,22 @@ RSpec.describe AnswersController, type: :controller do
           it 'renders update view' do
             patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
             expect(response).to render_template :update
+          end
+
+          it 'does not change answer with bad links' do
+            answer_params = {
+              question_id: question,
+              answer: { body: 'new answer body' }.merge(
+                links_attributes: {
+                  '0' => { name: 'b', url: 'b' }
+                }
+              )
+            }
+            expect {
+              post :create, params: answer_params, format: :js
+            }.to change(Link, :count).by(0)
+
+            expect(answer.body).to_not eq 'new answer body'
           end
         end
       end
