@@ -1,0 +1,16 @@
+- answer_id = entity.id unless entity.is_a?(Array)
+= form_with model: entity, class: answer_id ? 'hidden' : 'new-answer',
+  html: { id: "edit-answer-#{answer_id || 'new'}" } do |f|
+  p
+    = f.label :body, 'Your answer'
+    = f.text_area :body
+  div id=("answer-#{answer_id || 'new'}-links")
+    = f.fields_for :links do |l|
+      = render 'links/link_fields', f: l
+    .links
+      = link_to_add_association 'add link for answer', f, :links,
+        partial: 'links/link_fields'
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true
+  p = f.submit answer_id ? 'Save' : 'Write'

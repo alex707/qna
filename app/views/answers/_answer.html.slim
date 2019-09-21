@@ -12,15 +12,7 @@
     - if current_user&.author?(answer)
       p = link_to 'Edit', '#', class: 'edit-answer-link',
         data: { answer_id: answer.id }
-      = form_with model: answer, class: 'hidden',
-        html: { id: "edit-answer-#{answer.id}" } do |f|
-        p
-          = f.label :body, 'Your answer'
-          = f.text_area :body
-        p
-          = f.label :files
-          = f.file_field :files, multiple: true
-        p = f.submit 'Save'
+      = render 'answers/form', entity: answer
       end
     div
       - if current_user&.author? answer

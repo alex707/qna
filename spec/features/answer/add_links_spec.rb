@@ -8,20 +8,35 @@ feature 'User can add links to answer', %{
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
   given(:gist_url) { 'https://gist.github.com/alex707/d6a7726c9132942cf755aa8e6fb52bfb' }
+  given(:gist_url_ya) { 'https://ya.ru' }
 
-  scenario 'User adds link when write answer', js: true do
+  before do
     sign_in(user)
     visit question_path(question)
 
-    fill_in 'Body', with: 'Test answer'
+    fill_in 'Your answer', with: 'Test answer'
+  end
 
-    fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+  scenario 'User adds links when write answer', js: true do
+    within 'form.new-answer' do
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
 
-    click_on 'Write'
+      click_on 'add link for answer'
+
+      all '.nested-fields', count: 2
+
+      within all('.nested-fields').last do
+        fill_in 'Link name', with: 'My gist ya'
+        fill_in 'Url', with: gist_url_ya
+      end
+
+      click_on 'Write'
+    end
 
     within '.answers' do
       expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_link 'My gist ya', href: gist_url_ya
     end
   end
 end
