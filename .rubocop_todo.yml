@@ -51,6 +51,8 @@ Metrics/BlockLength:
   Exclude:
     - 'spec/controllers/answers_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
+    - 'spec/features/answer/edit_spec.rb'
+    - 'spec/features/question/edit_spec.rb'
   Max: 88
 
 Metrics/MethodLength:

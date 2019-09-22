@@ -8,7 +8,7 @@
     = f.fields_for :links do |l|
       = render 'links/link_fields', f: l
     .links
-      = link_to_add_association 'add link for answer', f, :links,
+      = link_to_add_association 'Add link for answer', f, :links,
         partial: 'links/link_fields'
   p
     = f.label :files

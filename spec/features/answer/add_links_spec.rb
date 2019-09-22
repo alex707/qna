@@ -23,7 +23,7 @@ feature 'User can add links to answer', %{
       fill_in 'Link name', with: 'My gist'
       fill_in 'Url', with: gist_url
 
-      click_on 'add link for answer'
+      click_on 'Add link for answer'
 
       all '.nested-fields', count: 2
 

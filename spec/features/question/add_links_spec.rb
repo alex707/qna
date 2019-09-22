@@ -22,7 +22,7 @@ feature 'User can add links to question', %{
     fill_in 'Link name', with: 'My gist'
     fill_in 'Url', with: gist_url
 
-    click_on 'add link for question'
+    click_on 'Add link for question'
     all '.nested-fields', count: 2
 
     within all('.nested-fields').last do
@@ -40,7 +40,7 @@ feature 'User can add links to question', %{
     fill_in 'Link name', with: 'My gist ya'
     fill_in 'Url', with: bad_url
 
-    click_on 'add link for question'
+    click_on 'Add link for question'
 
     within all('.nested-fields').last do
       fill_in 'Link name', with: 'My gist ya'

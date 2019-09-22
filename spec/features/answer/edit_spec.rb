@@ -69,9 +69,32 @@ feature 'User can edit his answer', %q{
       end
     end
 
-    scenario 'remove existing link on answer', js: true do
+    scenario 'add link to existing links on answer', js: true do
       sign_in(user)
+      visit question_path(question)
+
+      within '.answers' do
+        within all('.answer').last do
+          click_on 'Edit'
+
+          click_on 'Add link for answer'
+
+          within all('.nested-fields').last do
+            fill_in 'Link name', with: 'some_link'
+            fill_in 'Url', with: 'https://some.com'
+          end
+
+          click_on 'Save'
+        end
+      end
+
+      expect(page).to have_link 'some_link', href: 'https://some.com'
+    end
+
+    scenario 'remove existing link on answer', js: true do
       link1, link2 = answer_with_links.links[0..1]
+
+      sign_in(user)
       visit question_path(question)
 
       within '.answers' do

@@ -14,7 +14,7 @@
     = f.fields_for :links do |l|
       = render 'links/link_fields', f: l
     .links
-      = link_to_add_association 'add link for question', f, :links,
+      = link_to_add_association 'Add link for question', f, :links,
         partial: 'links/link_fields'
   p = f.submit @question.new_record? ? 'Ask' : 'Save question'
   end

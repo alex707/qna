@@ -85,6 +85,26 @@ feature 'User can edit his question', %q{
       end
     end
 
+    scenario 'add link to existing links on question', js: true do
+      sign_in(user)
+      visit question_path(question_with_links)
+
+      click_on 'Edit question'
+
+      within '.question' do
+        click_on 'Add link for question'
+
+        within all('.nested-fields').last do
+          fill_in 'Link name', with: 'test_link'
+          fill_in 'Url', with: 'https://test.com'
+        end
+
+        click_on 'Save question'
+
+        expect(page).to have_link 'test_link', href: 'https://test.com'
+      end
+    end
+
     scenario 'remove existing link on question', js: true do
       sign_in(user)
       visit question_path(question_with_links)
