@@ -7,8 +7,8 @@ feature 'User can add links to answer', %{
 } do
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
-  given(:gist_url) { 'https://gist.github.com/alex707/d6a7726c9132942cf755aa8e6fb52bfb' }
-  given(:gist_url_ya) { 'https://ya.ru' }
+  given(:gist_url) { 'https://gist.github.com/alex707/71d5c90e5cf72dc9765a2eebc2bfb416' }
+  given(:url_ya) { 'https://ya.ru' }
   given(:bad_url) { 'foo@bar@123.ru' }
 
   before do
@@ -28,16 +28,16 @@ feature 'User can add links to answer', %{
       all '.nested-fields', count: 2
 
       within all('.nested-fields').last do
-        fill_in 'Link name', with: 'My gist ya'
-        fill_in 'Url', with: gist_url_ya
+        fill_in 'Link name', with: 'My url ya'
+        fill_in 'Url', with: url_ya
       end
 
       click_on 'Write'
     end
 
     within '.answers' do
-      expect(page).to have_link 'My gist', href: gist_url
-      expect(page).to have_link 'My gist ya', href: gist_url_ya
+      expect(page).to have_content('get-запрос на главную')
+      expect(page).to have_link 'My url ya', href: url_ya
     end
   end
 
