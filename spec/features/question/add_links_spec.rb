@@ -7,7 +7,7 @@ feature 'User can add links to question', %{
 } do
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/alex707/d6a7726c9132942cf755aa8e6fb52bfb' }
-  given(:gist_url_ya) { 'https://ya.ru' }
+  given(:url_ya) { 'https://ya.ru' }
   given(:bad_url) { 'foo@bar@123.ru' }
 
   before do
@@ -27,13 +27,13 @@ feature 'User can add links to question', %{
 
     within all('.nested-fields').last do
       fill_in 'Link name', with: 'My gist ya'
-      fill_in 'Url', with: gist_url_ya
+      fill_in 'Url', with: url_ya
     end
 
     click_on 'Ask'
 
-    expect(page).to have_link 'My gist', href: gist_url
-    expect(page).to have_link 'My gist ya', href: gist_url_ya
+    expect(page).to have_content('minute%2Cmonth%2Cyear%2Csecond')
+    expect(page).to have_link 'My gist ya', href: url_ya
   end
 
   scenario 'User tries to add link with invalid url', js: true do

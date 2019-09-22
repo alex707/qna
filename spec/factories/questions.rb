@@ -34,4 +34,30 @@ FactoryBot.define do
       )
     end
   end
+
+  trait :with_gists_links do
+    after :create do |question|
+      question.links.create!(
+        [
+          {
+            name: 'snippet_1',
+            url: 'https://gist.github.com/alex707/d6a7726c9132942cf755aa8e6fb52bfb'
+          }
+        ]
+      )
+    end
+  end
+
+  trait :with_links do
+    after :create do |question|
+      question.links.create!(
+        [
+          {
+            name: 'google',
+            url: 'https://www.google.com'
+          }
+        ]
+      )
+    end
+  end
 end

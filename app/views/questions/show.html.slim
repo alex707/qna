@@ -14,7 +14,7 @@
 .links
   ul
     - @question.links.each do |link|
-      li = link_to link.name, link.url
+      = render link
 
 .answers
   = render @question.answers
