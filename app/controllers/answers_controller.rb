@@ -55,7 +55,7 @@ class AnswersController < ApplicationController
   # rubocop:disable Style/SymbolArray
   def answer_params
     params.require(:answer).permit(
-      :body, files: [], links_attributes: [:name, :url]
+      :body, files: [], links_attributes: [:id, :name, :url, :_destroy]
     )
   end
   # rubocop:enable Style/SymbolArray

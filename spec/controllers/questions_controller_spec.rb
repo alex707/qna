@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
+  let(:question_with_links) { create(:question, :with_links, user: user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3, user: user) }
@@ -176,6 +177,22 @@ RSpec.describe QuestionsController, type: :controller do
 
           expect(question.title).to eq 'new t'
           expect(question.body).to eq 'new b'
+        end
+
+        it 'remove question link' do
+          l = question_with_links.links.first
+
+          expect {
+            patch :update, params: {
+              id: question_with_links,
+              question: {
+                title: 'new t', body: 'new b',
+                links_attributes: {
+                  '0' => { name: l.name, url: l.url, id: l.id, _destroy: '1' }
+                }
+              }
+            }, format: :js
+          }.to change(Link, :count).by(-1)
         end
 
         it 'render template update' do

@@ -55,6 +55,10 @@ FactoryBot.define do
           {
             name: 'google',
             url: 'https://www.google.com'
+          },
+          {
+            name: 'ya',
+            url: 'http://ya.ru'
           }
         ]
       )

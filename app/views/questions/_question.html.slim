@@ -1,5 +1,10 @@
 h1 = @question.title
 p = @question.body
+.links
+  ul
+    - @question.links.each do |link|
+      = render link
+
 = render template: 'collections/show', locals: { resource: @question }
 
 - if current_user&.author? @question

@@ -4,6 +4,7 @@ RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question_with_answers, user: user) }
   let(:new_answer) { create(:answer, question: question, user: user) }
+  let(:answer_with_links) { create(:answer, :with_links, question: question, user: user) }
 
   describe 'POST #favour' do
     context 'as an authenticated user' do
@@ -167,6 +168,22 @@ RSpec.describe AnswersController, type: :controller do
             patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
             answer.reload
             expect(answer.body).to eq 'new body'
+          end
+
+          it 'remove answer link' do
+            l = answer_with_links.links.first
+
+            expect {
+              patch :update, params: {
+                id: answer_with_links,
+                answer: {
+                  body: 'new answer b',
+                  links_attributes: {
+                    '0' => { name: l.name, url: l.url, id: l.id, _destroy: '1' }
+                  }
+                }
+              }, format: :js
+            }.to change(Link, :count).by(-1)
           end
 
           it 'renders update view' do
