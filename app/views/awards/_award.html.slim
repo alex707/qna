@@ -1,0 +1,8 @@
+.award-name
+  = award.name
+  br
+  - if award.image.attached?
+    = link_to award.image.filename.to_s, url_for(award.image)
+    br
+    = image_tag award.image
+  br

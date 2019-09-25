@@ -16,5 +16,9 @@
     .links
       = link_to_add_association 'Add link for question', f, :links,
         partial: 'links/link_fields'
+  .new-award
+    = f.fields_for :award do |a|
+      = render 'awards/award_fields', f: a
+
   p = f.submit @question.new_record? ? 'Ask' : 'Save question'
   end

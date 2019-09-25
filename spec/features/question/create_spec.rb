@@ -23,6 +23,26 @@ feature 'User can create question', %q{
       expect(page).to have_content 'text text text'
     end
 
+    scenario 'asks a question with award' do
+      visit questions_path
+      click_on 'Ask question'
+
+      fill_in 'Title question', with: 'Test question'
+      fill_in 'Question body', with: 'text text text'
+
+      fill_in 'Award name', with: 'test award'
+
+      images = Dir.glob("#{Rails.root}/*.jpg")
+      attach_file 'Award image', images.first
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'Your question successfully created.'
+      expect(page).to have_content 'Test question'
+      expect(page).to have_content 'text text text'
+      expect(page).to have_content 'test award'
+    end
+
     scenario 'asks a question with errors' do
       visit questions_path
       click_on 'Ask question'

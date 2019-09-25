@@ -14,6 +14,7 @@ class QuestionsController < ApplicationController
   def new
     @question = Question.new
     @question.links.build
+    @question.build_award
   end
 
   def edit
@@ -60,7 +61,11 @@ class QuestionsController < ApplicationController
   # rubocop:disable Style/SymbolArray
   def question_params
     params.require(:question).permit(
-      :title, :body, files: [], links_attributes: [:id, :name, :url, :_destroy]
+      :title,
+      :body,
+      files: [],
+      links_attributes: [:id, :name, :url, :_destroy],
+      award_attributes: [:name, :image]
     )
   end
   # rubocop:enable Style/SymbolArray

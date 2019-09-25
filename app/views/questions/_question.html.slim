@@ -14,3 +14,6 @@ p = @question.body
 
   = render 'form'
   p = link_to 'Delete', @question, method: :delete
+
+- if @question.award
+  = render @question.award

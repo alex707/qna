@@ -56,6 +56,12 @@ RSpec.describe QuestionsController, type: :controller do
         expect(assigns(:question).links.first).to be_a_new(Link)
       end
 
+      it 'build new award for @question' do
+        get :new
+
+        expect(assigns(:question).award).to be_a_new(Award)
+      end
+
       it 'renders new view' do
         get :new
 
@@ -116,6 +122,10 @@ RSpec.describe QuestionsController, type: :controller do
 
         it 'new question saves in database' do
           expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        end
+
+        it 'simple new question saves in database without award' do
+          expect { post :create, params: { question: attributes_for(:question) } }.to change(Award, :count).by(0)
         end
 
         it 'redirects to show view' do
