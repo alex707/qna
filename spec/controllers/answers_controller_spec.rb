@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
+  let(:other_user) { create(:user) }
   let(:question) { create(:question_with_answers, user: user) }
-  let(:new_answer) { create(:answer, question: question, user: user) }
+  let(:new_answer) { create(:answer, question: question, user: other_user) }
   let(:answer_with_links) { create(:answer, :with_links, question: question, user: user) }
 
   describe 'POST #favour' do
@@ -17,6 +18,7 @@ RSpec.describe AnswersController, type: :controller do
           answer.reload
 
           expect(answer).to be_favourite
+          expect(answer.user.awards.first.name).to eq 'MyAward'
         end
 
         it 'make another the answer as favourite' do
@@ -30,6 +32,9 @@ RSpec.describe AnswersController, type: :controller do
 
           expect(new_answer).to be_favourite
           expect(answer).to_not eq be_favourite
+
+          expect(new_answer.user.awards.first.name).to eq 'MyAward'
+          expect(answer.user.awards.first).to be_nil
         end
       end
 

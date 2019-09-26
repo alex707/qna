@@ -32,8 +32,7 @@ feature 'User can create question', %q{
 
       fill_in 'Award name', with: 'test award'
 
-      images = Dir.glob("#{Rails.root}/*.jpg")
-      attach_file 'Award image', images.first
+      attach_file 'Award image', Dir.glob("#{Rails.root}/*.jpg").first
 
       click_on 'Ask'
 

@@ -9,6 +9,7 @@ FactoryBot.define do
       end
 
       after(:create) do |question, evaluator|
+        question.create_award!(name: 'MyAward')
         create_list(:answer, evaluator.answers_count, question: question, user: question.user)
       end
     end

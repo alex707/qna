@@ -15,19 +15,35 @@ RSpec.describe Answer, type: :model do
 
   describe 'checking current answer as favourite' do
     let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
     let(:question) { create(:question_with_answers, user: user) }
     let(:answer) { create(:answer, question: question, user: user) }
-    let(:new_answer) { create(:answer, question: question, user: user) }
+    let(:new_answer) { create(:answer, question: question, user: other_user) }
 
     it 'makes answer favourite' do
       answer.favour
       expect(answer).to be_favourite
     end
 
+    it 'give award for user of favorite answer' do
+      answer.favour
+      expect(answer.user.awards.first.name).to eq 'MyAward'
+    end
+
     it 'other answer of current question is favourite instead of old' do
+      answer.favour
       new_answer.favour
+      answer.reload
       expect(answer).to_not be_favourite
       expect(new_answer).to be_favourite
+    end
+
+    it 'give award for user of other favorite answer' do
+      answer.favour
+      new_answer.favour
+      answer.reload
+      expect(answer.user.awards.first).to be_nil
+      expect(new_answer.user.awards.first.name).to eq 'MyAward'
     end
 
     it 'favourite is first' do
