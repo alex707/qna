@@ -1,7 +1,14 @@
+- title ||= false
 .award-name
+  - if title
+    | Question title:
+    = award.question.title
+    br
+  | Award name:
   = award.name
   br
   - if award.image.attached?
+    | Award image:
     = link_to award.image.filename.to_s, url_for(award.image)
     br
     = image_tag award.image

@@ -9,7 +9,11 @@ FactoryBot.define do
       end
 
       after(:create) do |question, evaluator|
-        question.create_award!(name: 'MyAward')
+        question.create_award!(name: "MyAward_#{question.id}")
+        question.award.image.attach(
+          io: File.open(Dir.glob("#{Rails.root}/*.jpg").first),
+          filename: 'award.jpg'
+        )
         create_list(:answer, evaluator.answers_count, question: question, user: question.user)
       end
     end
