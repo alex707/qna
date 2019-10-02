@@ -58,6 +58,7 @@ feature 'User can pick up favourite answer', %q{
 
           expect(page).to have_content(old_answer.body)
 
+          sleep 0.5
           within all('.answer')[0] do
             expect(page).to have_content new_answer.body
             expect(page).to_not have_content(old_answer.body)

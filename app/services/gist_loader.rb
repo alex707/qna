@@ -16,18 +16,21 @@ class GistLoader
 
   private
 
-  def gist_link
+  def gist_path
     m = @link.match(/[a-zA-Z0-9]{32}$/)
-    "https://api.github.com/gists/#{m[0]}" if m
+    "gists/#{m[0]}" if m
   end
 
   def load_data
-    return unless gist_link
+    return unless gist_path
 
-    response = Net::HTTP.get_response(URI(gist_link))
-    return unless response.is_a?(Net::HTTPSuccess)
+    response = Faraday.new('https://api.github.com/').get(gist_path)
+    return if response&.body&.empty?
 
     e = JSON.parse(response.body)
-    e['files'].values.first['content']
+    e['files']&.values&.first&.try(:[], 'content')
+  rescue Faraday::ConnectionFailed => e
+    Rails.logger.info "Connection failed: #{e}"
+    nil
   end
 end

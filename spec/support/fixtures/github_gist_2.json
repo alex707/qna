@@ -1,0 +1,10 @@
+{
+  "url": "https://api.github.com/gists/71d5c90e5cf72dc9765a2eebc2bfb416",
+  "files": {
+    "gistfile1.txt": {
+      "filename": "gistfile1.txt",
+      "type": "text/plain",
+      "content": "# get-запрос на главную страницу сервера httpbin.org, хоста httpbin.org\nncat -C httpbin.org 80\nGET / HTTP/1.1\nHost: httpbin.org\n\n\n# get-запрос к серверу httpbin.org на 80й порт\n# с аргументами\n# на хост httpbim.org. страница - anything\nncat -C httpbin.org 80\nGET /anything?arg1=1&arg2=2 HTTP/1.1\nHost: httpbin.org\n\n\n# post-запрос к странице /anything на хост httpbin.org (виртуальный)\n# длина контента - обязательна. равна длине передаваемой строки\nncat -C httpbin.org 80\nPOST /anything HTTP/1.1\nContent-Length: 6\nHost: httpbin.org\n1234ba\n"
+    }
+  }
+}

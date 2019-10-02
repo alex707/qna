@@ -12,6 +12,17 @@ feature 'User can add links to answer', %{
   given(:bad_url) { 'foo@bar@123.ru' }
 
   before do
+    stub_request(:get, /api.github.com/).to_return(
+      status: 200,
+      body: File.new("#{Rails.root}/spec/support/fixtures/github_gist_2.json")
+    )
+
+    stub_request(:get, /ya.ru/).to_return(
+      status: 200, body: '<html>some html<html>'
+    )
+  end
+
+  before do
     sign_in(user)
     visit question_path(question)
 
