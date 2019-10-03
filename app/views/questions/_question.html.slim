@@ -2,8 +2,7 @@ h1 = @question.title
 p = @question.body
 .links
   ul
-    - @question.links.each do |link|
-      = render link
+    = render @question.links
 
 = render template: 'collections/show', locals: { resource: @question }
 

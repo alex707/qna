@@ -27,7 +27,7 @@ RSpec.describe Answer, type: :model do
 
     it 'give award for user of favorite answer' do
       answer.favour
-      expect(answer.user.awards.first.name).to eq "MyAward_#{answer.question.id}"
+      expect(answer.user.awards).to eq [answer.question.award]
     end
 
     it 'other answer of current question is favourite instead of old' do
@@ -43,7 +43,7 @@ RSpec.describe Answer, type: :model do
       new_answer.favour
       answer.reload
       expect(answer.user.awards.first).to be_nil
-      expect(new_answer.user.awards.first.name).to eq "MyAward_#{new_answer.question.id}"
+      expect(new_answer.user.awards).to eq [new_answer.question.award]
     end
 
     it 'favourite is first' do

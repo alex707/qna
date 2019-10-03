@@ -18,7 +18,7 @@ RSpec.describe AnswersController, type: :controller do
           answer.reload
 
           expect(answer).to be_favourite
-          expect(answer.user.awards.first.name).to eq "MyAward_#{question.id}"
+          expect(answer.user.awards).to eq [question.award]
         end
 
         it 'make another the answer as favourite' do
@@ -33,7 +33,7 @@ RSpec.describe AnswersController, type: :controller do
           expect(new_answer).to be_favourite
           expect(answer).to_not eq be_favourite
 
-          expect(new_answer.user.awards.first.name).to eq "MyAward_#{question.id}"
+          expect(new_answer.user.awards).to eq [question.award]
           expect(answer.user.awards.first).to be_nil
         end
       end

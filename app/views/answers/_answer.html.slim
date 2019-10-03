@@ -5,8 +5,7 @@
     = answer.body
     .links
       ul
-        - answer.links.each do |link|
-          = render link
+        = render answer.links
     = render template: 'collections/show', locals: { resource: answer }
 
     - if current_user&.author?(answer)

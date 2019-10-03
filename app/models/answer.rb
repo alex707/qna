@@ -17,7 +17,7 @@ class Answer < ApplicationRecord
     transaction do
       question.answers.favourite.update_all(favourite: false)
       update!(favourite: true)
-      question.award&.update(user: user)
+      question.award&.update!(user: user)
     end
   end
 end
