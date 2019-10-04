@@ -46,11 +46,11 @@ feature 'User can add links to answer', %{
       click_on 'Write'
     end
 
-    sleep 5
-
-    within '.answers' do
-      expect(page).to have_content('get-запрос на главную')
-      expect(page).to have_link 'My url ya', href: url_ya
+    using_wait_time 5 do
+      within '.answers' do
+        expect(page).to have_content('get-запрос на главную')
+        expect(page).to have_link 'My url ya', href: url_ya
+      end
     end
   end
 
