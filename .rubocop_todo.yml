@@ -92,6 +92,7 @@ Style/Documentation:
     - 'app/models/question.rb'
     - 'app/models/user.rb'
     - 'app/models/link.rb'
+    - 'app/models/concerns/linkable.rb'
     - 'config/application.rb'
     - 'db/migrate/*'
 
