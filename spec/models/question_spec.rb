@@ -14,10 +14,6 @@ RSpec.describe Question, type: :model do
     it_behaves_like 'linkable'
   end
 
-  describe Question.new.links do
-    it_behaves_like 'a link'
-  end
-
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
