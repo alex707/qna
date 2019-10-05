@@ -13,6 +13,10 @@ RSpec.describe Answer, type: :model do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
+  describe Answer.new.links do
+    it_behaves_like 'a link'
+  end
+
   describe 'checking current answer as favourite' do
     let(:user) { create(:user) }
     let(:other_user) { create(:user) }
