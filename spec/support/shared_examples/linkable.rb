@@ -6,7 +6,6 @@ shared_examples 'linkable' do
     it { accept_nested_attributes_for(:links) }
   end
 
-
   context 'link content' do
     context 'gist link' do
       let(:link) do
@@ -23,8 +22,17 @@ shared_examples 'linkable' do
         )
       end
 
+      it 'create content object for link' do
+        expect(link.gist_content).to be_nil
+
+        link.download
+
+        expect(link.gist_content).to be_an_instance_of(GistContent)
+      end
+
       it "return gist's content" do
-        expect(link.gist_content).to include('minute%2Cmonth%2Cyear%2Csecond')
+        link.download
+        expect(link.gist_content.content).to include('minute%2Cmonth%2Cyear%2Csecond')
       end
     end
 
@@ -43,6 +51,14 @@ shared_examples 'linkable' do
       end
 
       it 'if simple link return null' do
+        expect(link.gist_content).to be_nil
+      end
+
+      it 'content object for link is not created' do
+        expect(link.gist_content).to be_nil
+
+        link.download
+
         expect(link.gist_content).to be_nil
       end
     end

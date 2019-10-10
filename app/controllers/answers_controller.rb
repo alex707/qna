@@ -20,6 +20,7 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.build(answer_params)
     @answer.user = current_user
+    @answer.links.map(&:download)
 
     if @answer.save
       flash.now[:notice] = 'Your answer successfully created.'
