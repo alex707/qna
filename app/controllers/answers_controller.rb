@@ -20,9 +20,9 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.build(answer_params)
     @answer.user = current_user
-    @answer.links.map(&:download)
 
     if @answer.save
+      @answer.links.each(&:download!)
       flash.now[:notice] = 'Your answer successfully created.'
     else
       flash.now[:alert] = 'An error(s) occurred while saving answer'

@@ -9,11 +9,12 @@ class Link < ApplicationRecord
                       with: URI::DEFAULT_PARSER.make_regexp,
                       message: "'%{value}' is bad link."
 
-  def download
+  default_scope { includes(:gist_content) }
+
+  def download!
     content = GistLoader.new(url).gist_content
     return unless content
 
-    gist_content&.destroy
-    build_gist_content(content: content)
+    build_gist_content(content: content).save
   end
 end

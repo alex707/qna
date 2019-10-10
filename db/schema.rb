@@ -81,8 +81,6 @@ ActiveRecord::Schema.define(version: 2019_10_10_052627) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.bigint "accepted_id"
-    t.index ["accepted_id"], name: "index_questions_on_accepted_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
@@ -104,6 +102,5 @@ ActiveRecord::Schema.define(version: 2019_10_10_052627) do
   add_foreign_key "awards", "questions"
   add_foreign_key "awards", "users"
   add_foreign_key "gist_contents", "links"
-  add_foreign_key "questions", "answers", column: "accepted_id"
   add_foreign_key "questions", "users"
 end
