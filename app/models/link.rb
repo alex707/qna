@@ -15,6 +15,6 @@ class Link < ApplicationRecord
     content = GistLoader.new(url).gist_content
     return unless content
 
-    build_gist_content(content: content).save
+    create_gist_content!(content: content)
   end
 end
