@@ -1,4 +1,6 @@
 class Answer < ApplicationRecord
+  include Linkable
+
   has_many_attached :files
 
   belongs_to :question
@@ -14,6 +16,7 @@ class Answer < ApplicationRecord
     transaction do
       question.answers.favourite.update_all(favourite: false)
       update!(favourite: true)
+      question.award&.update!(user: user)
     end
   end
 end

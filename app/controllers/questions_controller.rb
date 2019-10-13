@@ -8,10 +8,13 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.new
+    @answer.links.build
   end
 
   def new
     @question = Question.new
+    @question.links.build
+    @question.build_award
   end
 
   def edit
@@ -22,6 +25,7 @@ class QuestionsController < ApplicationController
     @question.user = current_user
 
     if @question.save
+      @question.links.each(&:download!)
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new
@@ -55,7 +59,15 @@ class QuestionsController < ApplicationController
 
   helper_method :question
 
+  # rubocop:disable Style/SymbolArray
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(
+      :title,
+      :body,
+      files: [],
+      links_attributes: [:id, :name, :url, :_destroy],
+      award_attributes: [:name, :image]
+    )
   end
+  # rubocop:enable Style/SymbolArray
 end

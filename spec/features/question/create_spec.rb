@@ -14,13 +14,32 @@ feature 'User can create question', %q{
       visit questions_path
       click_on 'Ask question'
 
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text text text'
+      fill_in 'Title question', with: 'Test question'
+      fill_in 'Question body', with: 'text text text'
       click_on 'Ask'
 
       expect(page).to have_content 'Your question successfully created.'
       expect(page).to have_content 'Test question'
       expect(page).to have_content 'text text text'
+    end
+
+    scenario 'asks a question with award' do
+      visit questions_path
+      click_on 'Ask question'
+
+      fill_in 'Title question', with: 'Test question'
+      fill_in 'Question body', with: 'text text text'
+
+      fill_in 'Award name', with: 'test award'
+
+      attach_file 'Award image', Dir.glob("#{Rails.root}/*.jpg").first
+
+      click_on 'Ask'
+
+      expect(page).to have_content 'Your question successfully created.'
+      expect(page).to have_content 'Test question'
+      expect(page).to have_content 'text text text'
+      expect(page).to have_content 'test award'
     end
 
     scenario 'asks a question with errors' do
@@ -36,8 +55,8 @@ feature 'User can create question', %q{
       visit questions_path
       click_on 'Ask question'
 
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text text text'
+      fill_in 'Title question', with: 'Test question'
+      fill_in 'Question body', with: 'text text text'
 
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 

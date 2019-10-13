@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe QuestionsController, type: :controller do
   let(:user) { create(:user) }
   let(:question) { create(:question, user: user) }
+  let(:question_with_links) { create(:question, :with_links, user: user) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3, user: user) }
@@ -26,6 +27,14 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question)).to eq question
     end
 
+    it 'assigns new answer for @question' do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end
+
+    it 'assigns new answer for @question with links' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
+
     it 'renders show view' do
       expect(response).to render_template(:show)
     end
@@ -39,6 +48,18 @@ RSpec.describe QuestionsController, type: :controller do
         get :new
 
         expect(assigns(:question)).to be_a_new(Question)
+      end
+
+      it 'build new link for @question' do
+        get :new
+
+        expect(assigns(:question).links.first).to be_a_new(Link)
+      end
+
+      it 'build new award for @question' do
+        get :new
+
+        expect(assigns(:question).award).to be_a_new(Award)
       end
 
       it 'renders new view' do
@@ -103,6 +124,10 @@ RSpec.describe QuestionsController, type: :controller do
           expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
         end
 
+        it 'simple new question saves in database without award' do
+          expect { post :create, params: { question: attributes_for(:question) } }.to change(Award, :count).by(0)
+        end
+
         it 'redirects to show view' do
           post :create, params: { question: attributes_for(:question), user: user }
 
@@ -120,6 +145,16 @@ RSpec.describe QuestionsController, type: :controller do
         it 're-renders new view' do
           post :create, params: { question: attributes_for(:question, :invalid) }
           expect(response).to render_template :new
+        end
+
+        it 'does not save question with bad link' do
+          expect {
+            post :create, params: {
+              question: attributes_for(:question).merge(
+                links_attributes: { '0' => { name: 'a', url: 'a' } }
+              )
+            }
+          }.to change(Question, :count).by(0)
         end
       end
     end
@@ -154,6 +189,22 @@ RSpec.describe QuestionsController, type: :controller do
           expect(question.body).to eq 'new b'
         end
 
+        it 'remove question link' do
+          l = question_with_links.links.first
+
+          expect {
+            patch :update, params: {
+              id: question_with_links,
+              question: {
+                title: 'new t', body: 'new b',
+                links_attributes: {
+                  '0' => { name: l.name, url: l.url, id: l.id, _destroy: '1' }
+                }
+              }
+            }, format: :js
+          }.to change(Link, :count).by(-1)
+        end
+
         it 'render template update' do
           patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
           expect(response).to render_template :update
@@ -172,6 +223,20 @@ RSpec.describe QuestionsController, type: :controller do
         it 'renders template update' do
           patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
           expect(response).to render_template :update
+        end
+
+        it 'does not change question with bad links' do
+          expect {
+            patch :update, params: {
+              id: question,
+              question: { title: 'new t', body: 'new b' }.merge(
+                links_attributes: { '0' => { name: 'a', url: 'a' } }
+              )
+            }, format: :js
+          }.to change(Link, :count).by(0)
+
+          expect(question.title).to_not eq 'new t'
+          expect(question.body).to_not eq 'new b'
         end
       end
     end

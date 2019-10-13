@@ -2,8 +2,10 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
+  let(:other_user) { create(:user) }
   let(:question) { create(:question_with_answers, user: user) }
-  let(:new_answer) { create(:answer, question: question, user: user) }
+  let(:new_answer) { create(:answer, question: question, user: other_user) }
+  let(:answer_with_links) { create(:answer, :with_links, question: question, user: user) }
 
   describe 'POST #favour' do
     context 'as an authenticated user' do
@@ -16,6 +18,7 @@ RSpec.describe AnswersController, type: :controller do
           answer.reload
 
           expect(answer).to be_favourite
+          expect(answer.user.awards).to eq [question.award]
         end
 
         it 'make another the answer as favourite' do
@@ -29,6 +32,9 @@ RSpec.describe AnswersController, type: :controller do
 
           expect(new_answer).to be_favourite
           expect(answer).to_not eq be_favourite
+
+          expect(new_answer.user.awards).to eq [question.award]
+          expect(answer.user.awards.first).to be_nil
         end
       end
 
@@ -126,6 +132,20 @@ RSpec.describe AnswersController, type: :controller do
 
           expect(response).to render_template :create
         end
+
+        it 'does not save answer with bad links' do
+          answer_params = {
+            question_id: question,
+            answer: attributes_for(:answer).merge(
+              links_attributes: {
+                '0' => { name: 'b', url: 'b' }
+              }
+            )
+          }
+          expect {
+            post :create, params: answer_params, format: :js
+          }.to change(question.answers, :count).by(0)
+        end
       end
     end
 
@@ -155,6 +175,22 @@ RSpec.describe AnswersController, type: :controller do
             expect(answer.body).to eq 'new body'
           end
 
+          it 'remove answer link' do
+            l = answer_with_links.links.first
+
+            expect {
+              patch :update, params: {
+                id: answer_with_links,
+                answer: {
+                  body: 'new answer b',
+                  links_attributes: {
+                    '0' => { name: l.name, url: l.url, id: l.id, _destroy: '1' }
+                  }
+                }
+              }, format: :js
+            }.to change(Link, :count).by(-1)
+          end
+
           it 'renders update view' do
             patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
             expect(response).to render_template :update
@@ -173,6 +209,22 @@ RSpec.describe AnswersController, type: :controller do
           it 'renders update view' do
             patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
             expect(response).to render_template :update
+          end
+
+          it 'does not change answer with bad links' do
+            answer_params = {
+              question_id: question,
+              answer: { body: 'new answer body' }.merge(
+                links_attributes: {
+                  '0' => { name: 'b', url: 'b' }
+                }
+              )
+            }
+            expect {
+              post :create, params: answer_params, format: :js
+            }.to change(Link, :count).by(0)
+
+            expect(answer.body).to_not eq 'new answer body'
           end
         end
       end

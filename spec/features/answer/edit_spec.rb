@@ -9,6 +9,7 @@ feature 'User can edit his answer', %q{
   given!(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, :with_files, question: question, user: user) }
   given(:other_user) { create(:user) }
+  given(:answer_with_links) { create(:answer, :with_links, question: question, user: user) }
 
   scenario 'Unauthenticated user can not edit answer' do
     visit question_path(question)
@@ -66,6 +67,48 @@ feature 'User can edit his answer', %q{
         expect(page).to have_link 'spec_helper.rb'
         expect(page).to have_link 'answers.rb'
       end
+    end
+
+    scenario 'add link to existing links on answer', js: true do
+      sign_in(user)
+      visit question_path(question)
+
+      within '.answers' do
+        within all('.answer').last do
+          click_on 'Edit'
+
+          click_on 'Add link for answer'
+
+          within all('.nested-fields').last do
+            fill_in 'Link name', with: 'some_link'
+            fill_in 'Url', with: 'https://some.com'
+          end
+
+          click_on 'Save'
+        end
+      end
+
+      expect(page).to have_link 'some_link', href: 'https://some.com'
+    end
+
+    scenario 'remove existing link on answer', js: true do
+      link1, link2 = answer_with_links.links[0..1]
+
+      sign_in(user)
+      visit question_path(question)
+
+      within '.answers' do
+        within all('.answer').last do
+          click_on 'Edit'
+
+          click_on 'Remove link', match: :first
+
+          click_on 'Save', match: :first
+        end
+      end
+
+      expect(page).to have_link link2.name, href: link2.url
+      expect(page).to_not have_link link1.name, href: link1.url
     end
 
     scenario 'remove existing on answer files', js: true do

@@ -31,7 +31,7 @@ feature 'User can pick up favourite answer', %q{
                 expect(page).to have_content answers[i].body
               end
 
-              expect(page).to have_content(answers[i].body).once
+              expect(page).to have_content(answers[i].body, wait: 2).once
             end
           end
         end
@@ -58,7 +58,7 @@ feature 'User can pick up favourite answer', %q{
           expect(page).to have_content(old_answer.body)
 
           within all('.answer')[0] do
-            expect(page).to have_content new_answer.body
+            expect(page).to have_content(new_answer.body, wait: 2)
             expect(page).to_not have_content(old_answer.body)
           end
 

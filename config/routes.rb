@@ -11,4 +11,6 @@ Rails.application.routes.draw do
   end
 
   resources :collections, only: :destroy
+
+  resources :awards, only: :index
 end

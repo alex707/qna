@@ -1,0 +1,10 @@
+{
+  "url": "https://api.github.com/gists/d6a7726c9132942cf755aa8e6fb52bfb",
+  "files": {
+    "gistfile1.txt": {
+      "filename": "gistfile1.txt",
+      "type": "text/plain",
+      "content": "\ncurl --url \"http://localhost:9292/time?format=minute%2Cmonth%2Cyear%2Csecond\" -i\n\n: увидеть заголовки\ncurl --url localhost:9292 -v\n\n: POST запрос\ncurl --url localhost:9292 -v -X POST\n\ncurl --url localhost:9292"
+    }
+  }
+}

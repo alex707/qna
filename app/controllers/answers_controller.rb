@@ -22,6 +22,7 @@ class AnswersController < ApplicationController
     @answer.user = current_user
 
     if @answer.save
+      @answer.links.each(&:download!)
       flash.now[:notice] = 'Your answer successfully created.'
     else
       flash.now[:alert] = 'An error(s) occurred while saving answer'
@@ -52,9 +53,13 @@ class AnswersController < ApplicationController
 
   private
 
+  # rubocop:disable Style/SymbolArray
   def answer_params
-    params.require(:answer).permit(:body, files: [])
+    params.require(:answer).permit(
+      :body, files: [], links_attributes: [:id, :name, :url, :_destroy]
+    )
   end
+  # rubocop:enable Style/SymbolArray
 
   def load_question
     @question = Question.find(params[:question_id])

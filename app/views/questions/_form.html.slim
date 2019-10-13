@@ -1,0 +1,24 @@
+= form_with model: @question, class: form_class(@question),
+  html: { id: "edit-question-#{@question.id}" } do |f|
+  p
+    = f.label :title, 'Title question'
+    = f.text_field :title
+  p
+    = f.label :body, 'Question body'
+    = f.text_area :body
+  p
+    = f.label :files
+    = f.file_field :files, multiple: true
+  p
+  #question-links
+    = f.fields_for :links do |l|
+      = render 'links/link_fields', f: l
+    .links
+      = link_to_add_association 'Add link for question', f, :links,
+        partial: 'links/link_fields'
+  .new-award
+    = f.fields_for :award do |a|
+      = render 'awards/award_fields', f: a
+
+  p = f.submit @question.new_record? ? 'Ask' : 'Save question'
+  end

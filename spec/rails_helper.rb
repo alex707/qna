@@ -36,28 +36,8 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
 
-  Capybara.javascript_driver = :headless_chrome
-
-  driver_name = :headless_chrome
-  browser_name = :chrome
-  driver_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    # see
-    # https://robots.thoughtbot.com/headless-feature-specs-with-chrome
-    # https://developers.google.com/web/updates/2017/04/headless-chrome
-    chromeOptions: {
-      args: %w[headless disable-gpu no-sandbox],
-      # https://github.com/heroku/heroku-buildpack-google-chrome#selenium
-      binary: ENV.fetch('GOOGLE_CHROME_SHIM', nil)
-    }.reject { |_, v| v.nil? }
-  )
-
-  Capybara.register_driver driver_name do |app|
-    Capybara::Selenium::Driver.new(
-      app,
-      browser: browser_name,
-      desired_capabilities: driver_capabilities
-    )
-  end
+  Capybara.javascript_driver = :selenium_chrome_headless
+  # Capybara.default_max_wait_time = 5
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

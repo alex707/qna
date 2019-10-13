@@ -15,7 +15,7 @@ feature 'User can write answer for question on question page', %q{
     end
 
     scenario 'User can write answer', js: true do
-      fill_in 'Body', with: 'Test answer'
+      fill_in 'Your answer', with: 'Test answer'
 
       click_on 'Write'
 
@@ -35,7 +35,7 @@ feature 'User can write answer for question on question page', %q{
 
     scenario 'write the answer with attached file', js: true do
       within 'div.new-answer' do
-        fill_in 'Body', with: 'Test answer'
+        fill_in 'Your answer', with: 'Test answer'
 
         attach_file 'File', [
           "#{Rails.root}/spec/models/answer_spec.rb",

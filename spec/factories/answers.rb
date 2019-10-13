@@ -24,5 +24,22 @@ FactoryBot.define do
         )
       end
     end
+
+    trait :with_links do
+      after :create do |answer|
+        answer.links.create!(
+          [
+            {
+              name: 'duckduckgo',
+              url: 'https://www.duckduckgo.com'
+            },
+            {
+              name: 'Wolfram|Alpha',
+              url: 'https://www.wolframalpha.com/'
+            }
+          ]
+        )
+      end
+    end
   end
 end
