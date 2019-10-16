@@ -1,7 +1,7 @@
 - answer_id = entity.id unless entity.is_a?(Array)
 = form_with model: entity, class: answer_id ? 'hidden' : 'new-answer',
   html: { id: "edit-answer-#{answer_id || 'new'}" },
-  data: { type: :html } do |f|
+  data: { type: :json } do |f|
   p
     = f.label :body, 'Your answer'
     = f.text_area :body

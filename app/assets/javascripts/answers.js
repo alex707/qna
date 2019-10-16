@@ -6,14 +6,17 @@ $(document).on('turbolinks:load', function(){
     $('form#edit-answer-' + answerId).removeClass('hidden');
   })
 
-  $('form.new-answer').on('ajax:success', function (e) {
-    var xhr = e.detail[2];
 
-    $('.answers').append(xhr.responseText);
+  $('form.new-answer').on('ajax:success', function (e) {
+    var answer = e.detail[0];
+
+    $('.answers').append('<p>' + answer.body + '</p>');
   })
     .on('ajax:error', function (e) {
-      var xhr = e.detail[2];
+      var errors = e.detail[0];
 
-      $('.answer-errors').html(xhr.responseText);
+      $.each(errors, function(index, value){
+        $('.answer-errors').append('<p>' + value + '</p>');
+      })
     })
 });

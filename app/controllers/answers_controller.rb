@@ -26,13 +26,12 @@ class AnswersController < ApplicationController
         @answer.links.each(&:download!)
         flash.now[:notice] = 'Your answer successfully created.'
 
-        format.html { render @answer }
+        format.json { render json: @answer }
       else
         flash.now[:alert] = 'An error(s) occurred while saving answer'
 
-        format.html do
-          render partial: 'shared/errors',
-                 locals: { resource: @answer },
+        format.json do
+          render json: @answer.errors.full_messages,
                  status: :unprocessable_entity
         end
       end
