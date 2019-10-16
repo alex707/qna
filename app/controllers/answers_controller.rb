@@ -21,11 +21,21 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
     @answer.user = current_user
 
-    if @answer.save
-      @answer.links.each(&:download!)
-      flash.now[:notice] = 'Your answer successfully created.'
-    else
-      flash.now[:alert] = 'An error(s) occurred while saving answer'
+    respond_to do |format|
+      if @answer.save
+        @answer.links.each(&:download!)
+        flash.now[:notice] = 'Your answer successfully created.'
+
+        format.html { render @answer }
+      else
+        flash.now[:alert] = 'An error(s) occurred while saving answer'
+
+        format.html do
+          render partial: 'shared/errors',
+                 locals: { resource: @answer },
+                 status: :unprocessable_entity
+        end
+      end
     end
   end
 
