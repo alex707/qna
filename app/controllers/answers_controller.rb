@@ -21,20 +21,11 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
     @answer.user = current_user
 
-    respond_to do |format|
-      if @answer.save
-        @answer.links.each(&:download!)
-        flash.now[:notice] = 'Your answer successfully created.'
-
-        format.json { render json: @answer }
-      else
-        flash.now[:alert] = 'An error(s) occurred while saving answer'
-
-        format.json do
-          render json: @answer.errors.full_messages,
-                 status: :unprocessable_entity
-        end
-      end
+    if @answer.save
+      @answer.links.each(&:download!)
+      flash.now[:notice] = 'Your answer successfully created.'
+    else
+      flash.now[:alert] = 'An error(s) occurred while saving answer'
     end
   end
 
