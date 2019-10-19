@@ -112,7 +112,7 @@ RSpec.describe QuestionsController, type: :controller do
         before { login(user) }
 
         it 'author assigns to @question.user' do
-          attrs = attributes_for(:question)
+          attrs = attributes_for(:question, user: user)
           post :create, params: { question: attrs }
 
           expect(Question.exists?(attrs)).to eq true

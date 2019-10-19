@@ -3,6 +3,8 @@ FactoryBot.define do
     sequence :body do |n|
       "MyText#{n.to_s.rjust(20, '0')}"
     end
+    user { create(:user) }
+    question { create(:question) }
 
     trait :invalid do
       body { nil }
