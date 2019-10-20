@@ -5,8 +5,8 @@ module Voteable
     has_many :votes, dependent: :destroy, as: :voteable
   end
 
-  def vote(value, voter)
-    return if voter.id == user.id
+  def vote!(value, voter)
+    return if voter.nil? || voter.id == user.id
 
     vote = votes.find_or_create_by(user: voter)
     vote.update!(value: value)

@@ -71,6 +71,7 @@ Style/BlockDelimiters:
     - 'spec/controllers/answers_controller_spec.rb'
     - 'spec/controllers/collections_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
+    - 'spec/controllers/concerns/voted_spec.rb'
     - 'spec/models/link_spec.rb'
     - 'spec/support/shared_examples/voteable.rb'
 
@@ -83,6 +84,7 @@ Style/Documentation:
     - 'app/controllers/awards_controller.rb'
     - 'app/controllers/collections_controller.rb'
     - 'app/controllers/questions_controller.rb'
+    - 'app/controllers/concerns/voted.rb'
     - 'app/helpers/answers_helper.rb'
     - 'app/helpers/awards_helper.rb'
     - 'app/helpers/application_helper.rb'
