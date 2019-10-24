@@ -10,7 +10,7 @@ module Voted
       if @voteable.vote!(params[:value], current_user)
         format.json { render json: :ok, status: 200 }
       else
-        format.json { render json: :error, status: :unprocessable_entity }
+        format.json { render json: { error: 'Only not owner can vote.' }, status: :unprocessable_entity }
       end
     end
   end

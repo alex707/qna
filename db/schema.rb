@@ -114,4 +114,5 @@ ActiveRecord::Schema.define(version: 2019_10_19_102424) do
   add_foreign_key "awards", "users"
   add_foreign_key "gist_contents", "links"
   add_foreign_key "questions", "users"
+  add_foreign_key "votes", "users"
 end
