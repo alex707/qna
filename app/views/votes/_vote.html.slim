@@ -1,0 +1,12 @@
+- votes = resource.votes
+- if current_user && current_user.id != resource.user.id
+  = vote_button 'like', resource
+  = vote_button 'liked', resource
+  br
+  = vote_button 'dislike', resource
+  = vote_button 'disliked', resource
+
+div class="#{resource.class.to_s.downcase}-#{resource.id}-likes"
+  = votes.likes.count
+div class="#{resource.class.to_s.downcase}-#{resource.id}-dislikes"
+  = votes.dislikes.count

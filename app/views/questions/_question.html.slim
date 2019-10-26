@@ -18,15 +18,5 @@ p = @question.body
 - if @question.award
   = render @question.award
 
-.question-votes
-  - if current_user && current_user.id != @question.user.id
-    = vote_button 'like', @question
-    = vote_button 'liked', @question
-    br
-    = vote_button 'dislike', @question
-    = vote_button 'disliked', @question
-
-  .likes
-    = @question.likes.count
-  .dislikes
-    = @question.dislikes.count
+div class="question-#{@question.id}-votes"
+  = render 'votes/vote', resource: @question

@@ -53,7 +53,9 @@ Metrics/BlockLength:
     - 'spec/controllers/answers_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
     - 'spec/features/answer/edit_spec.rb'
+    - 'spec/features/answer/vote_spec.rb'
     - 'spec/features/question/edit_spec.rb'
+    - 'spec/features/question/vote_spec.rb'
   Max: 88
 
 Metrics/MethodLength:
@@ -90,6 +92,7 @@ Style/Documentation:
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/collections_helper.rb'
     - 'app/helpers/questions_helper.rb'
+    - 'app/helpers/votes_helper.rb'
     - 'app/mailers/application_mailer.rb'
     - 'app/models/*'
     - 'app/models/concerns/linkable.rb'
