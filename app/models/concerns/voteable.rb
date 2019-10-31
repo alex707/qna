@@ -6,10 +6,13 @@ module Voteable
   end
 
   def vote!(value, voter)
-    return if voter.nil? || voter.id == user.id
+    return if voter.nil? || voter == user
+    return vote_off!(voter) if value.nil?
 
-    vote = votes.find_or_create_by(user: voter)
-    vote.update!(value: value)
+    transaction do
+      vote = votes.find_or_initialize_by(user: voter)
+      vote.update!(value: value)
+    end
   end
 
   def likes
@@ -18,5 +21,11 @@ module Voteable
 
   def dislikes
     votes.dislikes
+  end
+
+  private
+
+  def vote_off!(voter)
+    votes.find_by(user: voter)&.destroy!
   end
 end

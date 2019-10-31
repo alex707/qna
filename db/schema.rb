@@ -100,9 +100,10 @@ ActiveRecord::Schema.define(version: 2019_10_19_102424) do
     t.bigint "user_id", null: false
     t.string "voteable_type", null: false
     t.bigint "voteable_id", null: false
-    t.string "value", default: "none", null: false
+    t.string "value", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id", "voteable_type", "voteable_id"], name: "index_votes_on_user_id_and_voteable_type_and_voteable_id", unique: true
     t.index ["user_id"], name: "index_votes_on_user_id"
     t.index ["voteable_type", "voteable_id"], name: "index_votes_on_voteable_type_and_voteable_id"
   end

@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :vote do
     user
-    voteable { question }
-    value { 'none' }
+    voteable { create(:question) }
+    value { 'like' }
   end
 end

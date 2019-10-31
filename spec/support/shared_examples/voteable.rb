@@ -26,7 +26,7 @@ shared_examples 'voteable' do
         voteable_object.vote!('like', stranger1)
         expect(voteable_object.likes.count).to eq 1
 
-        voteable_object.vote!('none', stranger1)
+        voteable_object.vote!(nil, stranger1)
         expect(voteable_object.likes.count).to eq 0
       end
 
