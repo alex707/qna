@@ -1,11 +1,11 @@
 module VotesHelper
   def vote_button(button, entity)
-    value = button.in?(%w[like dislike]) ? button : 'none'
+    value = button.in?(%w[like dislike]) ? button : nil
     klass = entity.class.to_s.downcase
     show = show_button?(button, entity)
 
     link_to button.capitalize,
-            send("vote_#{klass}_path", entity, value: value, voteable: klass),
+            send('vote_path', id: entity, value: value, voteable: klass),
             class: "vote-btn #{button} #{'hidden' unless show}",
             data: { parent_id: entity.id, value: button, parent_class: klass, type: :json },
             method: :post, remote: true

@@ -2,7 +2,7 @@ $(document).on('turbolinks:load', function(){
   $('a.vote-btn').on('ajax:success', function (e) {
     var res = e.detail[0];
 
-    if (res == 'ok') {
+    if (res === 'ok') {
       var current_element = $(this);
       var parent_id = current_element.data('parentId');
       var parent_klass = current_element.data('parentClass');
@@ -15,10 +15,6 @@ $(document).on('turbolinks:load', function(){
 
       var likes_counter = $('div.' + parent_klass + '-' + parent_id + '-likes');
       var dislikes_counter = $('div.' + parent_klass + '-' + parent_id + '-dislikes');
-
-      console.log(current_element.html())
-      console.log(likes_counter.html())
-      console.log(disliked_button.html())
 
       if (current_element.html() == 'Liked') {
         var count = likes_counter.html();

@@ -6,7 +6,7 @@ module Voteable
   end
 
   def vote!(value, voter)
-    return if voter.nil? || voter == user
+    return if voter.nil? || voter.author?(self)
     return vote_off!(voter) if value.nil?
 
     transaction do

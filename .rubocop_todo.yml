@@ -53,9 +53,8 @@ Metrics/BlockLength:
     - 'spec/controllers/answers_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
     - 'spec/features/answer/edit_spec.rb'
-    - 'spec/features/answer/vote_spec.rb'
     - 'spec/features/question/edit_spec.rb'
-    - 'spec/features/question/vote_spec.rb'
+    - 'spec/support/shared_examples/features/votes.rb'
   Max: 88
 
 Metrics/MethodLength:
@@ -73,9 +72,9 @@ Style/BlockDelimiters:
     - 'spec/controllers/answers_controller_spec.rb'
     - 'spec/controllers/collections_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
-    - 'spec/controllers/concerns/voted_spec.rb'
     - 'spec/models/link_spec.rb'
-    - 'spec/support/shared_examples/voteable.rb'
+    - 'spec/support/shared_examples/models/voteable.rb'
+    - 'spec/support/shared_examples/controllers/votes.rb'
 
 # Offense count: 12
 Style/Documentation:
@@ -86,7 +85,7 @@ Style/Documentation:
     - 'app/controllers/awards_controller.rb'
     - 'app/controllers/collections_controller.rb'
     - 'app/controllers/questions_controller.rb'
-    - 'app/controllers/concerns/voted.rb'
+    - 'app/controllers/votes_controller.rb'
     - 'app/helpers/answers_helper.rb'
     - 'app/helpers/awards_helper.rb'
     - 'app/helpers/application_helper.rb'

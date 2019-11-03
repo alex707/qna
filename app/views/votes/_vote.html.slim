@@ -1,5 +1,5 @@
 - votes = resource.votes
-- if current_user && current_user.id != resource.user.id
+- if current_user && !current_user.author?(resource)
   = vote_button 'like', resource
   = vote_button 'liked', resource
   br

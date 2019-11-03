@@ -19,7 +19,6 @@ class VotesController < ApplicationController
   end
 
   def load_entity
-    model_klass = params[:voteable].classify.constantize
-    @voteable = model_klass.find(params[:id])
+    @voteable = params[:voteable].classify.constantize.find(params[:id])
   end
 end
