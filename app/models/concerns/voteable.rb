@@ -26,6 +26,9 @@ module Voteable
   private
 
   def vote_off!(voter)
-    votes.find_by(user: voter)&.destroy!
+    vote = votes.find_by(user: voter)
+    return true unless vote
+
+    vote.destroy!
   end
 end

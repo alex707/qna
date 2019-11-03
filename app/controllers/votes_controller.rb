@@ -1,9 +1,6 @@
-module Voted
-  extend ActiveSupport::Concern
-
-  included do
-    before_action :set_voteable, only: [:vote]
-  end
+class VotesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :load_entity
 
   def vote
     respond_to do |format|
@@ -21,11 +18,8 @@ module Voted
     params.require(:vote).permit(:value, :id, :voteable)
   end
 
-  def model_klass
-    params[:voteable].classify.constantize
-  end
-
-  def set_voteable
+  def load_entity
+    model_klass = params[:voteable].classify.constantize
     @voteable = model_klass.find(params[:id])
   end
 end
