@@ -16,11 +16,15 @@ module Voteable
   end
 
   def likes
-    votes.likes
+    votes.likes.count
   end
 
   def dislikes
-    votes.dislikes
+    votes.dislikes.count
+  end
+
+  def voted?(user)
+    !!votes.find_by(user: user)
   end
 
   private

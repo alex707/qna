@@ -18,16 +18,16 @@ shared_examples 'voteable' do
       it 'not owner votes for voteable object' do
         voteable_object.vote!('like', stranger1)
 
-        expect(voteable_object.likes.count).to eq 1
-        expect(voteable_object.dislikes.count).to eq 0
+        expect(voteable_object.likes).to eq 1
+        expect(voteable_object.dislikes).to eq 0
       end
 
       it 'not owner takes his vote back' do
         voteable_object.vote!('like', stranger1)
-        expect(voteable_object.likes.count).to eq 1
+        expect(voteable_object.likes).to eq 1
 
         voteable_object.vote!(nil, stranger1)
-        expect(voteable_object.likes.count).to eq 0
+        expect(voteable_object.likes).to eq 0
       end
 
       it 'not owner votes several times' do
@@ -40,8 +40,8 @@ shared_examples 'voteable' do
         voteable_object.vote!('dislike', stranger1)
         voteable_object.vote!('dislike', stranger2)
 
-        expect(voteable_object.likes.count).to eq 0
-        expect(voteable_object.dislikes.count).to eq 2
+        expect(voteable_object.likes).to eq 0
+        expect(voteable_object.dislikes).to eq 2
       end
     end
 
@@ -49,7 +49,7 @@ shared_examples 'voteable' do
       it 'owner tries to vote for his voteable object' do
         expect {
           voteable_object.vote!('like', owner)
-        }.to change(Vote, :count).by(0)
+        }.not_to change(Vote, :count)
       end
     end
   end

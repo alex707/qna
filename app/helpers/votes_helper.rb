@@ -13,12 +13,12 @@ module VotesHelper
 
   private
 
-  def show_button?(button_name, entity)
+  def show_button?(button, entity)
     vote = entity.votes.find_by(user: current_user)
-    if button_name.in?(%w[like dislike])
-      vote.nil? ? true : vote.value != button_name
+    if button.in?(%w[like dislike])
+      !entity.voted?(current_user) || (button != vote.value)
     else
-      vote.nil? ? false : (button_name =~ Regexp.new(vote.value))&.zero?
+      entity.voted?(current_user) && (button =~ Regexp.new(vote.value))&.zero?
     end
   end
 end

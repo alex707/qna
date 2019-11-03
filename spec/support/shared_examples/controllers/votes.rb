@@ -12,7 +12,7 @@ shared_examples 'vote action' do
         like_params = { id: entity.id, value: 'like', voteable: entity_klass }
         expect {
           post :vote, params: like_params, format: :json
-        }.to change(entity.likes, :count).by(1)
+        }.to change { entity.likes }.by(1)
 
         expect(response).to have_http_status(:success)
         expect(response.body).to have_content('ok')
@@ -22,7 +22,7 @@ shared_examples 'vote action' do
         like_params = { id: entity.id, value: 'like', voteable: entity_klass }
         expect {
           5.times { post :vote, params: like_params, format: :json }
-        }.to change(entity.likes, :count).by(1)
+        }.to change { entity.likes }.by(1)
 
         expect(response).to have_http_status(:success)
         expect(response.body).to have_content('ok')
@@ -34,7 +34,7 @@ shared_examples 'vote action' do
         vote_off_params = { id: entity.id, voteable: entity_klass }
         expect {
           post :vote, params: vote_off_params, format: :json
-        }.to change(entity.likes, :count).by(-1)
+        }.to change { entity.likes }.by(-1)
 
         expect(response).to have_http_status(:success)
         expect(response.body).to have_content('ok')
@@ -46,7 +46,7 @@ shared_examples 'vote action' do
         vote_off_params = { id: entity.id, voteable: entity_klass }
         expect {
           5.times { post :vote, params: vote_off_params, format: :json }
-        }.to change(entity.likes, :count).by(-1)
+        }.to change { entity.likes }.by(-1)
 
         expect(response).to have_http_status(:success)
         expect(response.body).to have_content('ok')
@@ -60,7 +60,7 @@ shared_examples 'vote action' do
         like_params = { id: entity.id, value: 'like', voteable: entity_klass }
         expect {
           post :vote, params: like_params, format: :json
-        }.to change(entity.likes, :count).by(0)
+        }.not_to change(Vote, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to have_content('error')
@@ -73,7 +73,7 @@ shared_examples 'vote action' do
       like_params = { id: entity.id, value: 'like', voteable: entity_klass }
       expect {
         post :vote, params: like_params, format: :json
-      }.to change(entity.likes, :count).by(0)
+      }.not_to change(Vote, :count)
 
       expect(response).to have_http_status(:unauthorized)
       expect(response.body).to have_content('error')
