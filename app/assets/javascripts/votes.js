@@ -16,21 +16,21 @@ $(document).on('turbolinks:load', function(){
       var likes_counter = $('div.' + parent_klass + '-' + parent_id + '-likes');
       var dislikes_counter = $('div.' + parent_klass + '-' + parent_id + '-dislikes');
 
-      if (current_element.html() == 'Liked') {
+      if (current_element.html() === 'Liked') {
         var count = likes_counter.html();
         count = parseInt(count);
         likes_counter.html(count - 1);
 
         liked_button.addClass('hidden');
         like_button.removeClass('hidden');
-      } else if (current_element.html() == 'Disliked') {
+      } else if (current_element.html() === 'Disliked') {
         var count = dislikes_counter.html();
         count = parseInt(count);
         dislikes_counter.html(count - 1);
 
         disliked_button.addClass('hidden');
         dislike_button.removeClass('hidden');
-      } else if (current_element.html() == 'Like') {
+      } else if (current_element.html() === 'Like') {
         var count = likes_counter.html();
         count = parseInt(count);
         likes_counter.html(count + 1);
@@ -46,7 +46,7 @@ $(document).on('turbolinks:load', function(){
 
         like_button.addClass('hidden');
         liked_button.removeClass('hidden');
-      } else if (current_element.html() == 'Dislike') {
+      } else if (current_element.html() === 'Dislike') {
         var count = dislikes_counter.html();
         count = parseInt(count);
         dislikes_counter.html(count + 1);
