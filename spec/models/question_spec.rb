@@ -12,6 +12,7 @@ RSpec.describe Question, type: :model do
 
   describe Question do
     it_behaves_like 'linkable'
+    it_behaves_like 'voteable'
   end
 
   it 'have many attached files' do

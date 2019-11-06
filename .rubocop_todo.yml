@@ -49,10 +49,12 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Exclude:
+    - 'db/schema.rb'
     - 'spec/controllers/answers_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
     - 'spec/features/answer/edit_spec.rb'
     - 'spec/features/question/edit_spec.rb'
+    - 'spec/support/shared_examples/features/votes.rb'
   Max: 88
 
 Metrics/MethodLength:
@@ -71,6 +73,8 @@ Style/BlockDelimiters:
     - 'spec/controllers/collections_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
     - 'spec/models/link_spec.rb'
+    - 'spec/support/shared_examples/models/voteable.rb'
+    - 'spec/support/shared_examples/controllers/votes.rb'
 
 # Offense count: 12
 Style/Documentation:
@@ -81,14 +85,17 @@ Style/Documentation:
     - 'app/controllers/awards_controller.rb'
     - 'app/controllers/collections_controller.rb'
     - 'app/controllers/questions_controller.rb'
+    - 'app/controllers/votes_controller.rb'
     - 'app/helpers/answers_helper.rb'
     - 'app/helpers/awards_helper.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/collections_helper.rb'
     - 'app/helpers/questions_helper.rb'
+    - 'app/helpers/votes_helper.rb'
     - 'app/mailers/application_mailer.rb'
     - 'app/models/*'
     - 'app/models/concerns/linkable.rb'
+    - 'app/models/concerns/voteable.rb'
     - 'config/application.rb'
     - 'db/migrate/*'
 
@@ -168,6 +175,7 @@ Style/SymbolArray:
     - 'Gemfile'
     - 'config/routes.rb'
     - 'db/migrate/20190805102418_create_active_storage_tables.active_storage.rb'
+    - 'db/migrate/20191019102424_create_votes.rb'
 
 Style/SymbolProc:
   Exclude:

@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :question do
     title { "MyString" }
     body { "MyText" }
+    user { create(:user) }
 
     factory :question_with_answers do
       transient do

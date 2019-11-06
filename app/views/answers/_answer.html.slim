@@ -22,3 +22,6 @@
             br
             = link_to 'Favourite answer', favour_answer_path(answer),
               method: :post, remote: true
+
+  div class="answer-#{answer.id}-votes"
+    = render 'votes/vote', resource: answer

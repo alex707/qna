@@ -1,5 +1,6 @@
 class Answer < ApplicationRecord
   include Linkable
+  include Voteable
 
   has_many_attached :files
 
