@@ -1,5 +1,6 @@
 h1 = @question.title
 p = @question.body
+
 .links
   ul
     = render @question.links
@@ -16,3 +17,6 @@ p = @question.body
 
 - if @question.award
   = render @question.award
+
+div class="question-#{@question.id}-votes"
+  = render 'votes/vote', resource: @question

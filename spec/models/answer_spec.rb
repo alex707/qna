@@ -12,6 +12,7 @@ RSpec.describe Answer, type: :model do
 
   describe Answer do
     it_behaves_like 'linkable'
+    it_behaves_like 'voteable'
   end
 
   describe 'checking current answer as favourite' do
