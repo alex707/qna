@@ -11,3 +11,6 @@
   App.cable = ActionCable.createConsumer();
 
 }).call(this);
+
+// var App = App || {};
+// App.cable = ActionCable.createConsumer();

@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   resources :collections, only: :destroy
 
   resources :awards, only: :index
+
+  mount ActionCable.server => '/cable'
 end
