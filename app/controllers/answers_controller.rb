@@ -81,6 +81,18 @@ class AnswersController < ApplicationController
     end
   end
 
+  def files_attacher
+    return [] unless @answer.files.attached?
+
+    @answer.files.map do |file|
+      {
+        id: file.id,
+        name: file.filename.to_s,
+        url: url_for(file)
+      }
+    end
+  end
+
   def publish_answer
     return if @answer.errors.any?
 
@@ -88,7 +100,8 @@ class AnswersController < ApplicationController
     ActionCable.server.broadcast(
       "questions/#{@question.id}/answers",
       answer: @answer,
-      links: links_formatter
+      links: links_formatter,
+      files: files_attacher
     )
   end
 end

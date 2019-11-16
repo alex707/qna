@@ -12,3 +12,9 @@
             li.link
               a href="#{l.url}"
                 = l.name
+    .answer-files
+      ul
+        - for f in @files
+          li data-file-id=f.id
+            a href="#{f.url}"
+              = f.name

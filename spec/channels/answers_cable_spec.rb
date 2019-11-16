@@ -9,26 +9,28 @@ feature 'User can see created answer of another user', %{
   given(:question) { create(:question, user: user) }
 
   fcontext 'Multiply sessions' do
-    scenario "Answer appears on another user's question page" do
-      Capybara.using_session('user') do
-        sign_in(user)
-        visit question_path(question)
-      end
+    context 'Only answer' do
+      scenario "Answer appears on another user's question page" do
+        Capybara.using_session('user') do
+          sign_in(user)
+          visit question_path(question)
+        end
 
-      Capybara.using_session('guest') do
-        visit question_path(question)
-      end
+        Capybara.using_session('guest') do
+          visit question_path(question)
+        end
 
-      Capybara.using_session('user') do
-        fill_in 'Your answer', with: 'Test answr'
+        Capybara.using_session('user') do
+          fill_in 'Your answer', with: 'Test answr'
 
-        click_on 'Write'
+          click_on 'Write'
 
-        expect(page).to have_content 'Test answr'
-      end
+          expect(page).to have_content 'Test answr'
+        end
 
-      Capybara.using_session('guest') do
-        expect(page).to have_content 'Test answr'
+        Capybara.using_session('guest') do
+          expect(page).to have_content 'Test answr'
+        end
       end
     end
 
@@ -97,7 +99,44 @@ feature 'User can see created answer of another user', %{
       end
     end
 
-    # when bad links answer will not be created.
-    # it's mean such answer will not be broadcasted.
+    context 'Answer with attached files' do
+      scenario "Answer appears on another user's question page" do
+        Capybara.using_session('user') do
+          sign_in(user)
+          visit question_path(question)
+        end
+
+        Capybara.using_session('guest') do
+          visit question_path(question)
+        end
+
+        Capybara.using_session('user') do
+          within 'div.new-answer' do
+            fill_in 'Your answer', with: 'Test answr'
+
+            attach_file 'File', [
+              "#{Rails.root}/spec/models/answer_spec.rb",
+              "#{Rails.root}/spec/models/question_spec.rb"
+            ]
+
+            click_on 'Write'
+          end
+
+          within '.answers' do
+            expect(page).to have_link 'answer_spec.rb'
+            expect(page).to have_link 'question_spec.rb'
+          end
+        end
+
+        Capybara.using_session('guest') do
+          expect(page).to have_content 'Test answr'
+
+          within '.answers' do
+            expect(page).to have_link 'answer_spec.rb'
+            expect(page).to have_link 'question_spec.rb'
+          end
+        end
+      end
+    end
   end
 end
