@@ -1,0 +1,14 @@
+- if gon.user_id != @answer.user_id
+  br
+  div data-answer-id="#{@answer.id}" class="answer #{'favourite' if @answer.favourite?}"
+    | Body:
+    = @answer.body
+    .links
+      ul
+        - for l in @links
+          - if l.gist_content
+            li.link-gist = l.gist_content
+          - else
+            li.link
+              a href="#{l.url}"
+                = l.name

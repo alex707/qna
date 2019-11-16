@@ -81,8 +81,10 @@ Style/Documentation:
   Exclude:
     - 'spec/**/*'
     - 'test/**/*'
+    - 'app/channels/answers_channel.rb'
     - 'app/channels/questions_channel.rb'
     - 'app/controllers/answers_controller.rb'
+    - 'app/controllers/application_controller.rb'
     - 'app/controllers/awards_controller.rb'
     - 'app/controllers/collections_controller.rb'
     - 'app/controllers/questions_controller.rb'
@@ -144,6 +146,7 @@ Style/RedundantBegin:
 
 Style/PercentLiteralDelimiters:
   Exclude:
+    - 'spec/channels/**/*'
     - 'spec/features/**/*'
 
 # Offense count: 2

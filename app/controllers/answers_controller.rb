@@ -3,6 +3,8 @@ class AnswersController < ApplicationController
   before_action :load_question, only: %i[new create]
   before_action :load_answer, only: %i[favour update destroy]
 
+  after_action :publish_answer, only: %i[create]
+
   def favour
     if current_user.author?(@answer.question)
       @answer.favour
@@ -67,5 +69,26 @@ class AnswersController < ApplicationController
 
   def load_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def links_formatter
+    @answer.links.map do |l|
+      if l.gist_content&.content
+        { gist_content: l.gist_content.content }
+      else
+        { name: l.name, url: l.url }
+      end
+    end
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    Rails.logger.info "gon.user_idgon.user_idgon.user_idgon.user_idgon.user_id: #{gon.user_id}"
+    ActionCable.server.broadcast(
+      "questions/#{@question.id}/answers",
+      answer: @answer,
+      links: links_formatter
+    )
   end
 end

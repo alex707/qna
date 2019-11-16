@@ -39,7 +39,10 @@ gem 'slim-rails'
 gem 'devise'
 gem 'launchy'
 gem 'jquery-rails'
+gem 'skim'
+gem 'gon'
 
+# storage
 gem 'aws-sdk-s3', require: false
 
 # handle nested forms

@@ -24,7 +24,7 @@ module Voteable
   end
 
   def voted?(user)
-    !!votes.find_by(user: user)
+    !!votes.find_by(user: user) # rubocop:disable Style/DoubleNegation
   end
 
   private

@@ -16,3 +16,5 @@
 //= require jquery3
 //= require_tree .
 //= require cocoon
+//= require skim
+//= require_tree ./templates
