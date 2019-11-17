@@ -1,0 +1,52 @@
+- if gon.user_id && gon.user_id != @voteable.user_id
+  a[
+    class="vote-btn like"
+    data-parent-id="#{@voteable.id}"
+    data-value="like"
+    data-parent-class="answer"
+    data-type="json"
+    data-remote="true"
+    rel="nofollow"
+    data-method="post"
+    href="/vote?id=#{@voteable.id}&amp;value=like&amp;voteable=answer"]
+    = 'Like'
+  a[
+    class="vote-btn like hidden"
+    data-parent-id="#{@voteable.id}"
+    data-value="liked"
+    data-parent-class="answer"
+    data-type="json"
+    data-remote="true"
+    rel="nofollow"
+    data-method="post"
+    href="/vote?id=#{@voteable.id}&amp;value=like&amp;voteable=answer"]
+    = 'Liked'
+  br
+  a[
+    class="vote-btn dislike"
+    data-parent-id="#{@voteable.id}"
+    data-value="dislike"
+    data-parent-class="answer"
+    data-type="json"
+    data-remote="true"
+    rel="nofollow"
+    data-method="post"
+    href="/vote?id=#{@voteable.id}&amp;value=like&amp;voteable=answer"]
+    = 'Dislike'
+  a[
+    class="vote-btn like hidden"
+    data-parent-id="#{@voteable.id}"
+    data-value="liked"
+    data-parent-class="answer"
+    data-type="json"
+    data-remote="true"
+    rel="nofollow"
+    data-method="post"
+    href="/vote?id=#{@voteable.id}&amp;value=like&amp;voteable=answer"]
+    = 'Liked'
+  br
+
+div class="answer-#{@voteable.id}-likes"
+  = '0'
+div class="answer-#{@voteable.id}-dislikes"
+  = '0'

@@ -96,7 +96,6 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
-    Rails.logger.info "gon.user_idgon.user_idgon.user_idgon.user_idgon.user_id: #{gon.user_id}"
     ActionCable.server.broadcast(
       "questions/#{@question.id}/answers",
       answer: @answer,

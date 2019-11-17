@@ -1,6 +1,6 @@
 - if gon.user_id != @answer.user_id
   br
-  div data-answer-id="#{@answer.id}" class="answer #{'favourite' if @answer.favourite?}"
+  div data-answer-id="#{@answer.id}" class="answer"
     | Body:
     = @answer.body
     .links
@@ -18,3 +18,5 @@
           li data-file-id=f.id
             a href="#{f.url}"
               = f.name
+  /div class="answer-#{@answer.id}-votes"
+    /== App.utils.render('votes', voteable: @)
