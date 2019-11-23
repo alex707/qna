@@ -39,6 +39,8 @@ gem 'slim-rails'
 gem 'devise'
 gem 'launchy'
 gem 'jquery-rails'
+
+# render partials and sending variables on client
 gem 'skim'
 gem 'gon'
 

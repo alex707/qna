@@ -1,5 +1,5 @@
-$(document).on('turbolinks:load', function(){
-  $('a.vote-btn').on('ajax:success', function (e) {
+$(document).on('turbolinks:load', function() {
+  $('.answers, .question').on('ajax:success', 'a.vote-btn', function (e) {
     var res = e.detail[0];
 
     if (res === 'ok') {

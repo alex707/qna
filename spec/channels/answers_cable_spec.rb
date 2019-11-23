@@ -138,5 +138,62 @@ feature 'User can see created answer of another user', %{
         end
       end
     end
+
+    context 'Answer has votes' do
+      scenario "Answer appears on another user's question page" do
+        Capybara.using_session('user') do
+          sign_in(user)
+          visit question_path(question)
+        end
+
+        Capybara.using_session('another_user') do
+          sign_in(create(:user))
+          visit question_path(question)
+        end
+
+        Capybara.using_session('user') do
+          fill_in 'Your answer', with: 'Test answr'
+
+          click_on 'Write'
+
+          expect(page).to have_content 'Test answr'
+        end
+
+        Capybara.using_session('another_user') do
+          entity = question.answers.last
+          within ".answer-#{entity.id}-votes" do
+            within ".answer-#{entity.id}-likes" do
+              expect(page).to have_content('0')
+            end
+            within ".answer-#{entity.id}-dislikes" do
+              expect(page).to have_content('0')
+            end
+
+            find('a.vote-btn.like').click
+
+            within ".answer-#{entity.id}-likes" do
+              expect(page).to have_content('1')
+            end
+            within ".answer-#{entity.id}-dislikes" do
+              expect(page).to have_content('0')
+            end
+          end
+        end
+
+        Capybara.using_session('user') do
+          visit question_path(question)
+          entity = question.answers.last
+
+          within ".answer-#{entity.id}-votes" do
+            within ".answer-#{entity.id}-likes" do
+              expect(page).to have_content('1')
+            end
+            within ".answer-#{entity.id}-dislikes" do
+              expect(page).to have_content('0')
+            end
+          end
+        end
+      end
+    end
   end
 end

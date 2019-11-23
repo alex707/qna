@@ -11,7 +11,7 @@
     href="/vote?id=#{@voteable.id}&amp;value=like&amp;voteable=answer"]
     = 'Like'
   a[
-    class="vote-btn like hidden"
+    class="vote-btn liked hidden"
     data-parent-id="#{@voteable.id}"
     data-value="liked"
     data-parent-class="answer"
@@ -34,7 +34,7 @@
     href="/vote?id=#{@voteable.id}&amp;value=like&amp;voteable=answer"]
     = 'Dislike'
   a[
-    class="vote-btn like hidden"
+    class="vote-btn disliked hidden"
     data-parent-id="#{@voteable.id}"
     data-value="liked"
     data-parent-class="answer"
@@ -43,7 +43,7 @@
     rel="nofollow"
     data-method="post"
     href="/vote?id=#{@voteable.id}&amp;value=like&amp;voteable=answer"]
-    = 'Liked'
+    = 'Disliked'
   br
 
 div class="answer-#{@voteable.id}-likes"

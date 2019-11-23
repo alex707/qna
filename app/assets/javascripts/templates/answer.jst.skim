@@ -18,5 +18,5 @@
           li data-file-id=f.id
             a href="#{f.url}"
               = f.name
-  /div class="answer-#{@answer.id}-votes"
-    /== App.utils.render('votes', voteable: @)
+  div class="answer-#{@answer.id}-votes"
+    == App.utils.render('templates/vote', voteable: @answer)
