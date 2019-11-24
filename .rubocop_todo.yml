@@ -75,6 +75,7 @@ Style/BlockDelimiters:
     - 'spec/controllers/questions_controller_spec.rb'
     - 'spec/models/link_spec.rb'
     - 'spec/support/shared_examples/models/voteable.rb'
+    - 'spec/support/shared_examples/models/commentable.rb'
     - 'spec/support/shared_examples/controllers/votes.rb'
 
 # Offense count: 12
@@ -98,8 +99,7 @@ Style/Documentation:
     - 'app/helpers/votes_helper.rb'
     - 'app/mailers/application_mailer.rb'
     - 'app/models/*'
-    - 'app/models/concerns/linkable.rb'
-    - 'app/models/concerns/voteable.rb'
+    - 'app/models/concerns/*'
     - 'config/application.rb'
     - 'db/migrate/*'
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_19_102424) do
+ActiveRecord::Schema.define(version: 2019_11_24_124213) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,17 @@ ActiveRecord::Schema.define(version: 2019_10_19_102424) do
     t.index ["user_id"], name: "index_awards_on_user_id"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "body", null: false
+    t.string "commentable_type", null: false
+    t.bigint "commentable_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "gist_contents", force: :cascade do |t|
     t.string "content"
     t.bigint "link_id"
@@ -100,10 +111,9 @@ ActiveRecord::Schema.define(version: 2019_10_19_102424) do
     t.bigint "user_id", null: false
     t.string "voteable_type", null: false
     t.bigint "voteable_id", null: false
-    t.string "value", null: false
+    t.string "value", default: "none", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "voteable_type", "voteable_id"], name: "index_votes_on_user_id_and_voteable_type_and_voteable_id", unique: true
     t.index ["user_id"], name: "index_votes_on_user_id"
     t.index ["voteable_type", "voteable_id"], name: "index_votes_on_voteable_type_and_voteable_id"
   end
@@ -113,6 +123,7 @@ ActiveRecord::Schema.define(version: 2019_10_19_102424) do
   add_foreign_key "answers", "users"
   add_foreign_key "awards", "questions"
   add_foreign_key "awards", "users"
+  add_foreign_key "comments", "users"
   add_foreign_key "gist_contents", "links"
   add_foreign_key "questions", "users"
   add_foreign_key "votes", "users"
