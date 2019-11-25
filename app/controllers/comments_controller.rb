@@ -3,8 +3,13 @@ class CommentsController < ApplicationController
   before_action :load_entity
 
   def comment
+    @commentable.comments.new(body: params[:body], user: current_user)
+    @commentable.save
     respond_to do |format|
-      if @commentable.comments.create!(body: params[:body], user: current_user)
+      if @commentable.errors.any?
+        format.json { render json: { error: @commentable.errors },
+          status: :unprocessable_entity }
+      else
         format.json { render json: :ok, status: 200 }
       end
     end
