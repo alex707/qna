@@ -2,26 +2,19 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_entity
 
-  def comment
-    @commentable.comments.new(body: params[:body], user: current_user)
-    @commentable.save
-    respond_to do |format|
-      if @commentable.errors.any?
-        format.json { render json: { error: @commentable.errors },
-          status: :unprocessable_entity }
-      else
-        format.json { render json: :ok, status: 200 }
-      end
-    end
+  def create
+    @comment = @commentable.comments.build(body: comment_params[:body])
+    @comment.user = current_user
+    @comment.save
   end
 
   private
 
-  def vote_params
+  def comment_params
     params.require(:comment).permit(:body, :id, :commentable)
   end
 
   def load_entity
-    @commentable = params[:commentable].classify.constantize.find(params[:id])
+    @commentable = comment_params[:commentable].classify.constantize.find(comment_params[:id])
   end
 end

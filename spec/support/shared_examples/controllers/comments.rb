@@ -10,12 +10,22 @@ shared_examples 'comment action' do
 
       it 'comment object' do
         comment_params = { id: entity.id, body: 'TestComment',
-          commentable: entity_klass }
+                           commentable: entity_klass }
         expect {
-          post :comment, params: comment_params, format: :json
+          post :create, params: { comment: comment_params }, format: :js
         }.to change(Comment, :count).by(1)
 
         expect(response).to have_http_status(:success)
+      end
+
+      it 'renders create' do
+        comment_params = { id: entity.id, body: 'TestComment',
+                           commentable: entity_klass }
+        expect {
+          post :create, params: { comment: comment_params }, format: :js
+        }.to change(Comment, :count).by(1)
+
+        expect(response).to render_template(:create)
       end
     end
 
@@ -24,13 +34,20 @@ shared_examples 'comment action' do
 
       it 'tries to comment object' do
         comment_params = { id: entity.id, body: '',
-          commentable: entity_klass }
+                           commentable: entity_klass }
         expect {
-          post :comment, params: comment_params, format: :json
+          post :create, params: { comment: comment_params }, format: :js
         }.not_to change(Comment, :count)
+      end
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to have_content('error')
+      it 'renders create' do
+        comment_params = { id: entity.id, body: 'TestComment',
+                           commentable: entity_klass }
+        expect {
+          post :create, params: { comment: comment_params }, format: :js
+        }.to change(Comment, :count).by(1)
+
+        expect(response).to render_template(:create)
       end
     end
   end
@@ -38,13 +55,13 @@ shared_examples 'comment action' do
   context 'not authenticated user' do
     it 'tries to create comment' do
       comment_params = { id: entity.id, body: 'TestComment',
-        commentable: entity_klass }
+                         commentable: entity_klass }
       expect {
-        post :comment, params: comment_params, format: :json
+        post :create, params: { comment: comment_params }, format: :js
       }.not_to change(Comment, :count)
 
       expect(response).to have_http_status(:unauthorized)
-      expect(response.body).to have_content('error')
+      expect(response.body).to have_content('You need to sign in')
     end
   end
 end

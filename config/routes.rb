@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'questions#index'
   post :vote, to: 'votes#vote'
-  post :vote, to: 'comments#comment'
+
+  resources :comments, only: %i[create]
 
   resources :questions do
     resources :answers, only: %i[new create update destroy], shallow: true do

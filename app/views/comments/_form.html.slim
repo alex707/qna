@@ -1,0 +1,9 @@
+= form_with model: commentable.comments.new do |f|
+  p
+    = f.label :body, 'Comment body'
+    = f.text_area :body, class: 'new-comment',
+      data: { id: "#{commentable.class.to_s.downcase}-#{commentable.id}" }
+    = f.hidden_field :id, value: commentable.id
+    = f.hidden_field :commentable, value: commentable.class.to_s
+
+  p = f.submit 'Add comment'

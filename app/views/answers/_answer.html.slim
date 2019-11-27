@@ -25,3 +25,10 @@
 
   div class="answer-#{answer.id}-votes"
     = render 'votes/vote', resource: answer
+
+  div class="new-answer-#{answer.id}-comment"
+    - if current_user
+      = render 'comments/form', commentable: answer
+
+  ul class="answer-#{answer.id}-comments"
+    = render answer.comments

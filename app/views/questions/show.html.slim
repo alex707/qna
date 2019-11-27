@@ -4,6 +4,13 @@
 .question
   = render @question
 
+div class="new-question-#{@question.id}-comment"
+  - if current_user
+    = render 'comments/form', commentable: @question
+
+ul class="question-#{@question.id}-comments"
+  = render @question.comments
+
 .answer-errors
   = render 'shared/errors', resource: @answer
 
