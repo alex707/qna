@@ -1,0 +1,2 @@
+- if gon.user_id != @comment.user_id
+  li.comment = @comment.body

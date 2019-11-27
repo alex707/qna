@@ -85,6 +85,7 @@ Style/Documentation:
     - 'spec/**/*'
     - 'test/**/*'
     - 'app/channels/answers_channel.rb'
+    - 'app/channels/comments_channel.rb'
     - 'app/channels/questions_channel.rb'
     - 'app/controllers/answers_controller.rb'
     - 'app/controllers/application_controller.rb'
