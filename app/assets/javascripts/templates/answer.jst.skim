@@ -1,22 +1,21 @@
-- if gon.user_id != @answer.user_id
-  br
-  div data-answer-id="#{@answer.id}" class="answer"
-    | Body:
-    = @answer.body
-    .links
-      ul
-        - for l in @links
-          - if l.gist_content
-            li.link-gist = l.gist_content
-          - else
-            li.link
-              a href="#{l.url}"
-                = l.name
-    .answer-files
-      ul
-        - for f in @files
-          li data-file-id=f.id
-            a href="#{f.url}"
-              = f.name
-  div class="answer-#{@answer.id}-votes"
-    == App.utils.render('templates/vote', voteable: @answer)
+br
+div data-answer-id="#{@answer.id}" class="answer"
+  | Body:
+  = @answer.body
+  .links
+    ul
+      - for l in @links
+        - if l.gist_content
+          li.link-gist = l.gist_content
+        - else
+          li.link
+            a href="#{l.url}"
+              = l.name
+  .answer-files
+    ul
+      - for f in @files
+        li data-file-id=f.id
+          a href="#{f.url}"
+            = f.name
+div class="answer-#{@answer.id}-votes"
+  == App.utils.render('templates/vote', voteable: @answer)

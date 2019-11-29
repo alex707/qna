@@ -7,15 +7,19 @@ feature 'User can see created question of another user', %{
 }, :js do
   given(:user) { create(:user) }
 
-  fcontext 'Multiply sessions' do
+  context 'Multiply sessions' do
     scenario "Question appears on another user's page" do
       Capybara.using_session('user') do
         sign_in(user)
         visit questions_path
+
+        expect(page).not_to have_content 'Test question'
       end
 
       Capybara.using_session('guest') do
         visit questions_path
+
+        expect(page).not_to have_content 'Test question'
       end
 
       Capybara.using_session('user') do

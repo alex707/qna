@@ -10,6 +10,8 @@ shared_examples 'comment view' do
     end
 
     scenario 'User can comment the entity', js: true do
+      expect(page).not_to have_content('Some Text')
+
       within ".new-#{klass}-#{entity.id}-comment" do
         fill_in 'Comment body', with: 'Some Text'
 

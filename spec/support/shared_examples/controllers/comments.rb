@@ -11,20 +11,14 @@ shared_examples 'comment action' do
       it 'comment object' do
         comment_params = { id: entity.id, body: 'TestComment',
                            commentable: entity_klass }
-        expect {
-          post :create, params: { comment: comment_params }, format: :js
-        }.to change(Comment, :count).by(1)
+
+        expect(Comment.exists?(body: comment_params[:body])).to eq false
+
+        post :create, params: { comment: comment_params }, format: :js
+
+        expect(Comment.exists?(body: comment_params[:body])).to eq true
 
         expect(response).to have_http_status(:success)
-      end
-
-      it 'renders create' do
-        comment_params = { id: entity.id, body: 'TestComment',
-                           commentable: entity_klass }
-        expect {
-          post :create, params: { comment: comment_params }, format: :js
-        }.to change(Comment, :count).by(1)
-
         expect(response).to render_template(:create)
       end
     end
@@ -38,14 +32,6 @@ shared_examples 'comment action' do
         expect {
           post :create, params: { comment: comment_params }, format: :js
         }.not_to change(Comment, :count)
-      end
-
-      it 'renders create' do
-        comment_params = { id: entity.id, body: 'TestComment',
-                           commentable: entity_klass }
-        expect {
-          post :create, params: { comment: comment_params }, format: :js
-        }.to change(Comment, :count).by(1)
 
         expect(response).to render_template(:create)
       end

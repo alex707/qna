@@ -9,16 +9,20 @@ feature 'User can see created comment of another user', %{
   given(:question) { create(:question_with_answers, user: user) }
   given(:answer) { question.answers.second }
 
-  fcontext 'Multiply sessions' do
+  context 'Multiply sessions' do
     context 'Only answer' do
       scenario "Comment for question appears on another user's question page" do
         Capybara.using_session('user') do
           sign_in(user)
           visit question_path(question)
+
+          expect(page).not_to have_content "Test cmmnt 4 #{question.id}"
         end
 
         Capybara.using_session('guest') do
           visit question_path(question)
+
+          expect(page).not_to have_content "Test cmmnt 4 #{question.id}"
         end
 
         Capybara.using_session('user') do
@@ -40,10 +44,14 @@ feature 'User can see created comment of another user', %{
         Capybara.using_session('user') do
           sign_in(user)
           visit question_path(question)
+
+          expect(page).not_to have_content "Test cmmnt 4 answ #{answer.id}"
         end
 
         Capybara.using_session('guest') do
           visit question_path(question)
+
+          expect(page).not_to have_content "Test cmmnt 4 answ #{answer.id}"
         end
 
         Capybara.using_session('user') do

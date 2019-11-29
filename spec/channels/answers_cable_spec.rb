@@ -8,16 +8,20 @@ feature 'User can see created answer of another user', %{
   given(:user) { create(:user) }
   given(:question) { create(:question, user: user) }
 
-  fcontext 'Multiply sessions' do
+  context 'Multiply sessions' do
     context 'Only answer' do
       scenario "Answer appears on another user's question page" do
         Capybara.using_session('user') do
           sign_in(user)
           visit question_path(question)
+
+          expect(page).not_to have_content 'Test answr'
         end
 
         Capybara.using_session('guest') do
           visit question_path(question)
+
+          expect(page).not_to have_content 'Test answr'
         end
 
         Capybara.using_session('user') do
@@ -53,10 +57,16 @@ feature 'User can see created answer of another user', %{
         Capybara.using_session('user') do
           sign_in(user)
           visit question_path(question)
+
+          expect(page).not_to have_content('get-запрос на главную')
+          expect(page).not_to have_link 'My url ya', href: url_ya
         end
 
         Capybara.using_session('guest') do
           visit question_path(question)
+
+          expect(page).not_to have_content('get-запрос на главную')
+          expect(page).not_to have_link 'My url ya', href: url_ya
         end
 
         Capybara.using_session('user') do
@@ -104,10 +114,16 @@ feature 'User can see created answer of another user', %{
         Capybara.using_session('user') do
           sign_in(user)
           visit question_path(question)
+
+          expect(page).not_to have_link 'answer_spec.rb'
+          expect(page).not_to have_link 'question_spec.rb'
         end
 
         Capybara.using_session('guest') do
           visit question_path(question)
+
+          expect(page).not_to have_link 'answer_spec.rb'
+          expect(page).not_to have_link 'question_spec.rb'
         end
 
         Capybara.using_session('user') do

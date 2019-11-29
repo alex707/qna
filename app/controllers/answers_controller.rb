@@ -71,7 +71,7 @@ class AnswersController < ApplicationController
     @answer = Answer.with_attached_files.find(params[:id])
   end
 
-  def links_formatter
+  def links_attacher
     @answer.links.map do |l|
       if l.gist_content&.content
         { gist_content: l.gist_content.content }
@@ -99,7 +99,7 @@ class AnswersController < ApplicationController
     ActionCable.server.broadcast(
       "questions/#{@question.id}/answers",
       answer: @answer,
-      links: links_formatter,
+      links: links_attacher,
       files: files_attacher
     )
   end

@@ -7,7 +7,7 @@ RSpec.describe Comment, type: :model do
   it { should validate_presence_of(:body) }
 
   context 'checking order' do
-    let(:bodies_arr) { %w(comment_2 comment_22 comment_222) }
+    let(:bodies_arr) { %w[comment_2 comment_22 comment_222] }
     let(:question) { create(:question) }
 
     before do
