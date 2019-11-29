@@ -10,35 +10,6 @@ feature 'User can see created answer of another user', %{
 
   context 'Multiply sessions' do
     context 'Only answer' do
-      scenario "Answer appears on another user's question page" do
-        Capybara.using_session('user') do
-          sign_in(user)
-          visit question_path(question)
-
-          expect(page).not_to have_content 'Test answr'
-        end
-
-        Capybara.using_session('guest') do
-          visit question_path(question)
-
-          expect(page).not_to have_content 'Test answr'
-        end
-
-        Capybara.using_session('user') do
-          fill_in 'Your answer', with: 'Test answr'
-
-          click_on 'Write'
-
-          expect(page).to have_content 'Test answr'
-        end
-
-        Capybara.using_session('guest') do
-          expect(page).to have_content 'Test answr'
-        end
-      end
-    end
-
-    context 'Answer with links' do
       given(:gist_url) { 'https://gist.github.com/alex707/71d5c90e5cf72dc9765a2eebc2bfb416' }
       given(:url_ya) { 'https://ya.ru' }
 
@@ -58,15 +29,25 @@ feature 'User can see created answer of another user', %{
           sign_in(user)
           visit question_path(question)
 
+          expect(page).not_to have_content 'Test answr'
+
           expect(page).not_to have_content('get-запрос на главную')
           expect(page).not_to have_link 'My url ya', href: url_ya
+
+          expect(page).not_to have_link 'answer_spec.rb'
+          expect(page).not_to have_link 'question_spec.rb'
         end
 
         Capybara.using_session('guest') do
           visit question_path(question)
 
+          expect(page).not_to have_content 'Test answr'
+
           expect(page).not_to have_content('get-запрос на главную')
           expect(page).not_to have_link 'My url ya', href: url_ya
+
+          expect(page).not_to have_link 'answer_spec.rb'
+          expect(page).not_to have_link 'question_spec.rb'
         end
 
         Capybara.using_session('user') do
@@ -85,51 +66,6 @@ feature 'User can see created answer of another user', %{
               fill_in 'Url', with: url_ya
             end
 
-            click_on 'Write'
-          end
-
-          using_wait_time 5 do
-            within '.answers' do
-              expect(page).to have_content('get-запрос на главную')
-              expect(page).to have_link 'My url ya', href: url_ya
-            end
-          end
-        end
-
-        Capybara.using_session('guest') do
-          expect(page).to have_content 'Test answr'
-
-          using_wait_time 5 do
-            within '.answers' do
-              expect(page).to have_content('get-запрос на главную')
-              expect(page).to have_link 'My url ya', href: url_ya
-            end
-          end
-        end
-      end
-    end
-
-    context 'Answer with attached files' do
-      scenario "Answer appears on another user's question page" do
-        Capybara.using_session('user') do
-          sign_in(user)
-          visit question_path(question)
-
-          expect(page).not_to have_link 'answer_spec.rb'
-          expect(page).not_to have_link 'question_spec.rb'
-        end
-
-        Capybara.using_session('guest') do
-          visit question_path(question)
-
-          expect(page).not_to have_link 'answer_spec.rb'
-          expect(page).not_to have_link 'question_spec.rb'
-        end
-
-        Capybara.using_session('user') do
-          within 'div.new-answer' do
-            fill_in 'Your answer', with: 'Test answr'
-
             attach_file 'File', [
               "#{Rails.root}/spec/models/answer_spec.rb",
               "#{Rails.root}/spec/models/question_spec.rb"
@@ -142,21 +78,36 @@ feature 'User can see created answer of another user', %{
             expect(page).to have_link 'answer_spec.rb'
             expect(page).to have_link 'question_spec.rb'
           end
+
+          using_wait_time 5 do
+            within '.answers' do
+              expect(page).to have_content('get-запрос на главную')
+              expect(page).to have_link 'My url ya', href: url_ya
+            end
+          end
+
+          expect(page).to have_content 'Test answr'
         end
 
         Capybara.using_session('guest') do
           expect(page).to have_content 'Test answr'
 
-          within '.answers' do
-            expect(page).to have_link 'answer_spec.rb'
-            expect(page).to have_link 'question_spec.rb'
+          using_wait_time 5 do
+            within '.answers' do
+              expect(page).to have_content('get-запрос на главную')
+              expect(page).to have_link 'My url ya', href: url_ya
+
+              expect(page).to have_link 'answer_spec.rb'
+              expect(page).to have_link 'question_spec.rb'
+            end
           end
         end
       end
     end
 
     context 'Answer has votes' do
-      scenario "Answer appears on another user's question page" do
+      scenario "Answer appears on another user's question page " \
+        'and user can vote for' do
         Capybara.using_session('user') do
           sign_in(user)
           visit question_path(question)
