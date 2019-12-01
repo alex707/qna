@@ -4,7 +4,7 @@ $ ->
       @perform 'follow', id: gon.question_id
 
     received: (data) ->
-      if gon.user_id != data['comment'].user_id
+      if gon.user_id isnt data['comment'].user_id
         entity = $('ul.' + data['commentable'] + '-' + data['commentable_id'] \
           + '-comments')
         entity.append JST['templates/comment'](data)

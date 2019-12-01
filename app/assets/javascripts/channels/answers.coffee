@@ -7,5 +7,5 @@ $ ->
     ,
 
     received: (data) ->
-      if gon.user_id != data['answer'].user_id
+      if gon.user_id isnt data['answer'].user_id
         answers.append JST['templates/answer'](data)

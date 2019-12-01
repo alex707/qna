@@ -4,18 +4,18 @@ div data-answer-id="#{@answer.id}" class="answer"
   = @answer.body
   .links
     ul
-      - for l in @links
-        - if l.gist_content
-          li.link-gist = l.gist_content
+      - for link in @links
+        - if link.gist_content
+          li.link-gist = link.gist_content
         - else
           li.link
-            a href="#{l.url}"
-              = l.name
+            a href="#{link.url}"
+              = link.name
   .answer-files
     ul
-      - for f in @files
-        li data-file-id=f.id
-          a href="#{f.url}"
-            = f.name
+      - for file in @files
+        li data-file-id=file.id
+          a href="#{file.url}"
+            = file.name
 div class="answer-#{@answer.id}-votes"
   == App.utils.render('templates/vote', voteable: @answer)

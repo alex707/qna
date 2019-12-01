@@ -82,8 +82,6 @@ class AnswersController < ApplicationController
   end
 
   def files_attacher
-    return [] unless @answer.files.attached?
-
     @answer.files.map do |file|
       {
         id: file.id,
