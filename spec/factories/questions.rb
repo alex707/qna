@@ -70,4 +70,21 @@ FactoryBot.define do
       )
     end
   end
+
+  trait :with_comments do
+    after :create do |question|
+      question.comments.create!(
+        [
+          {
+            body: 'comment_1',
+            user: create(:user)
+          },
+          {
+            body: 'comment_2',
+            user: create(:user)
+          }
+        ]
+      )
+    end
+  end
 end

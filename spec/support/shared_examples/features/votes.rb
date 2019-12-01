@@ -1,15 +1,12 @@
 require 'rails_helper'
 
 shared_examples 'vote view' do
-  given(:owner) { create(:user) }
-  given(:stranger1) { create(:user) }
-  given!(:stranger2) { create(:user) }
   given(:klass) { entity.class.to_s.downcase }
 
   describe 'Authenticated user' do
     describe 'as not owner' do
       background do
-        sign_in(stranger1)
+        sign_in(create(:user))
         visit visit_entity_path
       end
 
@@ -86,7 +83,7 @@ shared_examples 'vote view' do
       end
 
       scenario 'User can vote with another user', js: true do
-        entity.vote!('like', stranger2)
+        entity.vote!('like', create(:user))
 
         visit visit_entity_path
         within ".#{klass}-#{entity.id}-votes" do

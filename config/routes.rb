@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   root to: 'questions#index'
   post :vote, to: 'votes#vote'
 
+  resources :comments, only: %i[create]
+
   resources :questions do
     resources :answers, only: %i[new create update destroy], shallow: true do
       member do
@@ -14,4 +16,6 @@ Rails.application.routes.draw do
   resources :collections, only: :destroy
 
   resources :awards, only: :index
+
+  mount ActionCable.server => '/cable'
 end

@@ -40,6 +40,11 @@ gem 'devise'
 gem 'launchy'
 gem 'jquery-rails'
 
+# render partials and sending variables on client
+gem 'skim'
+gem 'gon'
+
+# storage
 gem 'aws-sdk-s3', require: false
 
 # handle nested forms

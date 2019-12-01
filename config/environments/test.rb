@@ -43,4 +43,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # Disable connect from non-white list hosts
+  config.action_cable.disable_request_forgery_protection = true
 end

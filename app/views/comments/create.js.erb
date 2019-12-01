@@ -1,0 +1,10 @@
+$('.question-errors').html("<%= render 'shared/errors', resource: @comment %>");
+$('.notice').html("<%= flash[:notice] %>");
+
+<% if @comment.persisted? %>
+  <% id = @comment.commentable.id.to_s %>
+  <% klass = @comment.commentable.class.to_s.downcase %>
+
+  $('<%= "ul.#{klass}-#{id}-comments" %>').append('<%= j render @comment %>');
+  $('textarea.new-comment[data-id="<%= klass + '-' + id %>"]').val('');
+<% end %>

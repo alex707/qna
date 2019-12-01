@@ -16,3 +16,7 @@
 //= require jquery3
 //= require_tree .
 //= require cocoon
+//= require cable
+
+var App = App || {};
+App.cable = ActionCable.createConsumer();

@@ -1,0 +1,21 @@
+br
+div data-answer-id="#{@answer.id}" class="answer"
+  | Body:
+  = @answer.body
+  .links
+    ul
+      - for link in @links
+        - if link.gist_content
+          li.link-gist = link.gist_content
+        - else
+          li.link
+            a href="#{link.url}"
+              = link.name
+  .answer-files
+    ul
+      - for file in @files
+        li data-file-id=file.id
+          a href="#{file.url}"
+            = file.name
+div class="answer-#{@answer.id}-votes"
+  == App.utils.render('templates/vote', voteable: @answer)

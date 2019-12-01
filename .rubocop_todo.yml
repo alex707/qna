@@ -50,6 +50,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - 'db/schema.rb'
+    - 'spec/channels/answers_cable_spec.rb'
     - 'spec/controllers/answers_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
     - 'spec/features/answer/edit_spec.rb'
@@ -74,6 +75,8 @@ Style/BlockDelimiters:
     - 'spec/controllers/questions_controller_spec.rb'
     - 'spec/models/link_spec.rb'
     - 'spec/support/shared_examples/models/voteable.rb'
+    - 'spec/support/shared_examples/models/commentable.rb'
+    - 'spec/support/shared_examples/controllers/comments.rb'
     - 'spec/support/shared_examples/controllers/votes.rb'
 
 # Offense count: 12
@@ -81,21 +84,26 @@ Style/Documentation:
   Exclude:
     - 'spec/**/*'
     - 'test/**/*'
+    - 'app/channels/answers_channel.rb'
+    - 'app/channels/comments_channel.rb'
+    - 'app/channels/questions_channel.rb'
     - 'app/controllers/answers_controller.rb'
+    - 'app/controllers/application_controller.rb'
     - 'app/controllers/awards_controller.rb'
     - 'app/controllers/collections_controller.rb'
+    - 'app/controllers/comments_controller.rb'
     - 'app/controllers/questions_controller.rb'
     - 'app/controllers/votes_controller.rb'
     - 'app/helpers/answers_helper.rb'
     - 'app/helpers/awards_helper.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/helpers/collections_helper.rb'
+    - 'app/helpers/comments_helper.rb'
     - 'app/helpers/questions_helper.rb'
     - 'app/helpers/votes_helper.rb'
     - 'app/mailers/application_mailer.rb'
     - 'app/models/*'
-    - 'app/models/concerns/linkable.rb'
-    - 'app/models/concerns/voteable.rb'
+    - 'app/models/concerns/*'
     - 'config/application.rb'
     - 'db/migrate/*'
 
@@ -143,6 +151,7 @@ Style/RedundantBegin:
 
 Style/PercentLiteralDelimiters:
   Exclude:
+    - 'spec/channels/**/*'
     - 'spec/features/**/*'
 
 # Offense count: 2
