@@ -12,4 +12,8 @@ class User < ApplicationRecord
   def author?(resource)
     id == resource.user_id
   end
+
+  def self.find_or_oauth(auth)
+
+  end
 end
