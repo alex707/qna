@@ -102,6 +102,8 @@ ActiveRecord::Schema.define(version: 2019_12_06_162530) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.bigint "accepted_id"
+    t.index ["accepted_id"], name: "index_questions_on_accepted_id"
     t.index ["user_id"], name: "index_questions_on_user_id"
   end
 
@@ -121,9 +123,10 @@ ActiveRecord::Schema.define(version: 2019_12_06_162530) do
     t.bigint "user_id", null: false
     t.string "voteable_type", null: false
     t.bigint "voteable_id", null: false
-    t.string "value", default: "none", null: false
+    t.string "value", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id", "voteable_type", "voteable_id"], name: "index_votes_on_user_id_and_voteable_type_and_voteable_id", unique: true
     t.index ["user_id"], name: "index_votes_on_user_id"
     t.index ["voteable_type", "voteable_id"], name: "index_votes_on_voteable_type_and_voteable_id"
   end
@@ -136,6 +139,7 @@ ActiveRecord::Schema.define(version: 2019_12_06_162530) do
   add_foreign_key "awards", "users"
   add_foreign_key "comments", "users"
   add_foreign_key "gist_contents", "links"
+  add_foreign_key "questions", "answers", column: "accepted_id"
   add_foreign_key "questions", "users"
   add_foreign_key "votes", "users"
 end

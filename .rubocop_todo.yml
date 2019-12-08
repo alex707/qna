@@ -46,6 +46,7 @@ Layout/SpaceInsideArrayLiteralBrackets:
 Metrics/AbcSize:
   Exclude:
     - 'db/migrate/20190805102418_create_active_storage_tables.active_storage.rb'
+    - 'app/services/find_for_oauth.rb'
 
 Metrics/BlockLength:
   Exclude:
@@ -61,6 +62,7 @@ Metrics/BlockLength:
 Metrics/MethodLength:
   Exclude:
     - 'db/migrate/20190805102418_create_active_storage_tables.active_storage.rb'
+    - 'app/services/find_for_oauth.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.
@@ -92,6 +94,7 @@ Style/Documentation:
     - 'app/controllers/awards_controller.rb'
     - 'app/controllers/collections_controller.rb'
     - 'app/controllers/comments_controller.rb'
+    - 'app/controllers/oauth_callbacks_controller.rb'
     - 'app/controllers/questions_controller.rb'
     - 'app/controllers/votes_controller.rb'
     - 'app/helpers/answers_helper.rb'
@@ -185,6 +188,7 @@ Style/SymbolArray:
     - 'config/routes.rb'
     - 'db/migrate/20190805102418_create_active_storage_tables.active_storage.rb'
     - 'db/migrate/20191019102424_create_votes.rb'
+    - 'db/migrate/20191206162530_create_authorizations.rb'
 
 Style/SymbolProc:
   Exclude:
