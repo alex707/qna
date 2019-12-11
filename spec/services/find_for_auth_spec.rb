@@ -10,6 +10,8 @@ RSpec.describe Services::FindForOauth do
       user.authorizations.create(provider: 'facebook', uid: '123456')
 
       expect(subject.call).to eq user
+
+      expect(user.authorizations.count).to eq 1
     end
   end
 

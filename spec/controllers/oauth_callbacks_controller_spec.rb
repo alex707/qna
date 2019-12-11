@@ -28,7 +28,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
       end
 
       it 'redirects to root path' do
-        expect(subject.current_user).to eq user
+        expect(response).to redirect_to root_path
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
       end
 
       it 'redirects to root path' do
-        expect(subject.current_user).to eq user
+        expect(response).to redirect_to root_path
       end
     end
 
