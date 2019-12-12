@@ -40,6 +40,11 @@ gem 'devise'
 gem 'launchy'
 gem 'jquery-rails'
 
+# oauth
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-vkontakte'
+
 # render partials and sending variables on client
 gem 'skim'
 gem 'gon'

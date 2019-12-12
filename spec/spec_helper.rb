@@ -17,7 +17,12 @@ WebMock.disable_net_connect!(allow_localhost: true)
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
+
 RSpec.configure do |config|
+  config.include(OmniauthMacros)
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -99,4 +104,5 @@ RSpec.configure do |config|
 =end
 end
 
-Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
+# turn on "test mode" for OmniAuth
+OmniAuth.config.test_mode = true
