@@ -40,6 +40,9 @@ gem 'devise'
 gem 'launchy'
 gem 'jquery-rails'
 
+# authorization
+gem 'cancancan'
+
 # oauth
 gem 'omniauth'
 gem 'omniauth-github'
