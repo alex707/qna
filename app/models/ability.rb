@@ -23,7 +23,11 @@ class Ability
 
   def user_abilities
     guest_abilities
-    can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer, Comment], user_id: user.id
+    can :create, [Question, Answer, Comment, Link, Award, Vote]
+    can :update, [Question, Answer, Comment, Vote], user_id: user.id
+    can :destroy, [Question, Answer, Comment, Link, Vote], user_id: user.id
+
+    can :vote!, [Question, Answer] do |entity| !user.author?(entity) end
+    can :favour, Answer, question: { user_id: user.id }
   end
 end

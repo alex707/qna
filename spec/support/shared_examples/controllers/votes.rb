@@ -62,8 +62,8 @@ shared_examples 'vote action' do
           post :vote, params: like_params, format: :json
         }.not_to change(Vote, :count)
 
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to have_content('error')
+        expect(response).to have_http_status(:found)
+        expect(flash['alert']).to have_content('You are not authorized')
       end
     end
   end

@@ -5,8 +5,6 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: exception.message
   end
 
-  check_authorization
-
   private
 
   def gon_user
