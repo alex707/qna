@@ -50,18 +50,25 @@ feature 'User can pick up favourite answer', %q{
           expect(page).to have_content old_answer.body
         end
 
+        within all('.answer')[0] do
+          expect(page).to have_content(old_answer.body)
+          expect(page).to_not have_content(new_answer.body)
+        end
+
         within '.answers' do
           click_on('Favourite answer', match: :first)
-          question.reload
-          answers = question.answers
+        end
 
-          expect(page).to have_content(old_answer.body)
+        within '.favourite' do
+          expect(page).to have_content new_answer.body
+        end
 
-          within all('.answer')[0] do
-            expect(page).to have_content(new_answer.body, wait: 2)
-            expect(page).to_not have_content(old_answer.body)
-          end
+        within all('.answer')[0] do
+          expect(page).to have_content(new_answer.body)
+          expect(page).to_not have_content(old_answer.body)
+        end
 
+        within '.answers' do
           expect(page).to have_content(old_answer.body).once
           expect(page).to have_content(new_answer.body).once
         end

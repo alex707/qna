@@ -13,6 +13,7 @@ RSpec.describe User, type: :model do
     let(:user) { create(:user) }
     let(:other_user) { create(:user) }
     let(:question) { create(:question_with_answers, user: user) }
+    let(:question2) { create(:question_with_own_answers, user: user) }
 
     it 'user is author of current question' do
       expect(user).to be_author(question)
@@ -23,7 +24,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'user is author of current answer' do
-      expect(user).to be_author(question.answers.first)
+      expect(user).to be_author(question2.answers.first)
     end
 
     it 'user is author of current answer' do

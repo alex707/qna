@@ -7,13 +7,14 @@ p = @question.body
 
 = render template: 'collections/show', locals: { resource: @question }
 
-- if current_user&.author? @question
+- if can?(:update, @question)
   p
     = link_to 'Edit question', '#', class: 'edit-question-link',
       data: { question_id: @question.id }
 
   = render 'form'
-  p = link_to 'Delete', @question, method: :delete
+  - if can?(:destroy, @question)
+    p = link_to 'Delete', @question, method: :delete
 
 - if @question.award
   = render @question.award

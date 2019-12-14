@@ -3,7 +3,7 @@
     - resource.files.each do |file|
       li data-file-id=file.id
         = link_to file.filename.to_s, url_for(file)
-        - if current_user&.author? resource
+        - if can?(:destroy, resource)
           br
           = link_to 'Remove file', collection_path(file), method: :delete,
             remote: true

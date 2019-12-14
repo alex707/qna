@@ -7,8 +7,8 @@ feature 'User can view all his awards', %{
 } do
   given(:user) { create(:user) }
   given(:new_user) { create(:user) }
-  given(:question1) { create(:question_with_answers, user: user) }
-  given(:question2) { create(:question_with_answers, user: user) }
+  given(:question1) { create(:question_with_own_answers, user: user) }
+  given(:question2) { create(:question_with_own_answers, user: user) }
   given(:answer1) { create(:answer, question: question1, user: new_user) }
   given(:answer2) { create(:answer, question: question2, user: new_user) }
 

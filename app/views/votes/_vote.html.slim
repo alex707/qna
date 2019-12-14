@@ -1,4 +1,4 @@
-- if current_user && !current_user.author?(resource)
+- if can?(:vote!, resource)
   = vote_button 'like', resource
   = vote_button 'liked', resource
   br

@@ -5,7 +5,7 @@
   = render @question
 
 div class="new-question-#{@question.id}-comment"
-  - if current_user
+  - if can?(:create, Comment)
     = render 'comments/form', commentable: @question
 
 ul class="question-#{@question.id}-comments"
@@ -15,7 +15,7 @@ ul class="question-#{@question.id}-comments"
   = render 'shared/errors', resource: @answer
 
 .new-answer
-  - if current_user
+  - if can?(:create, @answer)
     = render 'answers/form', entity: [@question, @answer]
 
 .answers
