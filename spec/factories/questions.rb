@@ -11,13 +11,13 @@ FactoryBot.define do
           io: File.open(Dir.glob("#{Rails.root}/*.jpg").first),
           filename: 'award.jpg'
         )
-        create_list(:answer, 3, question: question, user: question.user)
+        create_list(:answer, 2, question: question, user: question.user)
       end
     end
 
     factory :question_with_answers do
       after(:create) do |question, _evaluator|
-        create_list(:answer, 3, question: question, user: create(:user))
+        create_list(:answer, 2, question: question, user: create(:user))
       end
     end
   end

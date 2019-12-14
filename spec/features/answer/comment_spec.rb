@@ -8,7 +8,7 @@ feature 'User can comment answer', %{
   describe 'comment form for answer' do
     it_behaves_like 'comment view' do
       given(:question) { create(:question_with_answers, user: create(:user)) }
-      given(:entity) { question.answers[2] }
+      given(:entity) { question.answers.last }
       given(:visit_entity_path) { question_path(question) }
     end
   end
