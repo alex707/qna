@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create(:user) }
   let(:other_user) { create(:user) }
-  let(:question) { create(:question_with_answers, user: user) }
+  let(:question) { create(:question_with_own_answers, user: user) }
   let(:new_answer) { create(:answer, question: question, user: other_user) }
   let(:answer_with_links) { create(:answer, :with_links, question: question, user: user) }
 

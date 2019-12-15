@@ -19,7 +19,7 @@ RSpec.describe Answer, type: :model do
   describe 'checking current answer as favourite' do
     let(:user) { create(:user) }
     let(:other_user) { create(:user) }
-    let(:question) { create(:question_with_answers, user: user) }
+    let(:question) { create(:question_with_own_answers, user: user) }
     let(:answer) { create(:answer, question: question, user: user) }
     let(:new_answer) { create(:answer, question: question, user: other_user) }
 

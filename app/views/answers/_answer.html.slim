@@ -8,26 +8,26 @@
         = render answer.links
     = render template: 'collections/show', locals: { resource: answer }
 
-    - if current_user&.author?(answer)
+    - if can?(:update, answer)
       p = link_to 'Edit', '#', class: 'edit-answer-link',
         data: { answer_id: answer.id }
       = render 'answers/form', entity: answer
       end
     div
-      - if current_user&.author? answer
+      - if can?(:destroy, answer)
         p
           = link_to 'Delete Answer', answer_path(answer), method: :delete,
             remote: true
-          - unless answer.favourite?
-            br
-            = link_to 'Favourite answer', favour_answer_path(answer),
-              method: :post, remote: true
+      - if can?(:favour, answer) && !answer.favourite?
+        br
+        = link_to 'Favourite answer', favour_answer_path(answer),
+          method: :post, remote: true
 
   div class="answer-#{answer.id}-votes"
     = render 'votes/vote', resource: answer
 
   div class="new-answer-#{answer.id}-comment"
-    - if current_user
+    - if can?(:create, Comment)
       = render 'comments/form', commentable: answer
 
   ul class="answer-#{answer.id}-comments"

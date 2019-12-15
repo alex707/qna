@@ -1,21 +1,23 @@
 FactoryBot.define do
   factory :question do
-    title { "MyString" }
-    body { "MyText" }
+    title { 'MyString' }
+    body { 'MyText' }
     user { create(:user) }
 
-    factory :question_with_answers do
-      transient do
-        answers_count { 3 }
-      end
-
-      after(:create) do |question, evaluator|
+    factory :question_with_own_answers do
+      after(:create) do |question, _evaluator|
         question.create_award!(name: "MyAward_#{question.id}")
         question.award.image.attach(
           io: File.open(Dir.glob("#{Rails.root}/*.jpg").first),
           filename: 'award.jpg'
         )
-        create_list(:answer, evaluator.answers_count, question: question, user: question.user)
+        create_list(:answer, 2, question: question, user: question.user)
+      end
+    end
+
+    factory :question_with_answers do
+      after(:create) do |question, _evaluator|
+        create_list(:answer, 2, question: question, user: create(:user))
       end
     end
   end

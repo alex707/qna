@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe AwardsController, type: :controller do
   let(:user) { create(:user) }
   let(:new_user) { create(:user) }
-  let(:question1) { create(:question_with_answers, user: user) }
-  let(:question2) { create(:question_with_answers, user: user) }
+  let(:question1) { create(:question_with_own_answers, user: user) }
+  let(:question2) { create(:question_with_own_answers, user: user) }
   let(:answer1) { create(:answer, question: question1, user: new_user) }
   let(:answer2) { create(:answer, question: question2, user: new_user) }
 

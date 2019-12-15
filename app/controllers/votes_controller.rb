@@ -3,6 +3,8 @@ class VotesController < ApplicationController
   before_action :load_entity
 
   def vote
+    authorize! :vote!, @voteable
+
     respond_to do |format|
       if @voteable.vote!(params[:value], current_user)
         format.json { render json: :ok, status: 200 }

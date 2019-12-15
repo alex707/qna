@@ -7,7 +7,7 @@ feature 'User can delete his own answer', %q{
 } do
   given(:user) { create(:user) }
   given(:other_user) { create(:user) }
-  given(:question) { create(:question_with_answers, user: user) }
+  given(:question) { create(:question_with_own_answers, user: user) }
 
   scenario 'User can delete his own answer', js: true do
     sign_in(user)

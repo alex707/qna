@@ -5,6 +5,8 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: %i[create]
 
+  authorize_resource
+
   def favour
     if current_user.author?(@answer.question)
       @answer.favour
