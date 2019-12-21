@@ -47,6 +47,7 @@ gem 'cancancan'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-vkontakte'
+gem 'doorkeeper'
 
 # render partials and sending variables on client
 gem 'skim'
