@@ -98,6 +98,7 @@ Style/Documentation:
     - 'app/channels/comments_channel.rb'
     - 'app/channels/questions_channel.rb'
     - 'app/controllers/answers_controller.rb'
+    - 'app/controllers/api/v1/profiles_controller.rb'
     - 'app/controllers/application_controller.rb'
     - 'app/controllers/awards_controller.rb'
     - 'app/controllers/collections_controller.rb'

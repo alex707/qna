@@ -18,9 +18,6 @@ Doorkeeper.configure do
   # every time somebody will try to access the admin web interface.
   #
   admin_authenticator do
-    # Put your admin authentication logic here.
-    # Example implementation:
-
     if current_user
       head :forbidden unless current_user.admin?
     else
