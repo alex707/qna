@@ -98,7 +98,9 @@ Style/Documentation:
     - 'app/channels/comments_channel.rb'
     - 'app/channels/questions_channel.rb'
     - 'app/controllers/answers_controller.rb'
+    - 'app/controllers/api/v1/base_controller.rb'
     - 'app/controllers/api/v1/profiles_controller.rb'
+    - 'app/controllers/api/v1/questions_controller.rb'
     - 'app/controllers/application_controller.rb'
     - 'app/controllers/awards_controller.rb'
     - 'app/controllers/collections_controller.rb'
@@ -116,6 +118,7 @@ Style/Documentation:
     - 'app/mailers/application_mailer.rb'
     - 'app/models/*'
     - 'app/models/concerns/*'
+    - 'app/serializers/question_serializer.rb'
     - 'config/application.rb'
     - 'db/migrate/*'
 

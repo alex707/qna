@@ -20,7 +20,7 @@ describe 'Profiles API', type: :request do
       end
     end
 
-    context 'authorize' do
+    context 'authorized' do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
       before do
