@@ -47,3 +47,6 @@ Rails.application.configure do
   # Disable connect from non-white list hosts
   config.action_cable.disable_request_forgery_protection = true
 end
+
+# need for urls (active storage files) for API
+Rails.application.routes.default_url_options[:host] = 'localhost:3000'
