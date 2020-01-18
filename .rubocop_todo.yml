@@ -85,6 +85,7 @@ Style/BlockComments:
 
 Style/BlockDelimiters:
   Exclude:
+    - 'spec/api/v1/questions_spec.rb'
     - 'spec/controllers/answers_controller_spec.rb'
     - 'spec/controllers/collections_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
