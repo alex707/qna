@@ -97,6 +97,7 @@ Style/BlockDelimiters:
     - 'spec/support/shared_examples/models/commentable.rb'
     - 'spec/support/shared_examples/controllers/comments.rb'
     - 'spec/support/shared_examples/controllers/votes.rb'
+    - 'spec/support/shared_examples/api/v1/delete.rb'
 
 # Offense count: 12
 Style/Documentation:
