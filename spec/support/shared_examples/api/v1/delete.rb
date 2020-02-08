@@ -12,6 +12,16 @@ shared_examples_for 'API delete' do
 
       expect(response).to be_successful
     end
+
+    it 'returns all public fields' do
+      do_request(method, api_path, params: { access_token: access_token.token },
+                                   headers: headers)
+
+      entity_response = json[entity.class.to_s.downcase]
+      (entity.class.column_names - %w[user_id]).each do |attr|
+        expect(entity_response[attr]).to eq entity.send(attr).as_json
+      end
+    end
   end
 
   context 'as not owner of resource' do

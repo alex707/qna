@@ -2,12 +2,11 @@ module Api
   module V1
     class QuestionsController < BaseController
       before_action :load_question, only: %i[show update destroy]
-      # after_action :publish_question, only: :create
 
       authorize_resource
 
       def index
-        @questions = Question.all
+        @questions = Question.includes(:answers, :user).all
         render json: @questions
       end
 

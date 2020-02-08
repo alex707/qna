@@ -10,5 +10,11 @@ shared_examples_for 'API Authorizable' do
                                    headers: headers)
       expect(response.status).to eq 401
     end
+
+    it 'response body is blank' do
+      do_request(method, api_path, params: { access_token: '123' },
+                                   headers: headers)
+      expect(response.body).to be_blank
+    end
   end
 end
