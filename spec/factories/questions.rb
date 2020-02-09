@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :question do
-    title { 'MyString' }
-    body { 'MyText' }
+    title { "MyString#{rand(99)}" }
+    body { "MyText#{rand(99)}" }
     user { create(:user) }
 
     factory :question_with_own_answers do

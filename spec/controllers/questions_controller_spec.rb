@@ -213,11 +213,14 @@ RSpec.describe QuestionsController, type: :controller do
 
       context 'with invalid attributes' do
         it 'does not change question' do
+          old_title = question.title
+          old_body = question.body
+
           patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
           question.reload
 
-          expect(question.title).to eq 'MyString'
-          expect(question.body).to eq 'MyText'
+          expect(question.title).to eq old_title
+          expect(question.body).to eq old_body
         end
 
         it 'renders template update' do
