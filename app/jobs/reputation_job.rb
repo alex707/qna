@@ -1,3 +1,4 @@
+# test class for making delayed job
 class ReputationJob < ApplicationJob
   queue_as :default
 
