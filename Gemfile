@@ -41,6 +41,7 @@ gem 'slim-rails'
 gem 'devise'
 gem 'launchy'
 gem 'jquery-rails'
+gem 'sidekiq'
 
 # authorization
 gem 'cancancan'
