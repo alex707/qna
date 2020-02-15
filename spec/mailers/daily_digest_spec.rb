@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DailyDigestMailer, type: :mailer do
-  describe 'digest' do
+  describe 'last day questions digest' do
     let(:user) { create(:user) }
 
     context 'when questions has been created at last day' do
