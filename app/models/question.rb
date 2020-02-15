@@ -16,6 +16,10 @@ class Question < ApplicationRecord
 
   after_create :calculate_reputation
 
+  scope :last_day_created, lambda {
+    where(created_at: (Time.current - 1.day)..Time.current)
+  }
+
   private
 
   def calculate_reputation
