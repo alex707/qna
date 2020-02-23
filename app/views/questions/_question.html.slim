@@ -21,3 +21,6 @@ p = @question.body
 
 div class="question-#{@question.id}-votes"
   = render 'votes/vote', resource: @question
+
+.subscription
+  = render 'subscriptions/subscription'

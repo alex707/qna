@@ -9,11 +9,16 @@ class User < ApplicationRecord
   has_many :answers, dependent: :destroy
   has_many :awards
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   scope :all_except, ->(user) { where.not(id: user) }
 
   def author?(resource)
     id == resource.user_id
+  end
+
+  def subscribed?(resource)
+    resource.subscriptions.exists?(user: self)
   end
 
   def self.find_for_oauth(auth)

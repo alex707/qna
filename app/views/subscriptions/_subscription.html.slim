@@ -1,0 +1,16 @@
+- if can?(:subscribe!, @question)
+  = link_to 'Subscribe',
+            subscriptions_subscribe_path(question_id: @question),
+            class: ['subscription-btn',
+                    'subscribe',
+                    "#{'hidden' if current_user.subscribed?(@question)}"],
+            method: :post, remote: true
+
+  br
+
+  = link_to 'Unsubscribe',
+            subscriptions_unsubscribe_path(question_id: @question),
+            class: ['subscription-btn',
+                    'unsubscribe',
+                    "#{'hidden' unless current_user.subscribed?(@question)}"],
+            method: :post, remote: true

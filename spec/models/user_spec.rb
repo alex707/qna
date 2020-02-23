@@ -5,6 +5,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
   it { should have_many(:awards) }
   it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
@@ -29,6 +30,23 @@ RSpec.describe User, type: :model do
 
     it 'user is author of current answer' do
       expect(other_user).to_not be_author(question.answers.first)
+    end
+  end
+
+  describe 'is current user subscribed on question' do
+    let(:user) { create(:user) }
+    let(:user2) { create(:user) }
+    let(:question) { create(:question) }
+    let(:question2) { create(:question) }
+    let!(:subscription) { create(:subscription, question: question, user: user) }
+    let(:subscription2) { create(:subscription, question: question2, user: user2) }
+
+    it 'user is subscribed on current question' do
+      expect(user).to be_subscribed(question)
+    end
+
+    it 'user is not author of current question' do
+      expect(user).to_not be_subscribed(question2)
     end
   end
 

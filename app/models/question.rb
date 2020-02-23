@@ -4,6 +4,7 @@ class Question < ApplicationRecord
   include Commentable
 
   has_many :answers, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
   has_one :award, dependent: :destroy
 
   has_many_attached :files
@@ -19,6 +20,14 @@ class Question < ApplicationRecord
   scope :last_day_created, lambda {
     where(created_at: (Time.current - 1.day)..Time.current)
   }
+
+  def subscribe!(user)
+    subscriptions.first_or_create!(user: user)
+  end
+
+  def unsubscribe!(user)
+    subscriptions.find_by(user: user)&.destroy!
+  end
 
   private
 

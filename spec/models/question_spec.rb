@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Question, type: :model do
   it { should have_many(:answers).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
   it { should have_one(:award).dependent(:destroy) }
   it { should belong_to(:user) }
 
@@ -26,6 +27,39 @@ RSpec.describe Question, type: :model do
     it 'calls ReputationJob' do
       expect(ReputationJob).to receive(:perform_later).with(question)
       question.save!
+    end
+  end
+
+  describe 'subscription on question' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+
+    it 'user can subscribe to question' do
+      expect {
+        question.subscribe!(user)
+      }.to change(user.subscriptions, :count).by(1)
+    end
+
+    it 'user can not subscribe several times to one question' do
+      expect {
+        5.times { question.subscribe!(user) }
+      }.to change(question.subscriptions, :count).by(1)
+    end
+
+    it 'user can unsubscribe from question' do
+      question.subscribe!(user)
+
+      expect {
+        question.unsubscribe!(user)
+      }.to change(question.subscriptions, :count).by(-1)
+    end
+
+    it 'user can not unsubscribe several times from one question' do
+      question.subscribe!(user)
+
+      expect {
+        5.times { question.unsubscribe!(user) }
+      }.to change(question.subscriptions, :count).by(-1)
     end
   end
 end

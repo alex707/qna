@@ -2,7 +2,11 @@ module Services
   # for sending notification to question author about new answer
   class AnswerNotification
     def send_notification(question)
-      AnswerNotificationMailer.notification(question).deliver_later
+      question.subscriptions.find_each do |subscription|
+        AnswerNotificationMailer.notification(
+          question, subscription.user
+        ).deliver_later
+      end
     end
   end
 end

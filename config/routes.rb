@@ -37,5 +37,8 @@ Rails.application.routes.draw do
 
   resources :awards, only: :index
 
+  post 'subscriptions/subscribe'
+  post 'subscriptions/unsubscribe'
+
   mount ActionCable.server => '/cable'
 end

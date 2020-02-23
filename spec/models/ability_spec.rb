@@ -29,6 +29,12 @@ describe Ability do
       q = build(:question, user: user)
       build(:answer, user: other, question: q)
     end
+    let!(:question) do
+      create(:subscription, user: user, question: create(:question)).question
+    end
+    let!(:question2) do
+      create(:subscription, user: other, question: create(:question)).question
+    end
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }
@@ -38,6 +44,7 @@ describe Ability do
     it { should be_able_to :create, Comment }
     it { should be_able_to :create, Award }
     it { should be_able_to :create, Vote }
+    it { should be_able_to :create, Subscription }
     it { should be_able_to :create, build(:question, user: user).links.build }
     it { should_not be_able_to :create, build(:link) }
 
@@ -64,5 +71,13 @@ describe Ability do
 
     it { should_not be_able_to :favour, create(:answer, user: other) }
     it { should be_able_to :favour, answer }
+
+    it { should be_able_to :destroy, build(:subscription, user: user) }
+    it { should_not be_able_to :destroy, build(:subscription, user: other) }
+
+    it { should be_able_to :subscribe!, build(:question) }
+
+    it { should be_able_to :unsubscribe!, question }
+    it { should_not be_able_to :unsubscribe!, question2 }
   end
 end

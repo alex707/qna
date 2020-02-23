@@ -20,7 +20,7 @@ class Ability
 
   def user_abilities
     guest_abilities
-    can :create, [Question, Answer, Comment, Award, Vote]
+    can :create, [Question, Answer, Comment, Award, Vote, Subscription]
     can %i[create destroy], Link do |link|
       user.author?(link.linkable)
     end
@@ -29,5 +29,10 @@ class Ability
       !user.author?(entity)
     end
     can :favour, Answer, question: { user_id: user.id }
+    can :destroy, Subscription, user_id: user.id
+    can :subscribe!, Question
+    can :unsubscribe!, Question do |entity|
+      user.subscribed?(entity)
+    end
   end
 end
