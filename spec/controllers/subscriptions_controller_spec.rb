@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe SubscriptionsController, type: :controller do
   let(:user) { create(:user) }
   let!(:question) { create(:question) }
+  let!(:question2) { create(:question) }
 
   describe 'POST #subscribe' do
     context 'as authenticated user' do
@@ -45,13 +46,19 @@ RSpec.describe SubscriptionsController, type: :controller do
           expect(response).to have_http_status(:success)
         end
 
-        it 'tries remove subscribe twice' do
+        it 'tries remove subscribe twice from same question' do
           user.subscriptions.reload
           expect {
             2.times do
               post :unsubscribe, params: { question_id: question }, format: :js
             end
           }.to change(user.subscriptions, :count).by(-1)
+        end
+
+        it 'tries remove subscribe from another question' do
+          expect {
+            post :unsubscribe, params: { question_id: question2 }, format: :js
+          }.to change(Subscription, :count).by(0)
         end
       end
     end

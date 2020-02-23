@@ -24,7 +24,7 @@ feature 'User can manage subscription from question page', %{
         end
 
         within 'p.notice' do
-          expect(page).to have_content('You are subscribed for answer questions', wait: 2)
+          expect(page).to have_content('You are subscribed', wait: 2)
         end
       end
     end
@@ -32,6 +32,7 @@ feature 'User can manage subscription from question page', %{
     describe 'unsubscribe for question' do
       given(:user) { create(:user) }
       given(:question) { create(:question) }
+      given(:question2) { create(:question) }
 
       background do
         sign_in(user)
@@ -49,7 +50,16 @@ feature 'User can manage subscription from question page', %{
         end
 
         within 'p.notice' do
-          expect(page).to have_content('You are unsubscribed for answer questions', wait: 2)
+          expect(page).to have_content('You are unsubscribed')
+        end
+      end
+
+      scenario 'User tries unsubscribe from non subscribed quetion', js: true do
+        visit question_path(question2)
+
+        within '.subscription' do
+          expect(page).to_not have_link('Unsubscribe')
+          expect(page).to have_link('Subscribe')
         end
       end
     end
