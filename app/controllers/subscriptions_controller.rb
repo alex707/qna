@@ -2,7 +2,7 @@ class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
   before_action :load_question
 
-  def subscribe
+  def create
     authorize! :create, Subscription
 
     @subscription = @question.subscribe!(current_user)
@@ -14,7 +14,7 @@ class SubscriptionsController < ApplicationController
     end
   end
 
-  def unsubscribe
+  def destroy
     authorize! :destroy, Subscription
 
     @subscription = @question.unsubscribe!(current_user)

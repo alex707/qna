@@ -14,7 +14,7 @@
 # end
 
 every 4.days do
-  runner 'DailyDigestJob.perform_now'
+  runner 'Services::DailyDigest.send_digest'
 end
 
 # Learn more: http://github.com/javan/whenever

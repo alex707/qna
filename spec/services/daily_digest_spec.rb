@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Services::DailyDigest do
-  let(:users) { create_list(:user, 3) }
+  let(:users) { create_list(:user, 2) }
 
   it 'sends daily digest for all users' do
     users.each do |user|
