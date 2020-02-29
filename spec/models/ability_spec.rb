@@ -74,10 +74,5 @@ describe Ability do
 
     it { should be_able_to :destroy, build(:subscription, user: user) }
     it { should_not be_able_to :destroy, build(:subscription, user: other) }
-
-    it { should be_able_to :subscribe!, build(:question) }
-
-    it { should be_able_to :unsubscribe!, question }
-    it { should_not be_able_to :unsubscribe!, question2 }
   end
 end

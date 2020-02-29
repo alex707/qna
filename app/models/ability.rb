@@ -30,9 +30,5 @@ class Ability
     end
     can :favour, Answer, question: { user_id: user.id }
     can :destroy, Subscription, user_id: user.id
-    can :subscribe!, Question
-    can :unsubscribe!, Question do |entity|
-      user.subscribed?(entity)
-    end
   end
 end

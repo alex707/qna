@@ -1,4 +1,4 @@
-- if can?(:subscribe!, @question)
+- if can?(:create, Subscription)
   = link_to 'Subscribe',
             subscriptions_subscribe_path(question_id: @question),
             class: ['subscription-button',

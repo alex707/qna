@@ -18,15 +18,15 @@ class Question < ApplicationRecord
   after_create :calculate_reputation
 
   scope :last_day_created, lambda {
-    where(created_at: (Time.current - 1.day)..Time.current)
+    where(created_at: Date.yesterday.all_day)
   }
 
   def subscribe!(user)
-    subscriptions.first_or_create!(user: user)
+    subscriptions.first_or_create(user: user)
   end
 
   def unsubscribe!(user)
-    subscriptions.find_by(user: user)&.destroy!
+    subscriptions.find_by(user: user)&.destroy
   end
 
   private

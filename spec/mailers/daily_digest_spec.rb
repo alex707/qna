@@ -5,7 +5,7 @@ RSpec.describe DailyDigestMailer, type: :mailer do
     let(:user) { create(:user) }
 
     context 'when questions has been created at last day' do
-      let!(:questions) { create_list(:question, 3) }
+      let!(:questions) { create_list(:question, 2, created_at: 1.day.ago) }
       let(:mail) { DailyDigestMailer.digest(user) }
 
       it 'renders the headers' do
