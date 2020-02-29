@@ -20,5 +20,11 @@ $(document).on('turbolinks:load', function() {
         $('.notice').html('You are subscribed for answer questions');
       };
     };
-  })
+  }).on('ajax:notmodified', 'a.subscription-button', function (e) {
+    var res = e.detail[0];
+
+    if (res === 'ok') {
+      $('.notice').html("You are don't have any subscriptions on this question");
+    }
+  });
 });

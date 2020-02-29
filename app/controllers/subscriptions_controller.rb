@@ -18,7 +18,10 @@ class SubscriptionsController < ApplicationController
     authorize! :destroy, Subscription
 
     @subscription = @question.unsubscribe!(current_user)
-    if @subscription&.errors&.empty?
+    if @subscription.nil?
+      flash.now[:notice] = "You are don't have any subscriptions on this question"
+      render json: :ok, status: :not_modified
+    elsif @subscription&.errors&.empty?
       flash.now[:notice] = 'You are unsubscribed for answer questions'
       render json: :ok, status: 200
     else
