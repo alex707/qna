@@ -33,7 +33,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe 'is current user subscribed on question' do
+  describe '#subscribed?' do
     let(:user) { create(:user) }
     let(:user2) { create(:user) }
     let(:question) { create(:question) }
