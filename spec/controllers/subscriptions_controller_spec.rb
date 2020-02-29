@@ -19,14 +19,6 @@ RSpec.describe SubscriptionsController, type: :controller do
         post :create, params: { question_id: question.id }, format: :js
         expect(response).to have_http_status(:success)
       end
-
-      it 'tries create subscribe twice' do
-        expect {
-          2.times do
-            post :create, params: { question_id: question }, format: :js
-          end
-        }.to change(user.subscriptions, :count).by(1)
-      end
     end
 
     describe 'DELETE #destroy' do
@@ -46,15 +38,6 @@ RSpec.describe SubscriptionsController, type: :controller do
           expect(response).to have_http_status(:success)
         end
 
-        it 'tries remove subscribe twice from same question' do
-          user.subscriptions.reload
-          expect {
-            2.times do
-              delete :destroy, params: { question_id: question }, format: :js
-            end
-          }.to change(user.subscriptions, :count).by(-1)
-        end
-
         it 'tries remove subscribe from another question' do
           expect {
             delete :destroy, params: { question_id: question2 }, format: :js
@@ -64,7 +47,7 @@ RSpec.describe SubscriptionsController, type: :controller do
     end
   end
 
-  context 'as not authenticated user' do
+  context 'for guest' do
     it 'tries to create subscription' do
       expect {
         post :create, params: { question_id: question }, format: :js
