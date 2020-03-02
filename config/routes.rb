@@ -37,8 +37,7 @@ Rails.application.routes.draw do
 
   resources :awards, only: :index
 
-  resources :subscriptions, only: [:create]
-  delete 'subscriptions/destroy'
+  resources :subscriptions, only: [:create, :destroy]
 
   mount ActionCable.server => '/cable'
 end

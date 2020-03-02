@@ -117,15 +117,14 @@ RSpec.describe AnswersController, type: :controller do
           ).and_call_original
 
           params = { question_id: question, answer: attributes_for(:answer), format: :js }
-
-          # expect {
-            post :create, params: params
-          # }.to change(ActionMailer::Base.deliveries, :count).by(1)
+          post :create,
+               params: params
         end
 
         it 'renders create template' do
           params = { question_id: question, answer: attributes_for(:answer), format: :js }
-          post :create, params: params
+          post :create,
+               params: params
 
           expect(response).to render_template :create
         end

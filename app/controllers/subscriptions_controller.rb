@@ -1,6 +1,7 @@
 class SubscriptionsController < ApplicationController
   before_action :authenticate_user!
-  before_action :load_question
+  before_action :load_question, only: :create
+  before_action :load_subscription, only: :destroy
 
   def create
     authorize! :create, Subscription
@@ -8,7 +9,7 @@ class SubscriptionsController < ApplicationController
     @subscription = @question.subscribe!(current_user)
     if @subscription.errors.empty?
       flash.now[:notice] = 'You are subscribed for answer questions'
-      render json: :ok, status: 200
+      render json: { id: @subscription.id }, status: 200
     else
       render json: { errors: @subscription.errors }, status: :unprocessable_entity
     end
@@ -17,13 +18,10 @@ class SubscriptionsController < ApplicationController
   def destroy
     authorize! :destroy, Subscription
 
-    @subscription = @question.unsubscribe!(current_user)
-    if @subscription.nil?
-      flash.now[:notice] = "You are don't have any subscriptions on this question"
-      render json: :ok, status: :not_modified
-    elsif @subscription&.errors&.empty?
+    @subscription.question.unsubscribe!(current_user)
+    if @subscription&.errors&.empty?
       flash.now[:notice] = 'You are unsubscribed for answer questions'
-      render json: :ok, status: 200
+      render json: { id: @subscription.id }, status: 200
     else
       render json: { errors: @subscription&.errors }, status: :unprocessable_entity
     end
@@ -33,5 +31,9 @@ class SubscriptionsController < ApplicationController
 
   def load_question
     @question = Question.find(params['question_id'])
+  end
+
+  def load_subscription
+    @subscription = current_user.subscriptions.find(params['id'])
   end
 end

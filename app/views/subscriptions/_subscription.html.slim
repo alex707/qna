@@ -1,16 +1,6 @@
 - if can?(:create, Subscription)
-  = link_to 'Subscribe',
-            subscriptions_path(question_id: @question),
-            class: ['subscription-button',
-                    'subscribe',
-                    "#{'hidden' if current_user.subscribed?(@question)}"],
-            method: :post, remote: true
+  = subscribe_button
 
   br
 
-  = link_to 'Unsubscribe',
-            subscriptions_destroy_path(question_id: @question),
-            class: ['subscription-button',
-                    'unsubscribe',
-                    "#{'hidden' unless current_user.subscribed?(@question)}"],
-            method: :delete, remote: true
+  = unsubscribe_button

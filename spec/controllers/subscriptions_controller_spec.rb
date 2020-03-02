@@ -19,7 +19,11 @@ RSpec.describe SubscriptionsController, type: :controller do
         it 'returns http success' do
           post :create, params: { question_id: question.id }, format: :js
           expect(response).to have_http_status(:success)
-          expect(response.body).to have_content('ok')
+
+          user.reload
+          expect(
+            JSON.parse(response.body)['id']
+          ).to eq user.subscriptions.find_by(question: question).id
         end
       end
     end
@@ -47,49 +51,37 @@ RSpec.describe SubscriptionsController, type: :controller do
       before { question.subscribe!(user) }
 
       context 'with subscription' do
-        it 'removes question subscribe for user' do
+        it 'removes question subscribe' do
           user.subscriptions.reload
           expect {
-            delete :destroy, params: { question_id: question }, format: :js
+            delete :destroy, params: { id: user.subscriptions.find_by(question: question) }, format: :js
           }.to change(user.subscriptions, :count).by(-1)
         end
 
         it 'returns http success' do
-          delete :destroy, params: { question_id: question }, format: :js
+          subscription_id = user.subscriptions.find_by(question: question).id
+          params = { id: subscription_id, format: :js }
+          delete :destroy, params: params, format: :js
 
           expect(response).to have_http_status(:success)
-          expect(response.body).to have_content('ok')
+          expect(JSON.parse(response.body)['id']).to eq subscription_id
         end
       end
 
       context 'without subscription' do
         it 'tries remove subscribe from another question' do
-          expect {
-            delete :destroy, params: { question_id: question2 }, format: :js
-          }.to change(Subscription, :count).by(0)
-        end
-
-        it 'show flash message subscribe not existing' do
-          delete :destroy, params: { question_id: question2 }, format: :js
-
-          expect(response.status).to eq 304
-          expect(flash['notice']).to have_content("You are don't have any subs")
+          params = { id: user.subscriptions.find_by(question: question2),
+                     format: :js }
+          expect(delete: :destroy, params: params).not_to be_routable
         end
       end
     end
 
     context 'as not authenticated user' do
       it 'tries to remove subscription' do
-        expect {
-          delete :destroy, params: { question_id: question }, format: :js
-        }.to change(Subscription, :count).by(0)
-      end
-
-      it 'returns unauth status' do
-        delete :destroy, params: { question_id: question }, format: :js
-
-        expect(response).to have_http_status(:unauthorized)
-        expect(response.body).to have_content('You need to sign in')
+        params = { id: user.subscriptions.find_by(question: question),
+                   format: :js }
+        expect(delete: :destroy, params: params).not_to be_routable
       end
     end
   end

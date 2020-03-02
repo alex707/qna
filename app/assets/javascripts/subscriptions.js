@@ -1,8 +1,8 @@
 $(document).on('turbolinks:load', function() {
   $('.question').on('ajax:success', 'a.subscription-button', function (e) {
-    var res = e.detail[0];
+    var result = e.detail[0];
 
-    if (res === 'ok') {
+    if (result['errors'] === undefined) {
       var current_element = $(this);
 
       var subscribe_button = $('a.subscription-button.subscribe');
@@ -19,12 +19,8 @@ $(document).on('turbolinks:load', function() {
 
         $('.notice').html('You are subscribed for answer questions');
       };
-    };
-  }).on('ajax:notmodified', 'a.subscription-button', function (e) {
-    var res = e.detail[0];
 
-    if (res === 'ok') {
-      $('.notice').html("You are don't have any subscriptions on this question");
-    }
+      unsubscribe_button.attr("href", ('/subscriptions/' + result.id));
+    };
   });
 });
