@@ -1,8 +1,7 @@
 # last day created questions mailer
 class DailyDigestMailer < ApplicationMailer
   def digest(user)
-    @questions = Question.last_day_created
-    return if @questions.empty?
+    @questions = Question.where(created_at: Date.yesterday.all_day)
 
     mail(
       to: user.email,
