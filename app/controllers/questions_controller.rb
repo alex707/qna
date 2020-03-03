@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
 
     if @question.save
       @question.links.each(&:download!)
-      @question.subscribe!(current_user)
+      @question.subscribe(current_user)
       redirect_to @question, notice: 'Your question successfully created.'
     else
       render :new

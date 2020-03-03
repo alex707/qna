@@ -6,7 +6,7 @@ class SubscriptionsController < ApplicationController
   def create
     authorize! :create, Subscription
 
-    @subscription = @question.subscribe!(current_user)
+    @subscription = @question.subscribe(current_user)
     if @subscription.errors.empty?
       flash.now[:notice] = 'You are subscribed for answer questions'
       render json: { id: @subscription.id }, status: 200
@@ -18,7 +18,7 @@ class SubscriptionsController < ApplicationController
   def destroy
     authorize! :destroy, Subscription
 
-    @subscription.question.unsubscribe!(current_user)
+    @subscription.question.unsubscribe(current_user)
     if @subscription&.errors&.empty?
       flash.now[:notice] = 'You are unsubscribed for answer questions'
       render json: { id: @subscription.id }, status: 200

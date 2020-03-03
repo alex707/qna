@@ -34,34 +34,34 @@ RSpec.describe Question, type: :model do
     let(:user) { create(:user) }
     let(:question) { create(:question) }
 
-    describe '#subscribe!' do
+    describe '#subscribe' do
       it 'user can subscribe to question' do
         expect {
-          question.subscribe!(user)
+          question.subscribe(user)
         }.to change(user.subscriptions, :count).by(1)
       end
 
       it 'user can not subscribe several times to one question' do
         expect {
-          5.times { question.subscribe!(user) }
+          2.times { question.subscribe(user) }
         }.to change(question.subscriptions, :count).by(1)
       end
     end
 
-    describe '#unsubscribe!' do
+    describe '#unsubscribe' do
       it 'user can unsubscribe from question' do
-        question.subscribe!(user)
+        question.subscribe(user)
 
         expect {
-          question.unsubscribe!(user)
+          question.unsubscribe(user)
         }.to change(question.subscriptions, :count).by(-1)
       end
 
       it 'user can not unsubscribe several times from one question' do
-        question.subscribe!(user)
+        question.subscribe(user)
 
         expect {
-          5.times { question.unsubscribe!(user) }
+          2.times { question.unsubscribe(user) }
         }.to change(question.subscriptions, :count).by(-1)
       end
     end

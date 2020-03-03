@@ -6,7 +6,9 @@ RSpec.describe DailyDigestMailer, type: :mailer do
 
     context 'when questions has been created at last day' do
       let!(:questions) { create_list(:question, 2, created_at: 1.day.ago) }
-      let!(:question) { create(:question, created_at: 2.days.ago, title: 'ZZ') }
+      let!(:day_before_yesterday_question) {
+        create(:question, created_at: 2.days.ago, title: 'ZZ')
+      }
       let(:mail) { DailyDigestMailer.digest(user) }
 
       it 'renders the headers' do
@@ -15,12 +17,14 @@ RSpec.describe DailyDigestMailer, type: :mailer do
         expect(mail.from).to eq(['from@example.com'])
       end
 
-      it 'renders the body' do
+      it 'contain yesterday questions' do
         expect(mail.body.encoded).to match(questions.first.title)
       end
 
       it 'not contain old answer' do
-        expect(mail.body.encoded).to_not match(question.title)
+        expect(
+          mail.body.encoded
+        ).to_not match(day_before_yesterday_question.title)
       end
     end
 

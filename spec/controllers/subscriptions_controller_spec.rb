@@ -32,7 +32,7 @@ RSpec.describe SubscriptionsController, type: :controller do
       it 'tries to create subscription' do
         expect {
           post :create, params: { question_id: question }, format: :js
-        }.to change(Subscription, :count).by(0)
+        }.not_to change(Subscription, :count)
         expect(response.body).to have_content('You need to sign')
       end
 
@@ -48,7 +48,7 @@ RSpec.describe SubscriptionsController, type: :controller do
   describe 'DELETE #destroy' do
     context 'as authenticated user' do
       before { login(user) }
-      before { question.subscribe!(user) }
+      before { question.subscribe(user) }
 
       context 'with subscription' do
         it 'removes question subscribe' do

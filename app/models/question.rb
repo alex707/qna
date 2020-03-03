@@ -21,11 +21,11 @@ class Question < ApplicationRecord
     where(created_at: Date.yesterday.all_day)
   }
 
-  def subscribe!(user)
-    subscriptions.first_or_create(user: user)
+  def subscribe(user)
+    subscriptions.create(user: user)
   end
 
-  def unsubscribe!(user)
+  def unsubscribe(user)
     subscriptions.find_by(user: user)&.destroy
   end
 

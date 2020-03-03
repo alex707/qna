@@ -29,12 +29,6 @@ describe Ability do
       q = build(:question, user: user)
       build(:answer, user: other, question: q)
     end
-    let!(:question) do
-      create(:subscription, user: user, question: create(:question)).question
-    end
-    let!(:question2) do
-      create(:subscription, user: other, question: create(:question)).question
-    end
 
     it { should_not be_able_to :manage, :all }
     it { should be_able_to :read, :all }

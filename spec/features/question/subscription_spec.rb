@@ -36,7 +36,7 @@ feature 'User can manage subscription from question page', %{
 
       background do
         sign_in(user)
-        question.subscribe!(user)
+        question.subscribe(user)
 
         visit question_path(question)
       end
