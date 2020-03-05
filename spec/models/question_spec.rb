@@ -49,17 +49,14 @@ RSpec.describe Question, type: :model do
     end
 
     describe '#unsubscribe' do
+      before { question.subscribe(user) }
       it 'user can unsubscribe from question' do
-        question.subscribe(user)
-
         expect {
           question.unsubscribe(user)
         }.to change(question.subscriptions, :count).by(-1)
       end
 
       it 'user can not unsubscribe several times from one question' do
-        question.subscribe(user)
-
         expect {
           2.times { question.unsubscribe(user) }
         }.to change(question.subscriptions, :count).by(-1)

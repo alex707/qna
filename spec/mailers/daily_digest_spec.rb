@@ -21,7 +21,7 @@ RSpec.describe DailyDigestMailer, type: :mailer do
         expect(mail.body.encoded).to match(questions.first.title)
       end
 
-      it 'not contain old answer' do
+      it 'not contain old question' do
         expect(
           mail.body.encoded
         ).to_not match(day_before_yesterday_question.title)

@@ -24,7 +24,7 @@ feature 'User can manage subscription from question page', %{
         end
 
         within 'p.notice' do
-          expect(page).to have_content('You are subscribed', wait: 2)
+          expect(page).to have_content('You are subscribed')
         end
       end
     end

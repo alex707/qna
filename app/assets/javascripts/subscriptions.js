@@ -1,6 +1,6 @@
 $(document).on('turbolinks:load', function() {
-  $('.question').on('ajax:success', 'a.subscription-button', function (e) {
-    var result = e.detail[0];
+  $('.question').on('ajax:success', 'a.subscription-button', function (event) {
+    var result = event.detail[0];
 
     if (result['errors'] === undefined) {
       var current_element = $(this);
