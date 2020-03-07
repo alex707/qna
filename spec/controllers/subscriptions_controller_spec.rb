@@ -24,6 +24,8 @@ RSpec.describe SubscriptionsController, type: :controller do
           expect(
             JSON.parse(response.body)['id']
           ).to eq user.subscriptions.find_by(question: question).id
+
+          expect(JSON.parse(response.body)['result']).to eq 'subscribe'
         end
       end
     end
@@ -65,6 +67,8 @@ RSpec.describe SubscriptionsController, type: :controller do
 
           expect(response).to have_http_status(:success)
           expect(JSON.parse(response.body)['id']).to eq subscription_id
+
+          expect(JSON.parse(response.body)['result']).to eq 'unsubscribe'
         end
       end
 
