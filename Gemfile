@@ -41,6 +41,9 @@ gem 'slim-rails'
 gem 'devise'
 gem 'launchy'
 gem 'jquery-rails'
+gem 'sidekiq'
+gem 'sinatra', require: false
+gem 'whenever', require: false
 
 # authorization
 gem 'cancancan'

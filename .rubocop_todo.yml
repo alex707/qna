@@ -53,10 +53,10 @@ Lint/ReturnInVoidContext:
 # ExcludedMethods: refine
 Metrics/AbcSize:
   Exclude:
+    - 'app/models/ability.rb'
     - 'app/services/find_for_oauth.rb'
     - 'db/migrate/20190805102418_create_active_storage_tables.active_storage.rb'
     - 'db/migrate/20191221103344_create_doorkeeper_tables.rb'
-  Max: 16
 
 Metrics/BlockLength:
   Exclude:
@@ -73,6 +73,7 @@ Metrics/BlockLength:
 
 Metrics/MethodLength:
   Exclude:
+    - 'app/models/ability.rb'
     - 'app/services/find_for_oauth.rb'
     - 'db/migrate/20190805102418_create_active_storage_tables.active_storage.rb'
     - 'db/migrate/20191221103344_create_doorkeeper_tables.rb'
@@ -91,8 +92,11 @@ Style/BlockDelimiters:
     - 'spec/controllers/answers_controller_spec.rb'
     - 'spec/controllers/collections_controller_spec.rb'
     - 'spec/controllers/questions_controller_spec.rb'
+    - 'spec/controllers/subscriptions_controller_spec.rb'
+    - 'spec/mailers/daily_digest_spec.rb'
     - 'spec/models/link_spec.rb'
     - 'spec/models/user_spec.rb'
+    - 'spec/models/question_spec.rb'
     - 'spec/support/shared_examples/models/voteable.rb'
     - 'spec/support/shared_examples/models/commentable.rb'
     - 'spec/support/shared_examples/controllers/comments.rb'
@@ -118,6 +122,7 @@ Style/Documentation:
     - 'app/controllers/comments_controller.rb'
     - 'app/controllers/oauth_callbacks_controller.rb'
     - 'app/controllers/questions_controller.rb'
+    - 'app/controllers/subscriptions_controller.rb'
     - 'app/controllers/votes_controller.rb'
     - 'app/helpers/answers_helper.rb'
     - 'app/helpers/awards_helper.rb'
@@ -157,6 +162,10 @@ Style/ExpandPathArguments:
 # SupportedStyles: always, never
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Style/Lambda:
+  Exclude:
+    - 'config/routes.rb'
 
 # Offense count: 2
 Style/MixinUsage:
@@ -214,6 +223,7 @@ Style/SymbolArray:
     - 'db/migrate/20190805102418_create_active_storage_tables.active_storage.rb'
     - 'db/migrate/20191019102424_create_votes.rb'
     - 'db/migrate/20191206162530_create_authorizations.rb'
+    - 'db/migrate/20200216082848_create_subscriptions.rb'
 
 Style/SymbolProc:
   Exclude:

@@ -93,6 +93,7 @@ RSpec.describe AnswersController, type: :controller do
       before { sign_in(user) }
 
       context 'with valid attributes' do
+        let!(:subscription) { create(:subscription, question: question) }
         it 'assigns author to @answer.user' do
           post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
 
@@ -110,9 +111,20 @@ RSpec.describe AnswersController, type: :controller do
           expect(created_answer).to be_present
         end
 
+        it 'send notifications about created answer for subscribers', :focus do
+          expect(AnswerNotificationMailer).to receive(:notification).with(
+            subscription.question, subscription.user
+          ).and_call_original
+
+          params = { question_id: question, answer: attributes_for(:answer), format: :js }
+          post :create,
+               params: params
+        end
+
         it 'renders create template' do
           params = { question_id: question, answer: attributes_for(:answer), format: :js }
-          post :create, params: params
+          post :create,
+               params: params
 
           expect(response).to render_template :create
         end

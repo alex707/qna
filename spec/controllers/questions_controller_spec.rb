@@ -124,6 +124,21 @@ RSpec.describe QuestionsController, type: :controller do
           expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
         end
 
+        it 'subscription on question answers for author saves in database' do
+          expect { post :create, params: { question: attributes_for(:question) } }.to change(user.subscriptions, :count).by(1)
+        end
+
+        it 'author subscribed on correct question' do
+          attributes = attributes_for(:question)
+          attributes.delete(:user)
+          expect(Question.where(attributes)).to_not exist
+
+          post :create, params: { question: attributes }
+
+          question_id = Question.find_by(attributes)
+          expect(user.subscriptions.where(question_id: question_id)).to exist
+        end
+
         it 'simple new question saves in database without award' do
           expect { post :create, params: { question: attributes_for(:question) } }.to change(Award, :count).by(0)
         end

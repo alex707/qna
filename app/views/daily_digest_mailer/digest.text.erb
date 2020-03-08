@@ -1,0 +1,7 @@
+Daily Digest
+=======
+
+Questions created last day:
+<% @questions.find_each.each do |question| %>
+  <%= link_to question.title, question_url(question) %>
+<% end %>

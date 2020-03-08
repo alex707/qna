@@ -38,6 +38,7 @@ describe Ability do
     it { should be_able_to :create, Comment }
     it { should be_able_to :create, Award }
     it { should be_able_to :create, Vote }
+    it { should be_able_to :create, Subscription }
     it { should be_able_to :create, build(:question, user: user).links.build }
     it { should_not be_able_to :create, build(:link) }
 
@@ -64,5 +65,8 @@ describe Ability do
 
     it { should_not be_able_to :favour, create(:answer, user: other) }
     it { should be_able_to :favour, answer }
+
+    it { should be_able_to :destroy, build(:subscription, user: user) }
+    it { should_not be_able_to :destroy, build(:subscription, user: other) }
   end
 end

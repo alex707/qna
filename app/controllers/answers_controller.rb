@@ -27,6 +27,7 @@ class AnswersController < ApplicationController
 
     if @answer.save
       @answer.links.each(&:download!)
+      Services::AnswerNotification.new.send_notification(@answer.question)
       flash.now[:notice] = 'Your answer successfully created.'
     else
       flash.now[:alert] = 'An error(s) occurred while saving answer'
