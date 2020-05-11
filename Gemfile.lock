@@ -108,6 +108,7 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.5)
+    database_cleaner (1.8.5)
     devise (4.7.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -391,6 +392,7 @@ DEPENDENCIES
   chromedriver-helper
   cocoon
   coffee-rails (~> 4.2)
+  database_cleaner
   devise
   doorkeeper
   dotenv-rails
