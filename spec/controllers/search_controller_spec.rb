@@ -66,7 +66,6 @@ RSpec.describe SearchController, type: :controller do
     context 'global query search' do
       it 'return all types results', sphinx: true, js: true do
         ThinkingSphinx::Test.run do
-          ThinkingSphinx::Test.index
           get :index, params: { query: 'test' }
 
           %i[question answer comment user].each do |type|
@@ -77,7 +76,6 @@ RSpec.describe SearchController, type: :controller do
 
       it 'return only valid result', sphinx: true, js: true do
         ThinkingSphinx::Test.run do
-          ThinkingSphinx::Test.index
           get :index, params: { query: 'test' }
 
           %i[question answer comment user].each do |type|
@@ -107,7 +105,6 @@ RSpec.describe SearchController, type: :controller do
       %i[question answer comment user].each do |type|
         it "return #{type}s which matching the query", sphinx: true, js: true do
           ThinkingSphinx::Test.run do
-            ThinkingSphinx::Test.index
             query = type == :user ? user.email : 'test'
             get :index, params: { query: query, type: type }
 
