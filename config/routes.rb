@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
   root to: 'questions#index'
   post :vote, to: 'votes#vote'
+  get 'search/index'
 
   resources :comments, only: %i[create]
 

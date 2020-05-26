@@ -21,7 +21,7 @@ class SubscriptionsController < ApplicationController
     @subscription.question.unsubscribe(current_user)
     if @subscription&.errors&.empty?
       flash.now[:notice] = 'You are unsubscribed for answer questions'
-      render json: { id: @subscription.id, result: 'unsubscribe' },status: :ok
+      render json: { id: @subscription.id, result: 'unsubscribe' }, status: :ok
     else
       render json: { errors: @subscription&.errors }, status: :unprocessable_entity
     end

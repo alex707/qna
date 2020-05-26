@@ -29,3 +29,7 @@
 
 # Ignore .env
 .env
+
+# Ignore Sphinx
+/db/sphinx
+/config/*.sphinx.conf
